@@ -628,7 +628,7 @@ DB.brain=[
  {zone:"Obsidian vault (/brain)",path:"/brain/niches",holds:"Per-niche playbooks: language, objections, pricing, proof.",writer:"AG-RES-03, AG-CNT-01",read_by:"Sales, Content, Marketing"},
  {zone:"Obsidian vault (/brain)",path:"/brain/accounts",holds:"One note per account, linked to the row in Postgres.",writer:"AG-RES-02",read_by:"Sales, BD"},
  {zone:"Obsidian vault (/brain)",path:"/brain/agents",holds:"Agent charters, standing instructions, post-run reflections.",writer:"Supervisors",read_by:"CEO, chiefs"},
- {zone:"Postgres (local cloud)",path:"godly.public.*",holds:"Every row you can browse in Chapter V — the numeric truth.",writer:"All agents via API",read_by:"Dashboards, exports"},
+ {zone:"Postgres (local cloud)",path:"godly.*",holds:"Every row you can browse in Chapter V — the numeric truth.",writer:"All agents via API",read_by:"Dashboards, exports"},
  {zone:"Google Drive",path:"/Godly Base/Clients",holds:"Client-facing proposals, contracts, deliverables.",writer:"AG-SALES-02, AG-CNT-03",read_by:"Clients, CEO"},
  {zone:"Local object store",path:"/vault/raw",holds:"Raw crawl output, transcripts, screenshots before parsing.",writer:"AG-RES-01",read_by:"Research, DevOps"}
 ];
@@ -1040,7 +1040,7 @@ function vaultCh(){
     </div>`;
 
   const recto = `
-    <p class="eyebrow">godly · public schema · local cloud</p>
+    <p class="eyebrow">godly schema · postgres · local cloud</p>
     <div class="vault-bar" style="margin-bottom:10px">
       <select class="ctl" id="tableSel" aria-label="Table">
         ${Object.keys(TABLES).map(k => `<option value="${k}" ${k===state.table?"selected":""}>${k} (${TABLES[k].rows().length})</option>`).join("")}
@@ -1199,7 +1199,7 @@ numbers: 4,180 scraped/mo · 50 free credits · 0.5 credit per verify
 decision: Verify at send time only; queue the rest unverified.
 rejected: Bulk verification at scrape time — 41x over allowance.
 reverses_if: Bounce rate > 3% for two consecutive weeks.
-links: [godly.public.contacts, /brain/agents/ag-res-02]
+links: [godly.contacts, /brain/agents/ag-res-02]
 ---</pre>
     </div>
     <h3 class="sec">Unwritten chapters</h3>

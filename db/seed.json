@@ -1401,7 +1401,7 @@
     },
     {
       "zone": "Postgres (local cloud)",
-      "path": "godly.public.*",
+      "path": "godly.*",
       "holds": "Every row you can browse in Chapter V — the numeric truth.",
       "writer": "All agents via API",
       "read_by": "Dashboards, exports"

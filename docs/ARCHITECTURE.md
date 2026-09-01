@@ -55,7 +55,7 @@ numbers: 4,180 scraped/mo · 50 free credits · 0.5 credit per verify
 decision: Verify at send time only; queue the rest unverified.
 rejected: Bulk verification at scrape time — 41x over allowance.
 reverses_if: Bounce rate > 3% for two consecutive weeks.
-links: [godly.public.contacts, /brain/agents/ag-res-02]
+links: [godly.contacts, /brain/agents/ag-res-02]
 ---
 ```
 
