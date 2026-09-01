@@ -1,11 +1,18 @@
 # Godly Base
 
-Godly Base runs a services firm as a company of AI agents, selling sales,
+Godly Base is the operating system of a services firm that sells sales,
 marketing, and research retainers to four trades: roofing and restoration, med
 spa, commercial HVAC, and private security. The interface is a codex: the left
 page carries the reasoning, the right page carries the working instrument, and
 every number on both comes out of one database you can open, filter, sort, and
 take with you.
+
+**The firm goes to market as Hero.** "Godly Base" is the internal name for the
+machine — this repository, the codex, the vault, the agent roster — and a client
+never hears it. Anything a client can see says Hero, or Hero Capital where a
+registered entity name is required. Godly, the Christian community app, is a
+separate product by the same owner. The rules are in
+[docs/BRAND.md](docs/BRAND.md).
 
 ```
 web/godly-codex.html     the codex — 9 leaves, opens in any browser

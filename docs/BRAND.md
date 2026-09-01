@@ -2,31 +2,62 @@
 
 The brand and messaging system for Godly Base: what we say we are, how we sound, and what we call things. It governs the codex (`web/godly-codex.html`), the README, client-facing copy, and anything an agent drafts for a human to send.
 
-## Read this first: the name is not settled
+## Read this first: three names, one rule
 
-Two things in this repository carry the same root name and they are not obviously the same venture.
+Settled by Joshua on 1 September 2026: **a client never hears "Godly Base."**
+The firm goes to market as **Hero**.
 
-- **Godly Base**, as built here, is an AI-agent operating system for a business-to-business services firm. It sells retainers to four trades: roofing and restoration, med spa and aesthetics, commercial HVAC and facilities, private security.
-- **Godly**, as documented in Joshua's newsletter skill, is a Christian community app for devotionals, prayer, testimonies, Bible reading and highlighting, and community video.
+| Name | What it is | Who hears it |
+|---|---|---|
+| **Hero** | The services firm as the market meets it. The spoken brand, the one on a proposal cover, a signature, a LinkedIn profile, a cold email. | Clients, prospects, partners, the public |
+| **Hero Capital** | The formal entity name, used where a legal name is required. | Contracts, invoices, banking, filings |
+| **Godly Base** | The operating system this repository builds — the codex, the vault, the agent roster. An internal name. | Joshua, the agents, anyone reading this repo |
+| **Godly** | The Christian community app. A separate product by the same owner. | Its own community |
 
-Nothing in the repository states the relationship. The evidence is also split on the visual side: the codex is set in green, paper, and gilt, while the Godly newsletter template is cream, indigo, and gold. Two palettes, one name root.
+**The rule that follows from it:** any surface a client can see says Hero.
+Anything internal says Godly Base. There is no third variant, no hybrid, and
+"Godly Base" never appears in client-facing copy — not in a proposal footer, not
+in a sending domain, not in a case study.
 
-**My recommended reading:** treat them as two ventures under one owner, sharing a root name on purpose. Godly Base is the operating system of the services firm; the services firm exists to fund work Joshua cares about, the app included. That reading fits the artifacts better than any alternative, because the agency material contains no faith content and the app material contains no commercial content. Neither one is a version of the other.
+This also dissolves the conflict that used to sit at the top of this document.
+The agency and the app were never going to collide in market, because the agency
+does not use the name in market. Whether Hero and Godly are ever publicly
+connected is a separate choice Joshua has not made, and nothing in this
+repository asserts one.
 
-**What I would need from Joshua to settle it.** Five questions, in the order that unblocks the most copy:
+### One concern, stated once
 
-1. Does an agency client ever see or hear the name Godly Base, or is it an internal name for a firm that goes to market as something else?
+"Hero Capital" is crowded, and every occupant is a finance company: venture
+firms in Seattle and Santiago, a UK Companies House entity, Heroes Capital in
+London, and Hero FinCorp in India. A general manager at a roofing firm who hears
+"Hero Capital" files it as an investment company, which is the wrong shelf for a
+firm selling operations retainers. It also means the search results for the exact
+phrase are already owned.
+
+That is an argument about the *word Capital*, not about Hero. The split above is
+the cheapest fix: lead with Hero everywhere a human is listening, and keep
+Hero Capital for the paperwork that needs a registered name. If Joshua wants one
+name for everything, the recommendation is Hero plus a category line — "Hero —
+AI operations for contractors" — rather than Hero Capital.
+
+Before the name is used in market, two checks are worth an hour: the USPTO
+register for Hero in the relevant service classes, and whichever domain the firm
+intends to send email from. A sending domain that fails a trademark check later
+is expensive, because deliverability reputation does not transfer.
+
+### Still open
+
+1. ~~Does an agency client ever hear "Godly Base"?~~ **Answered: no. They hear Hero.**
 2. Is the firm's faith background part of what a roofing general manager hears, or is it private?
-3. Should the connection between the two be stated publicly, for example "the agency that funds Godly," or kept separate?
-4. Which venture owns the primary domain and the first page of search results for the word "Godly"?
-5. Do the two share one visual identity, or stay distinct on purpose?
+3. Should Hero and Godly ever be publicly connected?
+4. Which venture owns the primary domain and search results for "Godly"?
+5. Do Hero and Godly share one visual identity, or stay distinct?
 
-**How this system holds either way.** The voice profile in this document is Joshua's own, and it serves both ventures with only a change of register. The naming rules keep the two surfaces distinct without forcing a decision. Until Joshua answers, four defaults apply:
+Until 2 and 3 are answered, three defaults hold:
 
-- No faith language in agency copy aimed at a client or prospect. The book and codex metaphor is fine; Scripture used to sell a retainer is not.
+- No faith language in Hero copy aimed at a client or prospect. The book and codex metaphor is fine; Scripture used to sell a retainer is not.
 - No commercial or sales language in Godly app copy.
-- The two palettes stay distinct. Do not port the codex green into the app, or the app indigo into the codex.
-- The written name stays "Godly Base" for the operating system and "Godly" for the app, with no third variant.
+- The palettes stay distinct. Do not port the codex green into the app, or the app indigo into Hero's client-facing work.
 
 ## Positioning
 
@@ -106,7 +137,9 @@ The same fact in all three registers:
 
 ## Naming conventions
 
-**The two ventures.** "Godly Base" for the operating system and the firm that runs on it. "Godly" for the community app. Never GodlyBase, godlybase, Godly-Base, or GB outside a code identifier. The repository slug `Godly-Base` is the one exception and stays as it is.
+**The three names.** "Hero" for the firm in market, "Hero Capital" only where a legal entity name is required, "Godly Base" for the internal operating system, "Godly" for the community app. Never GodlyBase, godlybase, Godly-Base, or GB outside a code identifier; never HeroCapital, Hero Cap, or HC. The repository slug `Godly-Base` is the one exception and stays as it is, because it is internal.
+
+**Which name goes where.** A proposal, an email signature, a case study, a LinkedIn profile, a landing page, a contract, an invoice: Hero (or Hero Capital where the paperwork demands a registered name). The codex, the vault, agent charters, decision records, this repository: Godly Base. If you cannot tell whether a surface is client-facing, assume it is and write Hero.
 
 **Chapters.** Roman numerals in order, with two title shapes already established: `Book of <Plural Noun>` for a pipeline the business runs, and `The <Singular Noun>` for a system it depends on. A new chapter picks the shape that matches its job, and the reserved chapters keep their titles: IX Service Delivery, X Finance and Forecast, XI Client Portals.
 

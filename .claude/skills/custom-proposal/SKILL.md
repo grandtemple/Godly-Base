@@ -1,6 +1,6 @@
 ---
 name: custom-proposal
-description: Use when writing, revising, or pricing a client proposal, statement of work, or retainer offer for a Godly Base account — including when a deal is moving to the Proposal stage, when a prospect asks "what would this cost", when a discount or custom term is on the table, or when a draft needs to clear the unit-economics partner before it goes to a client.
+description: Use when writing, revising, or pricing a client proposal, statement of work, or retainer offer for a Hero account — including when a deal is moving to the Proposal stage, when a prospect asks "what would this cost", when a discount or custom term is on the table, or when a draft needs to clear the unit-economics partner before it goes to a client.
 ---
 
 # Custom proposal
@@ -100,7 +100,7 @@ proposal in a new niche.
 ## Shipping it
 
 - File the client-facing document to Google Drive under
-  `/Godly Base/Clients/<account>/`. Drive is the outward face and holds only
+  `/Hero/Clients/<account>/`. Drive is the outward face and holds only
   what a client opens; the reasoning stays in the vault.
 - Update `godly.deals`: `stage` = `Proposal`, `value_usd`, `term`,
   `probability`, `next_action` (the walkthrough date, not "follow up"),

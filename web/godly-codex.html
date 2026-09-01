@@ -633,7 +633,7 @@ DB.brain=[
  {zone:"Obsidian vault (/brain)",path:"/brain/accounts",holds:"One note per account, linked to the row in Postgres.",writer:"AG-RES-02",read_by:"Sales, BD"},
  {zone:"Obsidian vault (/brain)",path:"/brain/agents",holds:"Agent charters, standing instructions, post-run reflections.",writer:"Supervisors",read_by:"CEO, chiefs"},
  {zone:"Postgres (local cloud)",path:"godly.*",holds:"Every row you can browse in Chapter V — the numeric truth.",writer:"All agents via API",read_by:"Dashboards, exports"},
- {zone:"Google Drive",path:"/Godly Base/Clients",holds:"Client-facing proposals, contracts, deliverables.",writer:"AG-SALES-02, AG-CNT-03",read_by:"Clients, CEO"},
+ {zone:"Google Drive",path:"/Hero/Clients",holds:"Client-facing proposals, contracts, deliverables.",writer:"AG-SALES-02, AG-CNT-03",read_by:"Clients, CEO"},
  {zone:"Local object store",path:"/vault/raw",holds:"Raw crawl output, transcripts, screenshots before parsing.",writer:"AG-RES-01",read_by:"Research, DevOps"}
 ];
 </script>
@@ -734,7 +734,7 @@ function frontispiece(){
   const verso = `
     <p class="eyebrow">Frontispiece</p>
     <h2 class="leaf-title">An operating system<br>bound as a book</h2>
-    <p class="lede drop">Godly Base sells sales, marketing, and research retainers to four trades, and runs the whole firm as a company of AI agents. This codex is the whole of it: the reasoning on the left page, the working instrument on the right, and every number in both pulled from the same database you can open, filter, and carry out in Chapter V.</p>
+    <p class="lede drop">The firm sells sales, marketing, and research retainers to four trades and runs itself as a company of AI agents. Clients know it as <b>Hero</b>; Godly Base is the machine underneath, and this codex is that machine's own book. This codex is the whole of it: the reasoning on the left page, the working instrument on the right, and every number in both pulled from the same database you can open, filter, and carry out in Chapter V.</p>
     <p>Seven chiefs answer to one human seat. Each chief keeps a supervisor; each supervisor keeps three agents that work in named pairs, so no agent's output reaches a client without a second agent having reason to look at it.</p>
     <div class="marginalia">A page is not a dashboard tile. Turn a leaf and you get the argument as well as the number — the reasoning stays attached to the data it was drawn from.</div>
     <h3 class="sec">The niches we serve in depth</h3>
@@ -789,6 +789,8 @@ function house(){
     <h3 class="sec">The double-agent rule</h3>
     <p>Every agent has a named counterpart in the roster — sometimes inside its own department, often across one. The prospector's lists are checked by the qualifier. The proposal architect prices nothing the unit-economics agent hasn't seen. The writer never publishes without the fact-checker. Pairing is a structure, not a courtesy: an unpaired output is treated as a draft.</p>
     <div class="marginalia">Growth adds a pair before it adds a department. Three agents is the starting shape, not the ceiling — a department earns a fourth by showing a queue its pairs cannot clear.</div>
+    <h3 class="sec">The two names</h3>
+    <p>Everything a client can see says <b>Hero</b> — the proposal cover, the signature, the sending domain, the case study. <b>Hero Capital</b> appears only where a registered entity name is required: contracts, invoices, filings. <b>Godly Base</b> is the name of this machine and stays inside the house. An agent that cannot tell whether a surface is client-facing assumes it is and writes Hero.</p>
     <h3 class="sec">Where the work is written down</h3>
     <p>Every run writes twice: structured rows into Postgres, and a short note into the Obsidian vault under the agent's own file. The rows make the charts; the notes make the reasoning legible later. Chapter VIII maps the routing.</p>`;
 

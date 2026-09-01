@@ -75,6 +75,6 @@ margin_at_price: [%]
 floor_margin:    [% — from AG-FIN-01, this engagement shape]
 below_floor:     no | yes → CEO sign-off DEC-YYYY-MM-DD-<slug>
 custom_terms:    none | [terms → CEO]
-drive_path:      /Godly Base/Clients/<account>/
+drive_path:      /Hero/Clients/<account>/
 run_status:      review → ok once AG-FIN-01 signs
 ```

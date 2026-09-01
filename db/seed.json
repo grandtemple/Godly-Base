@@ -1408,7 +1408,7 @@
     },
     {
       "zone": "Google Drive",
-      "path": "/Godly Base/Clients",
+      "path": "/Hero/Clients",
       "holds": "Client-facing proposals, contracts, deliverables.",
       "writer": "AG-SALES-02, AG-CNT-03",
       "read_by": "Clients, CEO"

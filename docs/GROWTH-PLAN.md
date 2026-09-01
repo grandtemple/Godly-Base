@@ -1,6 +1,6 @@
 # Growth plan
 
-Seven marketing plays chosen for Godly Base as it stands today, drawn from the 139-idea library in the `marketing-ideas` skill. The point of this document is what we left out. A pre-revenue firm with one human seat can run about three plays well; the other four are staged behind them.
+Seven marketing plays chosen for the firm as it stands today. Every play below is client-facing, so all of it ships under **Hero** — "Godly Base" is the internal name for the machine and never appears in market. The plays are drawn from the 139-idea library in the `marketing-ideas` skill. The point of this document is what we left out. A pre-revenue firm with one human seat can run about three plays well; the other four are staged behind them.
 
 ## The constraints these picks answer
 
