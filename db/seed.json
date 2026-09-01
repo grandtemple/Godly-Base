@@ -107,7 +107,9 @@
       ],
       "stage": "Running",
       "since": "2026-06-02",
-      "note": "Storm season doubled call volume; inbound was the whole reason they signed."
+      "note": "Storm season doubled call volume; inbound was the whole reason they signed.",
+      "ended_on": null,
+      "ended_reason": null
     },
     {
       "client": "Bluecrest Aesthetics",
@@ -122,7 +124,9 @@
       ],
       "stage": "Running",
       "since": "2026-06-19",
-      "note": "No-show recovery and rebooking carry this one, not new leads."
+      "note": "No-show recovery and rebooking carry this one, not new leads.",
+      "ended_on": null,
+      "ended_reason": null
     },
     {
       "client": "Keystone Mechanical Group",
@@ -134,7 +138,9 @@
       ],
       "stage": "Onboarding",
       "since": "2026-09-03",
-      "note": "Work-order triage first; payment waits for their ERP mapping."
+      "note": "Work-order triage first; payment waits for their ERP mapping.",
+      "ended_on": null,
+      "ended_reason": null
     },
     {
       "client": "Vireo Med Spa Group",
@@ -145,7 +151,23 @@
       ],
       "stage": "Pilot",
       "since": "2026-08-28",
-      "note": "Two capabilities, one location, thirty days to prove it."
+      "note": "Two capabilities, one location, thirty days to prove it.",
+      "ended_on": null,
+      "ended_reason": null
+    },
+    {
+      "client": "Palladin Exteriors",
+      "niche": "Roofing & Restoration",
+      "live": [
+        "FO-01",
+        "FO-03",
+        "FO-04"
+      ],
+      "stage": "Ended",
+      "since": "2026-03-04",
+      "ended_on": "2026-06-04",
+      "ended_reason": "Three-month trial closed with storm season. Call volume fell and the pod could not show a number they cared about.",
+      "note": "The one that churned. Kept on record because a pod that ended is evidence too."
     }
   ],
   "accounts": [
@@ -2156,7 +2178,7 @@
     },
     {
       "account": "Palladin Exteriors",
-      "deployment": null,
+      "deployment": "Palladin Exteriors",
       "quote": null,
       "mrr": 0,
       "cost": 0,

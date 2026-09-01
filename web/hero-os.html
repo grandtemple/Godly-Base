@@ -683,7 +683,9 @@ const DB = {
    ],
    "stage": "Running",
    "since": "2026-06-02",
-   "note": "Storm season doubled call volume; inbound was the whole reason they signed."
+   "note": "Storm season doubled call volume; inbound was the whole reason they signed.",
+   "ended_on": null,
+   "ended_reason": null
   },
   {
    "client": "Bluecrest Aesthetics",
@@ -698,7 +700,9 @@ const DB = {
    ],
    "stage": "Running",
    "since": "2026-06-19",
-   "note": "No-show recovery and rebooking carry this one, not new leads."
+   "note": "No-show recovery and rebooking carry this one, not new leads.",
+   "ended_on": null,
+   "ended_reason": null
   },
   {
    "client": "Keystone Mechanical Group",
@@ -710,7 +714,9 @@ const DB = {
    ],
    "stage": "Onboarding",
    "since": "2026-09-03",
-   "note": "Work-order triage first; payment waits for their ERP mapping."
+   "note": "Work-order triage first; payment waits for their ERP mapping.",
+   "ended_on": null,
+   "ended_reason": null
   },
   {
    "client": "Vireo Med Spa Group",
@@ -721,7 +727,23 @@ const DB = {
    ],
    "stage": "Pilot",
    "since": "2026-08-28",
-   "note": "Two capabilities, one location, thirty days to prove it."
+   "note": "Two capabilities, one location, thirty days to prove it.",
+   "ended_on": null,
+   "ended_reason": null
+  },
+  {
+   "client": "Palladin Exteriors",
+   "niche": "Roofing & Restoration",
+   "live": [
+    "FO-01",
+    "FO-03",
+    "FO-04"
+   ],
+   "stage": "Ended",
+   "since": "2026-03-04",
+   "ended_on": "2026-06-04",
+   "ended_reason": "Three-month trial closed with storm season. Call volume fell and the pod could not show a number they cared about.",
+   "note": "The one that churned. Kept on record because a pod that ended is evidence too."
   }
  ],
  "accounts": [
@@ -2732,7 +2754,7 @@ const DB = {
   },
   {
    "account": "Palladin Exteriors",
-   "deployment": null,
+   "deployment": "Palladin Exteriors",
    "quote": null,
    "mrr": 0,
    "cost": 0,
@@ -3462,20 +3484,21 @@ function frontOffice(){
     <section class="panel"><div class="panel-body">
       <div class="panel-head" style="padding:0 0 var(--space-2);border:0">
         <div style="min-width:0"><b style="font-size:14.5px">${esc(d.client)}</b><br>
-          <span class="label">${esc(d.niche)} · live since ${esc(fmtDate(d.since))}</span></div>
-        ${pill(statusPill(d.stage)[0], d.stage)}
+          <span class="label">${esc(d.niche)} · ${d.stage === "Ended" ? "ran " + esc(fmtDate(d.since)) + " to " + esc(fmtDate(d.ended_on)) : "live since " + esc(fmtDate(d.since))}</span></div>
+        ${pill(d.stage === "Ended" ? "idle" : statusPill(d.stage)[0], d.stage === "Ended" ? "ended " + esc(fmtDate(d.ended_on)) : d.stage)}
       </div>
       <div class="row" style="gap:5px;margin-bottom:var(--space-2)">
         ${fo.map(f => `<span class="cap ${d.live.includes(f.id) ? "on" : ""}"
           data-tip="${esc(f.capability)}|${d.live.includes(f.id) ? "live for this client" : "not deployed"}">${esc(f.capability)}</span>`).join("")}
       </div>
-      <p class="note">${esc(d.note)}</p>
+      <p class="note">${esc(d.ended_reason || d.note)}</p>
     </div></section>`).join("");
 
   return `<div class="module enter">
     <p class="lede">Hero puts an AI front office into a business: agents that answer the phone, work the inbox, book the job, take the payment, then chase the review and the referral. The capability set is the same everywhere — the vocabulary, price book, crew capacity and escalation rules are configured per client.</p>
     <div class="cols-3">
-      ${stat(nf.format(DB.deployments.length), "Businesses with a pod")}
+      ${stat(nf.format(DB.deployments.filter(d => d.stage !== "Ended").length), "Businesses with a pod",
+        DB.deployments.filter(d => d.stage === "Ended").length ? nf.format(DB.deployments.filter(d => d.stage === "Ended").length) + " ended" : "")}
       ${stat(nf.format(DB.deployments.filter(d => d.stage === "Running").length), "Fully running")}
       ${stat(fo.filter(f => f.status === "live").length + " of " + fo.length, "Capabilities out of pilot")}
     </div>

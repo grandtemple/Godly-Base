@@ -197,10 +197,10 @@ def load(cur, seed):
         one("front_office_capabilities")
     for d in seed["deployments"]:
         cur.execute("""insert into godly.deployments (account_id, client_name, niche_id, stage,
-                         live_since, note)
-                       values (%s,%s,%s,%s,%s,%s) returning id""",
+                         live_since, note, ended_on, ended_reason)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
                     (acct_id.get(d["client"]), d["client"], niche_id.get(d["niche"]),
-                     d["stage"], d["since"], d["note"]))
+                     d["stage"], d["since"], d["note"], d.get("ended_on"), d.get("ended_reason")))
         dep = cur.fetchone()[0]; one("deployments")
         for cap in d["live"]:
             cur.execute("""insert into godly.deployment_capabilities (deployment_id, capability_id)
