@@ -156,6 +156,10 @@ h3.sec{
   float:left;font-family:Fraunces,Georgia,serif;font-variation-settings:'opsz' 144;font-weight:700;
   font-size:56px;line-height:.82;padding:6px 10px 0 0;color:var(--gilt);
 }
+ul.tiers{margin:0 0 12px;padding-left:18px;display:flex;flex-direction:column;gap:7px;max-width:64ch}
+ul.tiers li{color:var(--ink-2);font-size:15px}
+ul.tiers li b{color:var(--ink)}
+ul.tiers::marker,ul.tiers li::marker{color:var(--gilt)}
 .marginalia{
   border-left:2px solid var(--gilt);padding:2px 0 2px 14px;margin:16px 0;
   font-size:14px;color:var(--ink-2);font-style:italic;max-width:56ch;
@@ -364,7 +368,7 @@ pre.dump{
     <header class="running-head">
       <div class="rh-left">
         <span class="rh-chapter mono" id="rhChapter">Frontispiece</span>
-        <span class="rh-title" id="rhTitle">The Standing Order</span>
+        <span class="rh-title" id="rhTitle">An operating system bound as a book</span>
       </div>
       <div class="rh-tools">
         <button class="tool" id="jumpVault" type="button">Open the Vault</button>
@@ -730,7 +734,7 @@ function frontispiece(){
   const verso = `
     <p class="eyebrow">Frontispiece</p>
     <h2 class="leaf-title">An operating system<br>bound as a book</h2>
-    <p class="lede drop">Godly Base runs as a company of agents. This codex is the whole of it — the wording on the left page, the working instrument on the right, and every number in both pulled from the same database you can open, filter, and carry out in Chapter V.</p>
+    <p class="lede drop">Godly Base sells sales, marketing, and research retainers to four trades, and runs the whole firm as a company of AI agents. This codex is the whole of it: the reasoning on the left page, the working instrument on the right, and every number in both pulled from the same database you can open, filter, and carry out in Chapter V.</p>
     <p>Seven chiefs answer to one human seat. Each chief keeps a supervisor; each supervisor keeps three agents that work in named pairs, so no agent's output reaches a client without a second agent having reason to look at it.</p>
     <div class="marginalia">A page is not a dashboard tile. Turn a leaf and you get the argument as well as the number — the reasoning stays attached to the data it was drawn from.</div>
     <h3 class="sec">The niches we serve in depth</h3>
@@ -758,7 +762,7 @@ function frontispiece(){
       ${vital(usdK(sum(open, d=>d.value)), "Open pipeline, " + open.length + " deals")}
       ${vital(usdK(weighted), "Weighted by stage probability")}
       ${vital(usdK(sum(won, d=>d.value)), "Closed won, trailing quarter")}
-      ${vital(DB.agents.length + " + 7", "Agents, then supervisors")}
+      ${vital(DB.agents.length + " + 7", "Agents, plus 7 supervisors")}
       ${vital(DB.accounts.length.toString(), "Verified accounts in book")}
       ${vital("4", "Niches under service")}
     </div>
@@ -781,7 +785,7 @@ function house(){
     <h2 class="leaf-title">The House</h2>
     <p class="lede">One human seat, seven chiefs, seven supervisors, twenty-one agents. Work flows down as instruction and returns up as evidence.</p>
     <h3 class="sec">The chain</h3>
-    <p><b>Agents</b> do the day's tasks and file every run with its inputs, outputs, and cost. <b>Supervisors</b> sweep those runs on a cadence, resolve conflicts, and write the decision record. <b>Chiefs</b> hold the charter for a domain and set what "good" means there. The <b>CEO</b> reads seven briefs, not two hundred runs.</p>
+    <p><b>Agents</b> do the day's tasks and file every run with its inputs, outputs, and cost. <b>Supervisors</b> sweep those runs on a cadence, resolve conflicts, and write the decision record. <b>Chiefs</b> hold the charter for a domain and set what &ldquo;good&rdquo; means there. The <b>CEO</b> reads seven briefs, not the ${Object.values(DB.throughput).reduce((t,s)=>t+s[s.length-1],0)} runs a day behind them.</p>
     <h3 class="sec">The double-agent rule</h3>
     <p>Every agent has a named counterpart in the roster — sometimes inside its own department, often across one. The prospector's lists are checked by the qualifier. The proposal architect prices nothing the unit-economics agent hasn't seen. The writer never publishes without the fact-checker. Pairing is a structure, not a courtesy: an unpaired output is treated as a draft.</p>
     <div class="marginalia">Growth adds a pair before it adds a department. Three agents is the starting shape, not the ceiling — a department earns a fourth by showing a queue its pairs cannot clear.</div>
@@ -832,7 +836,7 @@ function accountsCh(){
   const verso = `
     <p class="eyebrow">Chapter II</p>
     <h2 class="leaf-title">Book of Accounts</h2>
-    <p class="lede">Pipeline the way a CRM keeps it — stages, values, owners, next actions — but written where the reasoning can sit beside the row.</p>
+    <p class="lede">Pipeline the way a CRM keeps it: stages, values, owners, next actions. The difference is that the reasoning sits beside the row.</p>
     ${barChart(stageRows, {fmt:usdK, aria:"Open pipeline value by stage"})}
     <p class="label" style="margin-top:4px">Open pipeline by stage · hover a bar for deal count</p>
     <h3 class="sec" style="margin-top:18px">Marginalia — ${esc(d.id)}</h3>
@@ -889,6 +893,7 @@ function accountsCh(){
 function signalsCh(){
   const c = DB.campaigns;
   const totalSent = sum(c, x=>x.sent), totalBooked = sum(c, x=>x.booked);
+  const f = Object.fromEntries(DB.funnel.map(x => [x.stage, x.count]));
   const verso = `
     <p class="eyebrow">Chapter III</p>
     <h2 class="leaf-title">Book of Signals</h2>
@@ -896,7 +901,7 @@ function signalsCh(){
     ${funnelChart(DB.funnel)}
     <p class="label" style="margin-top:8px">Trailing 90 days · hover a bar for the stage note</p>
     <h3 class="sec" style="margin-top:18px">What the drop is telling us</h3>
-    <p>Reached to engaged holds at roughly a fifth — respectable for cold, and the deliverability warming is doing its job. The expensive loss is <b>replied to booked</b>: four in five conversations die between a human answering and a meeting existing. That is a routing problem, not a copy problem, and it belongs to the qualifier agent's queue.</p>
+    <p>Reached to engaged holds at ${pct(f.Engaged/f.Reached)}, which is respectable for cold and says the deliverability warming is working. The expensive loss is <b>replied to booked</b>: ${f.Replied.toLocaleString()} replies produced ${f.Booked} meetings, so ${pct(1 - f.Booked/f.Replied)} of conversations end after a human answers. That is a routing problem, not a copy problem, and it belongs to the qualifier agent's queue.</p>
     <div class="marginalia">Rule standing since July: no new channel opens while an existing stage converts below half its niche benchmark. Fix the leak, then add pressure.</div>
     <h3 class="sec">Channel doctrine</h3>
     <p>Cold email carries volume, LinkedIn carries credibility, the newsletter carries patience. Each niche gets its own sequence and its own proof; nothing is cross-posted verbatim between niches, because the vocabulary is where the trust is.</p>`;
@@ -942,7 +947,12 @@ function alliancesCh(){
     ${barChart(rows, {fmt:v => v + "/mo", aria:"Partner-sourced introductions per month by stage"})}
     <p class="label" style="margin-top:4px">Expected introductions per month by partner stage</p>
     <h3 class="sec" style="margin-top:18px">The program, in four tiers</h3>
-    <p><b>Referral</b> — they name us, we pay on close. Lowest friction, entry tier for associations and adjusters. <b>Channel</b> — co-branded onboarding into a member base. <b>Reseller</b> — they sell an agent pod under their own name and we run it underneath. <b>Tech alliance</b> — no revenue share; they host or integrate, and both books get bigger.</p>
+    <ul class="tiers">
+      <li><b>Referral</b>: they name us, we pay on close. Lowest friction, and the entry tier for associations and adjusters.</li>
+      <li><b>Channel</b>: co-branded onboarding into a member base.</li>
+      <li><b>Reseller</b>: they sell an agent pod under their own name and we run it underneath.</li>
+      <li><b>Tech alliance</b>: no revenue share. They host or integrate, and both books get bigger.</li>
+    </ul>
     <h3 class="sec">How a partner earns the next tier</h3>
     <p>Three sourced introductions that reach Discovery, one closed retainer, and a named human on their side who answers within a business day. Tiers move on evidence, and the alliance manager files the record like any other run.</p>
     <div class="marginalia">A partner that sends volume we cannot service is a liability, not an asset. Capacity is checked by the forecast analyst before any tier moves up.</div>`;
@@ -1021,7 +1031,7 @@ function vaultCh(){
   const verso = `
     <p class="eyebrow">Chapter V</p>
     <h2 class="leaf-title">The Vault</h2>
-    <p class="lede">Twelve tables, one shape. Anything the business keeps is a row here first and a sentence somewhere else second.</p>
+    <p class="lede">Twelve tables, one shape. Anything the business keeps becomes a row here before it becomes a sentence anywhere else.</p>
     <h3 class="sec">Reading it</h3>
     <p>Pick a table, filter it, sort a column by clicking its head. The count under the grid is what your filter actually matched — the extract below carries exactly that set, not the whole table.</p>
     <h3 class="sec">Taking it with you</h3>
@@ -1077,7 +1087,8 @@ function vaultCh(){
 /* ---------- 6. The Nerve (integrations & local cloud) ---------- */
 function nerveCh(){
   const local = DB.api_keys.filter(k => k.host === "local cloud");
-  const cloud = DB.api_keys.filter(k => k.host !== "local cloud");
+  const cloud = DB.api_keys.filter(k => k.host === "cloud");
+  const manual = DB.api_keys.filter(k => k.host === "web");
   const meter = k => {
     if (!k.limit) return `<span class="label">local · unmetered</span>`;
     const f = Math.min(k.used / k.limit, 1);
@@ -1113,15 +1124,19 @@ function nerveCh(){
     <div class="grid-3" style="margin-bottom:14px">
       ${vital(local.length.toString(), "Services on the local cloud")}
       ${vital(cloud.length.toString(), "Metered external services")}
-      ${vital("2", "Manual-only, by policy")}
+      ${vital(manual.length.toString(), "Manual-only, by policy")}
     </div>
     <div class="card" style="margin-bottom:12px">
       <div class="card-head"><h3 class="sec" style="margin:0">Local cloud</h3><span class="label">self-hosted · no per-call cost</span></div>
       ${local.map(row).join("")}
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:12px">
       <div class="card-head"><h3 class="sec" style="margin:0">External, metered</h3><span class="label">credit warden: AG-FIN-02</span></div>
       ${cloud.map(row).join("")}
+    </div>
+    <div class="card">
+      <div class="card-head"><h3 class="sec" style="margin:0">Manual only, by policy</h3><span class="label">no API · human in the loop</span></div>
+      ${manual.map(row).join("")}
     </div>`;
   return {verso, recto};
 }

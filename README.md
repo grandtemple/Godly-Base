@@ -1,8 +1,11 @@
 # Godly Base
 
-An AI company bound as a book. The interface is a codex: the left page carries
-the wording, the right page carries the working instrument, and every number on
-both comes out of one database you can open, filter, sort, and take with you.
+Godly Base runs a services firm as a company of AI agents, selling sales,
+marketing, and research retainers to four trades: roofing and restoration, med
+spa, commercial HVAC, and private security. The interface is a codex: the left
+page carries the reasoning, the right page carries the working instrument, and
+every number on both comes out of one database you can open, filter, sort, and
+take with you.
 
 ```
 web/godly-codex.html     the codex — 9 leaves, opens in any browser
@@ -36,7 +39,8 @@ Chapter tabs run down the spine; `←` and `→` turn leaves.
 The codex is a single file with no build step and no dependencies:
 
 ```bash
-open web/godly-codex.html        # or: python3 -m http.server && visit /web/
+open web/godly-codex.html        # macOS; xdg-open on Linux, start on Windows
+python3 -m http.server           # or serve the repo and visit /web/
 ```
 
 The database and the extraction tool:
@@ -58,8 +62,10 @@ committed seed. Either way the columns and order match what the Vault shows.
 - **The local cloud holds the record.** Postgres, CRM, crawler, scheduler, and
   brain run on our own hardware. Rented services are metered and pausable.
 - **No secrets in data.** The integrations table holds env var *names* and burn.
-- **BBB and TruePeopleSearch stay manual**, LinkedIn goes through a compliant
-  API, and sending reputation outranks send volume.
+- **BBB and TruePeopleSearch stay manual.** No public API, and terms that
+  prohibit bulk automation.
+- **Sending reputation outranks send volume.** LinkedIn goes through a
+  compliant API, and a bounce rate over 3% for two weeks stops the domain.
 
 Details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md); the stack shopping list
 with verdicts is in [docs/RESEARCH-INDEX.md](docs/RESEARCH-INDEX.md).
