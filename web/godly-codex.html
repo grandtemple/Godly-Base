@@ -124,7 +124,7 @@ button{font:inherit;color:inherit}
 .page.recto{background:var(--leaf)}
 .turning{animation:leaf .34s ease}
 @keyframes leaf{
-  from{opacity:0;transform:translateX(10px) rotateY(-2.5deg)}
+  from{opacity:0;transform:translateY(7px)}
   to{opacity:1;transform:none}
 }
 @media (prefers-reduced-motion:reduce){.turning{animation:none}*{scroll-behavior:auto}}
@@ -223,6 +223,10 @@ ul.tiers::marker,ul.tiers li::marker{color:var(--gilt)}
 .unit .nm{font-size:13.5px}
 .unit .nm b{font-weight:600}
 .unit .nm em{font-style:normal;color:var(--ink-3);font-size:12.5px}
+span.cap{display:inline-block;border:1px solid var(--rule);border-radius:3px;padding:1px 6px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-3);background:var(--paper)}
+span.cap.on{border-color:var(--ser-3);color:var(--ser-3);background:color-mix(in oklab, var(--ser-3), transparent 92%)}
 .pair-note{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--gilt-ink);text-transform:uppercase}
 
 /* pipeline */
@@ -396,7 +400,7 @@ pre.dump{
 /* ============================================================
    GODLY BASE — OPERATING CODEX
    One page, one book. Chapters render from DB below; every table
-   in DB is browsable and extractable from Chapter V (the Vault).
+   in DB is browsable and extractable from Chapter VI (the Vault).
    ============================================================ */
 
 const DB = {
@@ -576,6 +580,26 @@ DB.throughput={
 };
 </script>
 <script>
+/* ---- The product: the agent pod Hero deploys into a client's business ---- */
+DB.front_office=[
+ {id:"FO-01",capability:"Inbound call",channel:"Phone",does:"Answers every call in under two rings, day or night. Qualifies the caller, books the job, or routes a true emergency to a human.",replaces:"Voicemail, and the call that rings out at 6pm",writes:"contacts, bookings",status:"live"},
+ {id:"FO-02",capability:"Outbound call",channel:"Phone",does:"Confirmations, reschedules, callbacks on missed calls, and win-back on quotes that went quiet.",replaces:"The callback nobody made",writes:"bookings, follow_ups",status:"live"},
+ {id:"FO-03",capability:"Inbox",channel:"Email, web form, SMS",does:"Reads, triages, and answers. Escalates anything priced or contested to a named human.",replaces:"A shared inbox nobody owns",writes:"contacts, threads",status:"live"},
+ {id:"FO-04",capability:"Booking",channel:"Calendar",does:"Puts the job on the calendar against real crew capacity and drive time, not an empty grid.",replaces:"Double-booked Tuesdays",writes:"bookings",status:"live"},
+ {id:"FO-05",capability:"Quote and estimate",channel:"Email, SMS",does:"Builds the quote from the client's own price book and sends it while the caller still remembers calling.",replaces:"The estimate that took four days",writes:"quotes",status:"live"},
+ {id:"FO-06",capability:"Payment",channel:"Link, phone",does:"Takes the deposit, sends the invoice, and chases the balance on a schedule the owner sets.",replaces:"Accounts receivable as a shoebox",writes:"invoices, payments",status:"live"},
+ {id:"FO-07",capability:"Google review",channel:"SMS, email",does:"Asks for the review at the one moment the customer is happiest — job closed, payment cleared.",replaces:"Asking never, or asking everyone at once",writes:"reviews",status:"live"},
+ {id:"FO-08",capability:"Referral follow-up",channel:"SMS, email, phone",does:"Comes back after the job to ask who else needs the work, and tracks what the answer produced.",replaces:"Word of mouth left to chance",writes:"referrals",status:"pilot"},
+ {id:"FO-09",capability:"Trade-specific work",channel:"Any",does:"Whatever else that business actually sells — warranty registration, seasonal service reminders, permit status, membership renewals. Configured per client, not per industry.",replaces:"The task that only lives in one person's head",writes:"custom",status:"pilot"}
+];
+
+DB.deployments=[
+ {client:"Ridgeway Restoration",niche:"Roofing & Restoration",live:["FO-01","FO-02","FO-03","FO-04","FO-05","FO-07"],stage:"Running",since:"2026-06-02",note:"Storm season doubled call volume; inbound was the whole reason they signed."},
+ {client:"Bluecrest Aesthetics",niche:"Med Spa & Aesthetics",live:["FO-01","FO-03","FO-04","FO-06","FO-07","FO-08"],stage:"Running",since:"2026-06-19",note:"No-show recovery and rebooking carry this one, not new leads."},
+ {client:"Keystone Mechanical Group",niche:"Commercial HVAC & Facilities",live:["FO-03","FO-04","FO-05"],stage:"Onboarding",since:"2026-09-03",note:"Work-order triage first; payment waits for their ERP mapping."},
+ {client:"Vireo Med Spa Group",niche:"Med Spa & Aesthetics",live:["FO-01","FO-04"],stage:"Pilot",since:"2026-08-28",note:"Two capabilities, one location, thirty days to prove it."}
+];
+
 /* ---- Appendix: the reading list. Every row is a real, linkable source. ---- */
 DB.sources=[
  {cat:"Agent frameworks",name:"LangGraph",url:"https://github.com/langchain-ai/langgraph",kind:"OSS",verdict:"adopt",note:"Stateful graph orchestration with human-in-the-loop checkpoints — the spine for supervisor→agent handoffs."},
@@ -632,7 +656,7 @@ DB.brain=[
  {zone:"Obsidian vault (/brain)",path:"/brain/niches",holds:"Per-niche playbooks: language, objections, pricing, proof.",writer:"AG-RES-03, AG-CNT-01",read_by:"Sales, Content, Marketing"},
  {zone:"Obsidian vault (/brain)",path:"/brain/accounts",holds:"One note per account, linked to the row in Postgres.",writer:"AG-RES-02",read_by:"Sales, BD"},
  {zone:"Obsidian vault (/brain)",path:"/brain/agents",holds:"Agent charters, standing instructions, post-run reflections.",writer:"Supervisors",read_by:"CEO, chiefs"},
- {zone:"Postgres (local cloud)",path:"godly.*",holds:"Every row you can browse in Chapter V — the numeric truth.",writer:"All agents via API",read_by:"Dashboards, exports"},
+ {zone:"Postgres (local cloud)",path:"godly.*",holds:"Every row you can browse in Chapter VI — the numeric truth.",writer:"All agents via API",read_by:"Dashboards, exports"},
  {zone:"Google Drive",path:"/Hero/Clients",holds:"Client-facing proposals, contracts, deliverables.",writer:"AG-SALES-02, AG-CNT-03",read_by:"Clients, CEO"},
  {zone:"Local object store",path:"/vault/raw",holds:"Raw crawl output, transcripts, screenshots before parsing.",writer:"AG-RES-01",read_by:"Research, DevOps"}
 ];
@@ -734,15 +758,15 @@ function frontispiece(){
   const verso = `
     <p class="eyebrow">Frontispiece</p>
     <h2 class="leaf-title">An operating system<br>bound as a book</h2>
-    <p class="lede drop">The firm sells sales, marketing, and research retainers to four trades and runs itself as a company of AI agents. Clients know it as <b>Hero</b>; Godly Base is the machine underneath, and this codex is that machine's own book. This codex is the whole of it: the reasoning on the left page, the working instrument on the right, and every number in both pulled from the same database you can open, filter, and carry out in Chapter V.</p>
+    <p class="lede drop">Hero puts an AI front office into a business: agents that answer the phone, work the inbox, book the job, take the payment, and then chase the review and the referral. The firm sells that, and runs itself the same way. Godly Base is the machine underneath, and this codex is that machine's own book. This codex is the whole of it: the reasoning on the left page, the working instrument on the right, and every number in both pulled from the same database you can open, filter, and carry out in Chapter VI.</p>
     <p>Seven chiefs answer to one human seat. Each chief keeps a supervisor; each supervisor keeps three agents that work in named pairs, so no agent's output reaches a client without a second agent having reason to look at it.</p>
     <div class="marginalia">A page is not a dashboard tile. Turn a leaf and you get the argument as well as the number — the reasoning stays attached to the data it was drawn from.</div>
-    <h3 class="sec">The niches we serve in depth</h3>
+    <h3 class="sec">Where it is running</h3>
     <div class="row">${DB.meta.niches.map(n => `<span class="tag">${esc(n)}</span>`).join("")}</div>
-    <p style="margin-top:10px">We do not sell to everyone. Four niches, each with its own playbook, vocabulary, objection set, and proof. A fifth is only added when the fourth runs without the CEO in the loop.</p>
+    <p style="margin-top:10px">The work is the same shape in every trade — a call missed, a job unbooked, an invoice unchased — but the words are not. Each industry gets its own playbook, vocabulary, objection set, and proof, and a new one is only opened when the last runs without the CEO in the loop. These four are where we start, not a closed list.</p>
     <hr class="hr" style="margin:18px 0 12px">
     <h3 class="sec">How to turn a leaf</h3>
-    <p style="font-size:13.5px">Chapter tabs run down the spine; <b>&larr;</b> and <b>&rarr;</b> turn pages from anywhere outside a field. Left page argues, right page operates. Chapter V opens the whole database — pick a table, filter it, and take the rows with you.</p>
+    <p style="font-size:13.5px">Chapter tabs run down the spine; <b>&larr;</b> and <b>&rarr;</b> turn pages from anywhere outside a field. Left page argues, right page operates. Chapter VI opens the whole database — pick a table, filter it, and take the rows with you.</p>
     <p class="label" style="margin-top:14px">Colophon · set in Fraunces, Spectral, and JetBrains Mono · bound 1 September 2026 · vol. I</p>`;
 
   const spark = Object.entries(DB.throughput).map(([dept, series]) => `
@@ -778,10 +802,69 @@ function frontispiece(){
   return {verso, recto};
 }
 
-/* ---------- 1. The House ---------- */
-function house(){
+/* ---------- 1. The Front Office (what Hero ships) ---------- */
+function frontOfficeCh(){
+  const fo = DB.front_office;
+  const byId = Object.fromEntries(fo.map(f => [f.id, f]));
   const verso = `
     <p class="eyebrow">Chapter I</p>
+    <h2 class="leaf-title">The Front Office</h2>
+    <p class="lede">What Hero sells is not advice about a business. It is the front of one: agents that answer the phone, work the inbox, book the job, take the payment, and then go back for the review and the referral.</p>
+    <h3 class="sec">The problem it is actually solving</h3>
+    <p>A regional operator does not lose work to a competitor's marketing. They lose it to a phone that rang at 6:40pm, an estimate that took four days, an invoice nobody chased, and a happy customer nobody asked. Every one of those is a task with a clear trigger, a clear script, and no one whose job it is at that hour. That is the shape of work an agent does well.</p>
+    <div class="marginalia">The test for any new capability: does it have a trigger, a script, and a moment it must happen in? If yes, an agent can hold it. If it needs judgment about a person, it escalates.</div>
+    <h3 class="sec">Configured per client, not per industry</h3>
+    <p>The nine capabilities on the facing page are the same everywhere. What changes is the vocabulary, the price book, the crew capacity, the escalation rules, and what counts as an emergency at 2am. A roofing call in hail season and a med spa cancellation at noon are the same mechanism wearing different words — and the words are where the trust is, so they are configured, never generalized.</p>
+    <h3 class="sec">What stays human, always</h3>
+    <p>Anything priced outside the book. Anything contested. Anything where the customer is angry, grieving, or in danger. The agent's job at those moments is to recognize it fast and hand it to a named person with the context already assembled — not to improvise.</p>
+    <h3 class="sec">What we do not claim yet</h3>
+    <p>This chapter shows what is deployed and where, not what it earned. Outcome numbers — calls recovered, jobs booked, receivables closed, reviews added — belong to <b>Chapter X, Service Delivery</b>, and that chapter opens when four retainers have run long enough for the figures to mean something. A capability list is not a result, and the book will not print one as though it were.</p>`;
+
+  const rows = fo.map(f => {
+    const [cl, t] = statusPill(f.status);
+    return `<tr>
+      <td><b>${esc(f.capability)}</b><br><span class="label">${esc(f.channel)}</span></td>
+      <td>${esc(f.does)}</td>
+      <td style="color:var(--ink-3)">${esc(f.replaces)}</td>
+      <td>${pill(cl, t)}</td>
+    </tr>`;
+  }).join("");
+
+  const deploy = DB.deployments.map(d => `
+    <div class="card flat" style="padding:11px 13px">
+      <div class="card-head" style="margin-bottom:5px">
+        <div><b style="font-size:14.5px">${esc(d.client)}</b><br><span class="label">${esc(d.niche)} · since ${esc(d.since)}</span></div>
+        ${pill(d.stage==="Running"?"good":d.stage==="Onboarding"?"info":"warn", d.stage)}
+      </div>
+      <div class="row" style="gap:5px;margin-bottom:6px">
+        ${fo.map(f => `<span class="cap ${d.live.includes(f.id)?"on":""}" data-tip="${esc(f.capability)}|${d.live.includes(f.id)?"live for this client":"not deployed"}">${esc(f.capability)}</span>`).join("")}
+      </div>
+      <p style="margin:0;font-size:13px;color:var(--ink-2)">${esc(d.note)}</p>
+    </div>`).join("");
+
+  const liveCount = DB.deployments.filter(d => d.stage === "Running").length;
+  const recto = `
+    <p class="eyebrow">The pod · ${fo.length} capabilities</p>
+    <div class="tablewrap" style="margin-bottom:16px">
+      <table class="grid"><caption class="sr">Front office capabilities</caption>
+        <thead><tr><th scope="col">Capability</th><th scope="col">What it does</th><th scope="col">What it replaces</th><th scope="col">State</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <h3 class="sec">Deployed today</h3>
+    <div class="grid-3" style="margin-bottom:12px">
+      ${vital(DB.deployments.length.toString(), "Businesses with a pod")}
+      ${vital(liveCount.toString(), "Fully running")}
+      ${vital(fo.filter(f=>f.status==="live").length + " of " + fo.length, "Capabilities out of pilot")}
+    </div>
+    <div class="stack-sm">${deploy}</div>`;
+  return {verso, recto};
+}
+
+/* ---------- 2. The House ---------- */
+function house(){
+  const verso = `
+    <p class="eyebrow">Chapter II</p>
     <h2 class="leaf-title">The House</h2>
     <p class="lede">One human seat, seven chiefs, seven supervisors, twenty-one agents. Work flows down as instruction and returns up as evidence.</p>
     <h3 class="sec">The chain</h3>
@@ -792,7 +875,7 @@ function house(){
     <h3 class="sec">The two names</h3>
     <p>Everything a client can see says <b>Hero</b> — the proposal cover, the signature, the sending domain, the case study. <b>Hero Capital</b> appears only where a registered entity name is required: contracts, invoices, filings. <b>Godly Base</b> is the name of this machine and stays inside the house. An agent that cannot tell whether a surface is client-facing assumes it is and writes Hero.</p>
     <h3 class="sec">Where the work is written down</h3>
-    <p>Every run writes twice: structured rows into Postgres, and a short note into the Obsidian vault under the agent's own file. The rows make the charts; the notes make the reasoning legible later. Chapter VIII maps the routing.</p>`;
+    <p>Every run writes twice: structured rows into Postgres, and a short note into the Obsidian vault under the agent's own file. The rows make the charts; the notes make the reasoning legible later. Chapter IX maps the routing.</p>`;
 
   const org = DB.org.chiefs.map((c,i) => `
     <div class="org-tier">
@@ -836,7 +919,7 @@ function accountsCh(){
   }));
 
   const verso = `
-    <p class="eyebrow">Chapter II</p>
+    <p class="eyebrow">Chapter III</p>
     <h2 class="leaf-title">Book of Accounts</h2>
     <p class="lede">Pipeline the way a CRM keeps it: stages, values, owners, next actions. The difference is that the reasoning sits beside the row.</p>
     ${barChart(stageRows, {fmt:usdK, aria:"Open pipeline value by stage"})}
@@ -897,7 +980,7 @@ function signalsCh(){
   const totalSent = sum(c, x=>x.sent), totalBooked = sum(c, x=>x.booked);
   const f = Object.fromEntries(DB.funnel.map(x => [x.stage, x.count]));
   const verso = `
-    <p class="eyebrow">Chapter III</p>
+    <p class="eyebrow">Chapter IV</p>
     <h2 class="leaf-title">Book of Signals</h2>
     <p class="lede">Demand, end to end: what we sent, who moved, and where the drop happens. The funnel is the argument; the campaign table is the evidence.</p>
     ${funnelChart(DB.funnel)}
@@ -943,7 +1026,7 @@ function alliancesCh(){
   const rows = P_STAGES.map(s => ({label:s, value:sum(DB.partners.filter(p=>p.stage===s), p=>p.deal_flow_mo),
     sub:DB.partners.filter(p=>p.stage===s).length + " partners"}));
   const verso = `
-    <p class="eyebrow">Chapter IV</p>
+    <p class="eyebrow">Chapter V</p>
     <h2 class="leaf-title">Book of Alliances</h2>
     <p class="lede">Partnerships are a second pipeline with its own stages, its own owner, and its own unit of value: introductions per month, not dollars per deal.</p>
     ${barChart(rows, {fmt:v => v + "/mo", aria:"Partner-sourced introductions per month by stage"})}
@@ -988,16 +1071,18 @@ function alliancesCh(){
 
 /* ---------- 5. The Vault (database interface) ---------- */
 const TABLES = {
+  front_office:{rows:()=>DB.front_office, pk:"id", note:"The capability set Hero deploys — the source for Chapter I."},
+  deployments:{rows:()=>DB.deployments, pk:"client", note:"Which capabilities are live in which client business."},
   accounts:{rows:()=>DB.accounts, pk:"id", note:"Companies we have researched and qualified."},
   contacts:{rows:()=>DB.contacts, pk:"id", note:"People, their verification state, and last touch."},
-  deals:{rows:()=>DB.deals, pk:"id", note:"Sales pipeline rows — the source for Chapter II."},
-  partners:{rows:()=>DB.partners, pk:"id", note:"Partnership pipeline — the source for Chapter IV."},
+  deals:{rows:()=>DB.deals, pk:"id", note:"Sales pipeline rows — the source for Chapter III."},
+  partners:{rows:()=>DB.partners, pk:"id", note:"Partnership pipeline — the source for Chapter V."},
   campaigns:{rows:()=>DB.campaigns, pk:"id", note:"Marketing campaigns and their outcomes."},
   content:{rows:()=>DB.content, pk:"id", note:"Editorial calendar."},
   agents:{rows:()=>DB.agents, pk:"id", note:"The roster, with pairings and memory paths."},
   agent_runs:{rows:()=>DB.agent_runs, pk:"id", note:"Every task an agent has executed, with cost."},
   api_keys:{rows:()=>DB.api_keys, pk:"id", note:"Integration registry. Names and limits only — secrets live in the vault env, never here."},
-  sources:{rows:()=>DB.sources, pk:"name", note:"The research index behind Chapter VII."},
+  sources:{rows:()=>DB.sources, pk:"name", note:"The research index behind Chapter VIII."},
   brain_map:{rows:()=>DB.brain, pk:"path", note:"Where each class of file lives and who writes it."},
   funnel:{rows:()=>DB.funnel, pk:"stage", note:"Funnel stage counts."}
 };
@@ -1031,9 +1116,9 @@ function vaultCh(){
   const dump = state.fmt === "csv" ? toCSV(rows) : JSON.stringify(rows, null, 2);
 
   const verso = `
-    <p class="eyebrow">Chapter V</p>
+    <p class="eyebrow">Chapter VI</p>
     <h2 class="leaf-title">The Vault</h2>
-    <p class="lede">Twelve tables, one shape. Anything the business keeps becomes a row here before it becomes a sentence anywhere else.</p>
+    <p class="lede">Fourteen tables, one shape. Anything the business keeps becomes a row here before it becomes a sentence anywhere else.</p>
     <h3 class="sec">Reading it</h3>
     <p>Pick a table, filter it, sort a column by clicking its head. The count under the grid is what your filter actually matched — the extract below carries exactly that set, not the whole table.</p>
     <h3 class="sec">Taking it with you</h3>
@@ -1108,7 +1193,7 @@ function nerveCh(){
     </div>`; };
 
   const verso = `
-    <p class="eyebrow">Chapter VI</p>
+    <p class="eyebrow">Chapter VII</p>
     <h2 class="leaf-title">The Nerve</h2>
     <p class="lede">Sixteen connections, one rule: the local cloud holds the record, the outside services hold nothing we could not rebuild.</p>
     <h3 class="sec">What runs here, at home</h3>
@@ -1148,7 +1233,7 @@ function appendixCh(){
   const cats = [...new Set(DB.sources.map(s => s.cat))];
   const verdictPill = v => ({adopt:"good",pilot:"info",watch:"idle",read:"idle",study:"info",manual:"warn",restricted:"crit"}[v] || "idle");
   const verso = `
-    <p class="eyebrow">Chapter VII</p>
+    <p class="eyebrow">Chapter VIII</p>
     <h2 class="leaf-title">The Appendix</h2>
     <p class="lede">Forty sources, each marked with what we intend to do about it. This is a shopping list with a verdict column, not a bookmark folder.</p>
     <h3 class="sec">How to read the verdicts</h3>
@@ -1182,7 +1267,7 @@ function appendixCh(){
 /* ---------- 8. The Brain ---------- */
 function brainCh(){
   const verso = `
-    <p class="eyebrow">Chapter VIII</p>
+    <p class="eyebrow">Chapter IX</p>
     <h2 class="leaf-title">The Brain</h2>
     <p class="lede">One vault, reachable over MCP, holding the reasoning the database cannot: what we decided, why, and what would change our minds.</p>
     <h3 class="sec">Two memories, deliberately separate</h3>
@@ -1193,7 +1278,7 @@ function brainCh(){
     <h3 class="sec">Google Drive's narrow job</h3>
     <p>Drive holds only what a client will open: proposals, contracts, deliverables, exports we hand over. It is the outward face, never the memory. Nothing an agent reasons from lives there alone.</p>
     <h3 class="sec">Room left on purpose</h3>
-    <p>Three chapters are unwritten: <b>Service Delivery</b>, once the first four retainers run without the CEO; <b>Finance</b>, when the forecast has four quarters to stand on; and <b>Client Portals</b>, when a client asks for their own bound copy. The book was made to take them.</p>`;
+    <p>Three chapters are still unwritten: <b>Service Delivery</b>, once the first four retainers run without the CEO; <b>Finance</b>, when the forecast has four quarters to stand on; and <b>Client Portals</b>, when a client asks for their own bound copy. The book was made to take them.</p>`;
 
   const recto = `
     <p class="eyebrow">Memory routing</p>
@@ -1221,9 +1306,9 @@ links: [godly.contacts, /brain/agents/ag-res-02]
     </div>
     <h3 class="sec">Unwritten chapters</h3>
     <div class="grid-2">
-      <div class="unwritten">IX · Service Delivery<br><span class="label">opens at four running retainers</span></div>
-      <div class="unwritten">X · Finance &amp; Forecast<br><span class="label">opens at four closed quarters</span></div>
-      <div class="unwritten">XI · Client Portals<br><span class="label">opens on first client request</span></div>
+      <div class="unwritten">X · Service Delivery<br><span class="label">opens at four running retainers</span></div>
+      <div class="unwritten">XI · Finance &amp; Forecast<br><span class="label">opens at four closed quarters</span></div>
+      <div class="unwritten">XII · Client Portals<br><span class="label">opens on first client request</span></div>
     </div>`;
   return {verso, recto};
 }
@@ -1232,14 +1317,15 @@ links: [godly.contacts, /brain/agents/ag-res-02]
 /* ============================ binding it together ============================ */
 const LEAVES = [
   {num:"—",    chapter:"Frontispiece",  title:"An operating system bound as a book", tab:"Frontispiece", render:frontispiece},
-  {num:"I",    chapter:"Chapter I",     title:"The House",             tab:"The House",           render:house},
-  {num:"II",   chapter:"Chapter II",    title:"Book of Accounts",      tab:"Book of Accounts",    render:accountsCh},
-  {num:"III",  chapter:"Chapter III",   title:"Book of Signals",       tab:"Book of Signals",     render:signalsCh},
-  {num:"IV",   chapter:"Chapter IV",    title:"Book of Alliances",     tab:"Book of Alliances",   render:alliancesCh},
-  {num:"V",    chapter:"Chapter V",     title:"The Vault",             tab:"The Vault",           render:vaultCh},
-  {num:"VI",   chapter:"Chapter VI",    title:"The Nerve",             tab:"The Nerve",           render:nerveCh},
-  {num:"VII",  chapter:"Chapter VII",   title:"The Appendix",          tab:"The Appendix",        render:appendixCh},
-  {num:"VIII", chapter:"Chapter VIII",  title:"The Brain",             tab:"The Brain",           render:brainCh}
+  {num:"I",    chapter:"Chapter I",     title:"The Front Office",      tab:"The Front Office",    render:frontOfficeCh},
+  {num:"II",   chapter:"Chapter II",    title:"The House",             tab:"The House",           render:house},
+  {num:"III",  chapter:"Chapter III",   title:"Book of Accounts",      tab:"Book of Accounts",    render:accountsCh},
+  {num:"IV",   chapter:"Chapter IV",    title:"Book of Signals",       tab:"Book of Signals",     render:signalsCh},
+  {num:"V",    chapter:"Chapter V",     title:"Book of Alliances",     tab:"Book of Alliances",   render:alliancesCh},
+  {num:"VI",   chapter:"Chapter VI",    title:"The Vault",             tab:"The Vault",           render:vaultCh},
+  {num:"VII",  chapter:"Chapter VII",   title:"The Nerve",             tab:"The Nerve",           render:nerveCh},
+  {num:"VIII", chapter:"Chapter VIII",  title:"The Appendix",          tab:"The Appendix",        render:appendixCh},
+  {num:"IX",   chapter:"Chapter IX",    title:"The Brain",             tab:"The Brain",           render:brainCh}
 ];
 
 function drawTabs(){

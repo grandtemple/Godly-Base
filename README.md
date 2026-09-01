@@ -1,8 +1,10 @@
 # Godly Base
 
-Godly Base is the operating system of a services firm that sells sales,
-marketing, and research retainers to four trades: roofing and restoration, med
-spa, commercial HVAC, and private security. The interface is a codex: the left
+Godly Base is the operating system of a firm that puts an AI front office into
+other businesses: agents that answer the phone, work the inbox, book the job,
+take the payment, then chase the Google review and the referral. Roofing and
+restoration, med spa, commercial HVAC, and private security are where it runs
+today, not a closed list. The interface is a codex: the left
 page carries the reasoning, the right page carries the working instrument, and
 every number on both comes out of one database you can open, filter, sort, and
 take with you.

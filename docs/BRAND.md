@@ -9,7 +9,7 @@ The firm goes to market as **Hero**.
 
 | Name | What it is | Who hears it |
 |---|---|---|
-| **Hero** | The services firm as the market meets it. The spoken brand, the one on a proposal cover, a signature, a LinkedIn profile, a cold email. | Clients, prospects, partners, the public |
+| **Hero** | The firm as the market meets it. The spoken brand, the one on a proposal cover, a signature, a LinkedIn profile, a cold email. | Clients, prospects, partners, the public |
 | **Hero Capital** | The formal entity name, used where a legal name is required. | Contracts, invoices, banking, filings |
 | **Godly Base** | The operating system this repository builds — the codex, the vault, the agent roster. An internal name. | Joshua, the agents, anyone reading this repo |
 | **Godly** | The Christian community app. A separate product by the same owner. | Its own community |
@@ -61,7 +61,9 @@ Until 2 and 3 are answered, three defaults hold:
 
 ## Positioning
 
-**One line.** Godly Base runs a services firm as a company of AI agents, so four trades get senior-level sales, marketing, and research attention at a price a regional operator can carry.
+**One line.** Hero puts an AI front office into a business — answering the phone, working the inbox, booking the job, taking the payment, and chasing the review and the referral — so a regional operator stops losing work to the calls, quotes, and follow-ups nobody had time for.
+
+**What it is not.** Not a chatbot on a website, not a marketing agency, and not advice. It is staffed capability: the tasks that have a trigger, a script, and a moment they must happen in. Anything needing judgment about a person escalates to a named human, and saying so plainly is part of the pitch, not a caveat buried in it.
 
 **The positioning statement.** For owners and general managers of regional roofing, med spa, HVAC, and private security firms, who need consistent pipeline but cannot hire a full sales and marketing department, Godly Base runs that department as a paired-agent system with a single human accountable for it. Unlike a per-seat AI sales tool, we are not software the client operates; we run the work and hand over the record.
 

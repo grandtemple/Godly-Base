@@ -10,6 +10,144 @@
       "Private Security Services"
     ]
   },
+  "front_office": [
+    {
+      "id": "FO-01",
+      "capability": "Inbound call",
+      "channel": "Phone",
+      "does": "Answers every call in under two rings, day or night. Qualifies the caller, books the job, or routes a true emergency to a human.",
+      "replaces": "Voicemail, and the call that rings out at 6pm",
+      "writes": "contacts, bookings",
+      "status": "live"
+    },
+    {
+      "id": "FO-02",
+      "capability": "Outbound call",
+      "channel": "Phone",
+      "does": "Confirmations, reschedules, callbacks on missed calls, and win-back on quotes that went quiet.",
+      "replaces": "The callback nobody made",
+      "writes": "bookings, follow_ups",
+      "status": "live"
+    },
+    {
+      "id": "FO-03",
+      "capability": "Inbox",
+      "channel": "Email, web form, SMS",
+      "does": "Reads, triages, and answers. Escalates anything priced or contested to a named human.",
+      "replaces": "A shared inbox nobody owns",
+      "writes": "contacts, threads",
+      "status": "live"
+    },
+    {
+      "id": "FO-04",
+      "capability": "Booking",
+      "channel": "Calendar",
+      "does": "Puts the job on the calendar against real crew capacity and drive time, not an empty grid.",
+      "replaces": "Double-booked Tuesdays",
+      "writes": "bookings",
+      "status": "live"
+    },
+    {
+      "id": "FO-05",
+      "capability": "Quote and estimate",
+      "channel": "Email, SMS",
+      "does": "Builds the quote from the client's own price book and sends it while the caller still remembers calling.",
+      "replaces": "The estimate that took four days",
+      "writes": "quotes",
+      "status": "live"
+    },
+    {
+      "id": "FO-06",
+      "capability": "Payment",
+      "channel": "Link, phone",
+      "does": "Takes the deposit, sends the invoice, and chases the balance on a schedule the owner sets.",
+      "replaces": "Accounts receivable as a shoebox",
+      "writes": "invoices, payments",
+      "status": "live"
+    },
+    {
+      "id": "FO-07",
+      "capability": "Google review",
+      "channel": "SMS, email",
+      "does": "Asks for the review at the one moment the customer is happiest — job closed, payment cleared.",
+      "replaces": "Asking never, or asking everyone at once",
+      "writes": "reviews",
+      "status": "live"
+    },
+    {
+      "id": "FO-08",
+      "capability": "Referral follow-up",
+      "channel": "SMS, email, phone",
+      "does": "Comes back after the job to ask who else needs the work, and tracks what the answer produced.",
+      "replaces": "Word of mouth left to chance",
+      "writes": "referrals",
+      "status": "pilot"
+    },
+    {
+      "id": "FO-09",
+      "capability": "Trade-specific work",
+      "channel": "Any",
+      "does": "Whatever else that business actually sells — warranty registration, seasonal service reminders, permit status, membership renewals. Configured per client, not per industry.",
+      "replaces": "The task that only lives in one person's head",
+      "writes": "custom",
+      "status": "pilot"
+    }
+  ],
+  "deployments": [
+    {
+      "client": "Ridgeway Restoration",
+      "niche": "Roofing & Restoration",
+      "live": [
+        "FO-01",
+        "FO-02",
+        "FO-03",
+        "FO-04",
+        "FO-05",
+        "FO-07"
+      ],
+      "stage": "Running",
+      "since": "2026-06-02",
+      "note": "Storm season doubled call volume; inbound was the whole reason they signed."
+    },
+    {
+      "client": "Bluecrest Aesthetics",
+      "niche": "Med Spa & Aesthetics",
+      "live": [
+        "FO-01",
+        "FO-03",
+        "FO-04",
+        "FO-06",
+        "FO-07",
+        "FO-08"
+      ],
+      "stage": "Running",
+      "since": "2026-06-19",
+      "note": "No-show recovery and rebooking carry this one, not new leads."
+    },
+    {
+      "client": "Keystone Mechanical Group",
+      "niche": "Commercial HVAC & Facilities",
+      "live": [
+        "FO-03",
+        "FO-04",
+        "FO-05"
+      ],
+      "stage": "Onboarding",
+      "since": "2026-09-03",
+      "note": "Work-order triage first; payment waits for their ERP mapping."
+    },
+    {
+      "client": "Vireo Med Spa Group",
+      "niche": "Med Spa & Aesthetics",
+      "live": [
+        "FO-01",
+        "FO-04"
+      ],
+      "stage": "Pilot",
+      "since": "2026-08-28",
+      "note": "Two capabilities, one location, thirty days to prove it."
+    }
+  ],
   "accounts": [
     {
       "id": "ACC-1041",
@@ -1402,7 +1540,7 @@
     {
       "zone": "Postgres (local cloud)",
       "path": "godly.*",
-      "holds": "Every row you can browse in Chapter V — the numeric truth.",
+      "holds": "Every row you can browse in Chapter VI — the numeric truth.",
       "writer": "All agents via API",
       "read_by": "Dashboards, exports"
     },

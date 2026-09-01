@@ -23,7 +23,8 @@ SEED = ROOT / "db" / "seed.json"
 slug = lambda s: re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 # Tables truncated by --truncate, children first.
-WIPE = ["department_throughput", "funnel_snapshots", "agent_runs", "content_items",
+WIPE = ["deployment_capabilities", "deployments", "front_office_capabilities",
+        "department_throughput", "funnel_snapshots", "agent_runs", "content_items",
         "campaigns", "partners", "deals", "contacts", "accounts", "sources",
         "integrations", "brain_map", "decisions", "agents", "supervisors",
         "departments", "niches", "deal_stages", "funnel_stages", "company_profile"]
@@ -183,7 +184,27 @@ def load(cur, seed):
                      float(r["cost"].lstrip("$")), f"/brain/agents/{r['agent'].lower()}.md"))
         one("agent_runs")
 
-    # 13. the registry, the reading list, the brain map
+    # 13. the product: the capability catalogue and who is running it
+    for order, f in enumerate(seed["front_office"]):
+        cur.execute("""insert into godly.front_office_capabilities (id, capability, channel, does,
+                         replaces, writes_to, status, sort_order)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s) on conflict (id) do nothing""",
+                    (f["id"], f["capability"], f["channel"], f["does"], f["replaces"],
+                     f["writes"], f["status"], order))
+        one("front_office_capabilities")
+    for d in seed["deployments"]:
+        cur.execute("""insert into godly.deployments (account_id, client_name, niche_id, stage,
+                         live_since, note)
+                       values (%s,%s,%s,%s,%s,%s) returning id""",
+                    (acct_id.get(d["client"]), d["client"], niche_id.get(d["niche"]),
+                     d["stage"], d["since"], d["note"]))
+        dep = cur.fetchone()[0]; one("deployments")
+        for cap in d["live"]:
+            cur.execute("""insert into godly.deployment_capabilities (deployment_id, capability_id)
+                           values (%s,%s) on conflict do nothing""", (dep, cap))
+            one("deployment_capabilities")
+
+    # 14. the registry, the reading list, the brain map
     for k in seed["api_keys"]:
         cur.execute("""insert into godly.integrations (ref, service, purpose, env_var, host,
                          status, used, quota, unit)

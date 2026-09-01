@@ -6,6 +6,7 @@ Seven marketing plays chosen for the firm as it stands today. Every play below i
 
 - **Stage**: early. The pipeline in `db/seed.json` is the shape we are building toward, not a track record we can cite in public yet.
 - **Team**: one human, seven supervisors, twenty-one agents. Agent hours are close to free. Joshua's hours are the scarce resource, and every play below is scored on how many of them it needs.
+- **Offer**: an AI front office — phone, inbox, booking, quotes, payment, reviews, referrals — deployed into the client's own business and configured to their trade. Not advice, not an agency retainer.
 - **Buyer**: an owner or general manager at a regional roofing, med spa, HVAC, or security firm. They do not read software blogs, do not browse Product Hunt, and do not evaluate vendors on a comparison page.
 - **Deal shape**: retainers of $28,000 to $96,000 over 6 to 12 months. A handful of closes makes the year, so channels are judged on qualified conversations, not on traffic.
 - **Proof**: thin. We have doctrine, a working system, and no public case studies. Plays that manufacture proof are worth more right now than plays that spend it.

@@ -1,6 +1,6 @@
 ---
 name: custom-proposal
-description: Use when writing, revising, or pricing a client proposal, statement of work, or retainer offer for a Hero account — including when a deal is moving to the Proposal stage, when a prospect asks "what would this cost", when a discount or custom term is on the table, or when a draft needs to clear the unit-economics partner before it goes to a client.
+description: Use when writing, revising, or pricing a client proposal, statement of work, or retainer offer for a Hero account — the AI front office a client is buying for their own business — including when a deal is moving to the Proposal stage, when a prospect asks "what would this cost", when a discount or custom term is on the table, or when a draft needs to clear the unit-economics partner before it goes to a client.
 ---
 
 # Custom proposal

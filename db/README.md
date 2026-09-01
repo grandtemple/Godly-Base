@@ -46,13 +46,15 @@ order below describes, not a rewrite of it:
 
 ```bash
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/0001_baseline.sql
-python scripts/load_seed.py --truncate      # 234 rows across 20 tables
+python scripts/load_seed.py --truncate      # 264 rows across 23 of 24 tables
 python scripts/extract.py --list            # reads live Postgres once DATABASE_URL is set
 ```
 
-Verified on PostgreSQL 16: migrations apply and re-apply cleanly, the seed loads
-whole, and `pipeline_by_stage` returns $355,000 open against $162,400 weighted —
-the same figures the codex prints on its frontispiece.
+Verified on PostgreSQL 16: all three migrations apply and re-apply cleanly, the
+seed loads whole, `pipeline_by_stage` returns $355,000 open against $162,400
+weighted, and `deployment_board` returns the four client pods with the same
+capability counts Chapter I prints — the figures in the book and the figures in
+the database are the same figures.
 
 ### The order, and why it is that order
 
@@ -80,6 +82,9 @@ matter; `set constraints all deferred` covers the one self-reference):
 9. `deals` — resolve `account` and `contact` names to ids
 10. `partners`, `campaigns`, `content_items`
 11. `funnel_snapshots`, `department_throughput`
+12. `front_office_capabilities`, then `deployments`, then the
+    `deployment_capabilities` join — the product, and who is running which
+    part of it
 12. `integrations`, `brain_map`, `sources`
 13. `agent_runs` — last, it references `agents`
 
