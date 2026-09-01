@@ -2949,6 +2949,373 @@ const DB = {
    "paid_at": null,
    "failure_reason": "card_expired — the reason the ladder is at step 4"
   }
+ ],
+ "customers": [
+  {
+   "deployment": "Ridgeway Restoration",
+   "name": "Marguerite Oyelaran",
+   "phone": "+1 918 555 0311",
+   "email": "m.oyelaran@example.com",
+   "address": "1408 Birchwood Ave, Tulsa OK",
+   "arrived_via": "inbound call",
+   "referred_by": null,
+   "consent_sms": true,
+   "consent_email": true,
+   "consent_recording": true,
+   "do_not_contact": false,
+   "first_seen": "2026-07-08"
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "name": "Dale Whitcomb",
+   "phone": "+1 918 555 0347",
+   "email": null,
+   "address": "77 Sagebrush Ct, Broken Arrow OK",
+   "arrived_via": "inbound call",
+   "referred_by": null,
+   "consent_sms": true,
+   "consent_email": false,
+   "consent_recording": true,
+   "do_not_contact": false,
+   "first_seen": "2026-07-19"
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "name": "Priscilla Nam",
+   "phone": "+1 918 555 0362",
+   "email": "pnam@example.com",
+   "address": "2210 Larkfield Dr, Tulsa OK",
+   "arrived_via": "referral",
+   "referred_by": "Marguerite Oyelaran",
+   "consent_sms": true,
+   "consent_email": true,
+   "consent_recording": true,
+   "do_not_contact": false,
+   "first_seen": "2026-08-03"
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "name": "Gerald Fusco",
+   "phone": "+1 918 555 0398",
+   "email": "gfusco@example.com",
+   "address": "512 Kestrel Ln, Jenks OK",
+   "arrived_via": "web form",
+   "referred_by": null,
+   "consent_sms": false,
+   "consent_email": false,
+   "consent_recording": false,
+   "do_not_contact": true,
+   "first_seen": "2026-08-11"
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "name": "Antonia Reyes-Karr",
+   "phone": "+1 480 555 0210",
+   "email": "areyeskarr@example.com",
+   "address": "Scottsdale AZ",
+   "arrived_via": "inbound call",
+   "referred_by": null,
+   "consent_sms": true,
+   "consent_email": true,
+   "consent_recording": true,
+   "do_not_contact": false,
+   "first_seen": "2026-06-27"
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "name": "Hollis Bramwell",
+   "phone": "+1 480 555 0244",
+   "email": "hbramwell@example.com",
+   "address": "Paradise Valley AZ",
+   "arrived_via": "repeat",
+   "referred_by": null,
+   "consent_sms": true,
+   "consent_email": true,
+   "consent_recording": false,
+   "do_not_contact": false,
+   "first_seen": "2026-07-02"
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "name": "Yusra Tannous",
+   "phone": "+1 480 555 0288",
+   "email": "ytannous@example.com",
+   "address": "Tempe AZ",
+   "arrived_via": "SMS",
+   "referred_by": null,
+   "consent_sms": true,
+   "consent_email": false,
+   "consent_recording": true,
+   "do_not_contact": false,
+   "first_seen": "2026-08-14"
+  }
+ ],
+ "jobs": [
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Marguerite Oyelaran",
+   "title": "Hail damage inspection and full roof replacement",
+   "service_type": "Storm restoration",
+   "status": "paid",
+   "value": 18400,
+   "scheduled_for": "2026-07-15T08:00:00",
+   "completed_on": "2026-07-22",
+   "booked_by": "POD",
+   "lost_reason": null
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Dale Whitcomb",
+   "title": "Ridge vent replacement",
+   "service_type": "Repair",
+   "status": "paid",
+   "value": 2250,
+   "scheduled_for": "2026-07-24T09:30:00",
+   "completed_on": "2026-07-24",
+   "booked_by": "POD",
+   "lost_reason": null
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Priscilla Nam",
+   "title": "Gutter and fascia replacement",
+   "service_type": "Repair",
+   "status": "invoiced",
+   "value": 4880,
+   "scheduled_for": "2026-08-19T07:30:00",
+   "completed_on": "2026-08-20",
+   "booked_by": "POD",
+   "lost_reason": null
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Gerald Fusco",
+   "title": "Roof inspection after wind event",
+   "service_type": "Inspection",
+   "status": "lost",
+   "value": null,
+   "scheduled_for": null,
+   "completed_on": null,
+   "booked_by": null,
+   "lost_reason": "Asked to be removed from all contact after the first call. Marked do-not-contact."
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "customer": "Antonia Reyes-Karr",
+   "title": "Injectables consultation and first treatment",
+   "service_type": "Injectables",
+   "status": "paid",
+   "value": 760,
+   "scheduled_for": "2026-07-01T14:00:00",
+   "completed_on": "2026-07-01",
+   "booked_by": "POD",
+   "lost_reason": null
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "customer": "Hollis Bramwell",
+   "title": "Course of three laser sessions",
+   "service_type": "Laser",
+   "status": "in progress",
+   "value": 2100,
+   "scheduled_for": "2026-09-04T11:00:00",
+   "completed_on": null,
+   "booked_by": "POD",
+   "lost_reason": null
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "customer": "Yusra Tannous",
+   "title": "Rebooked after no-show",
+   "service_type": "Facial",
+   "status": "booked",
+   "value": 240,
+   "scheduled_for": "2026-09-06T16:30:00",
+   "completed_on": null,
+   "booked_by": "POD",
+   "lost_reason": null
+  }
+ ],
+ "customer_interactions": [
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Marguerite Oyelaran",
+   "job": "Hail damage inspection and full roof replacement",
+   "channel": "phone",
+   "direction": "inbound",
+   "handled_by": "POD",
+   "occurred_at": "2026-07-08T18:47:00",
+   "duration_s": 214,
+   "outcome": "booked",
+   "summary": "Called at 6:47pm after the hail line went through. Booked an inspection for the following Wednesday.",
+   "escalated_to": null
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Marguerite Oyelaran",
+   "job": "Hail damage inspection and full roof replacement",
+   "channel": "sms",
+   "direction": "outbound",
+   "handled_by": "POD",
+   "occurred_at": "2026-07-14T09:00:00",
+   "duration_s": null,
+   "outcome": "handled",
+   "summary": "Appointment confirmation, day before.",
+   "escalated_to": null
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Dale Whitcomb",
+   "job": "Ridge vent replacement",
+   "channel": "phone",
+   "direction": "inbound",
+   "handled_by": "POD",
+   "occurred_at": "2026-07-19T20:12:00",
+   "duration_s": 178,
+   "outcome": "quoted",
+   "summary": "After-hours call. Quoted from the price book while still on the line.",
+   "escalated_to": null
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Priscilla Nam",
+   "job": "Gutter and fascia replacement",
+   "channel": "phone",
+   "direction": "inbound",
+   "handled_by": "POD",
+   "occurred_at": "2026-08-03T11:22:00",
+   "duration_s": 301,
+   "outcome": "booked",
+   "summary": "Referred by Marguerite Oyelaran. Referral credited to her account.",
+   "escalated_to": null
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "customer": "Gerald Fusco",
+   "job": "Roof inspection after wind event",
+   "channel": "phone",
+   "direction": "inbound",
+   "handled_by": "POD",
+   "occurred_at": "2026-08-11T13:05:00",
+   "duration_s": 96,
+   "outcome": "refused",
+   "summary": "Asked how we got his number and requested no further contact. Marked do-not-contact on the call.",
+   "escalated_to": null
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "customer": "Antonia Reyes-Karr",
+   "job": "Injectables consultation and first treatment",
+   "channel": "phone",
+   "direction": "inbound",
+   "handled_by": "POD",
+   "occurred_at": "2026-06-27T10:04:00",
+   "duration_s": 264,
+   "outcome": "booked",
+   "summary": "First-time enquiry from the Google listing. Booked a consultation.",
+   "escalated_to": null
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "customer": "Hollis Bramwell",
+   "job": "Course of three laser sessions",
+   "channel": "phone",
+   "direction": "inbound",
+   "handled_by": null,
+   "occurred_at": "2026-08-28T15:41:00",
+   "duration_s": 420,
+   "outcome": "escalated",
+   "summary": "Unhappy with the result of session two. Handed to the practice manager with the notes assembled.",
+   "escalated_to": "Dr. Rana Vasquez, practice manager"
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "customer": "Yusra Tannous",
+   "job": "Rebooked after no-show",
+   "channel": "sms",
+   "direction": "outbound",
+   "handled_by": "POD",
+   "occurred_at": "2026-08-30T09:15:00",
+   "duration_s": null,
+   "outcome": "booked",
+   "summary": "No-show recovery. Rebooked for the following week without a human touching it.",
+   "escalated_to": null
+  }
+ ],
+ "customer_invoices": [
+  {
+   "deployment": "Ridgeway Restoration",
+   "job": "Hail damage inspection and full roof replacement",
+   "external_id": "in_rw_0001",
+   "amount": 18400,
+   "deposit": 4600,
+   "issued_on": "2026-07-22",
+   "due_on": "2026-08-05",
+   "paid_on": "2026-07-29",
+   "status": "paid"
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "job": "Ridge vent replacement",
+   "external_id": "in_rw_0002",
+   "amount": 2250,
+   "deposit": 0,
+   "issued_on": "2026-07-24",
+   "due_on": "2026-08-07",
+   "paid_on": "2026-08-01",
+   "status": "paid"
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "job": "Gutter and fascia replacement",
+   "external_id": "in_rw_0003",
+   "amount": 4880,
+   "deposit": 1200,
+   "issued_on": "2026-08-20",
+   "due_on": "2026-09-03",
+   "paid_on": null,
+   "status": "issued"
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "job": "Injectables consultation and first treatment",
+   "external_id": "in_bc_0001",
+   "amount": 760,
+   "deposit": 100,
+   "issued_on": "2026-07-01",
+   "due_on": "2026-07-01",
+   "paid_on": "2026-07-01",
+   "status": "paid"
+  }
+ ],
+ "reviews": [
+  {
+   "deployment": "Ridgeway Restoration",
+   "job": "Hail damage inspection and full roof replacement",
+   "platform": "google",
+   "requested_on": "2026-07-29",
+   "left_on": "2026-07-30",
+   "rating": 5,
+   "status": "left"
+  },
+  {
+   "deployment": "Ridgeway Restoration",
+   "job": "Ridge vent replacement",
+   "platform": "google",
+   "requested_on": "2026-08-01",
+   "left_on": null,
+   "rating": null,
+   "status": "no response"
+  },
+  {
+   "deployment": "Bluecrest Aesthetics",
+   "job": "Injectables consultation and first treatment",
+   "platform": "google",
+   "requested_on": "2026-07-01",
+   "left_on": "2026-07-03",
+   "rating": 5,
+   "status": "left"
+  }
  ]
 };
 </script>
@@ -3120,6 +3487,35 @@ function frontOffice(){
       <h2 class="sec" style="margin-bottom:var(--space-3)">Deployed today</h2>
       <div class="cols">${deploys}</div>
     </div>
+    ${(() => {
+      const pods = DB.deployments.map(d => {
+        const cust = DB.customers.filter(c => c.deployment === d.client);
+        const jobs = DB.jobs.filter(j => j.deployment === d.client);
+        const ix = DB.customer_interactions.filter(i => i.deployment === d.client);
+        const won = sum(jobs.filter(j => ["done","invoiced","paid"].includes(j.status)), j => j.value || 0);
+        return {d, cust, jobs, ix, won,
+          booked:jobs.filter(j => ["booked","in progress","done","invoiced","paid"].includes(j.status)).length,
+          esc:ix.filter(i => i.outcome === "escalated").length};
+      }).filter(p => p.cust.length);
+      if (!pods.length) return "";
+      return `<h2 class="sec">What the pods did for their clients</h2>
+      <p class="note" style="margin-bottom:var(--space-3)">These are the <b>client’s customers</b> — the homeowner who called about hail damage, the patient who rebooked. Their data belongs to the client; Hero is the processor. One pod cannot read another’s list, which is enforced by row-level security rather than by a query remembering a filter.</p>
+      <div class="cols">${pods.map(p => `
+        <section class="panel"><div class="panel-body">
+          <div class="panel-head" style="padding:0 0 var(--space-2);border:0">
+            <div style="min-width:0"><b style="font-size:14.5px">${esc(p.d.client)}</b><br>
+              <span class="label">${esc(p.d.niche)}</span></div>
+            ${pill(p.esc ? "warn" : "good", p.esc ? nf.format(p.esc) + " escalated" : "none escalated")}
+          </div>
+          <div class="cols-3" style="margin-bottom:var(--space-2)">
+            ${stat(nf.format(p.cust.length), "Customers")}
+            ${stat(nf.format(p.booked) + "/" + nf.format(p.jobs.length), "Jobs booked")}
+            ${stat(cf.format(p.won), "Work won")}
+          </div>
+          <p class="note">${nf.format(p.ix.length)} logged interactions, ${nf.format(p.ix.filter(i => i.direction === "inbound").length)} of them inbound.</p>
+        </div></section>`).join("")}</div>`;
+    })()}
+
     <p class="note"><b>What this does not claim.</b> This is what is deployed and where, not what it earned. Calls recovered, jobs booked, receivables closed and reviews added are outcome measures, and they land here once four retainers have run long enough for the figures to mean something. A capability list is not a result.</p>
   </div>`;
 }
@@ -3466,6 +3862,11 @@ const TABLES = {
   partners:{rows:()=>DB.partners, pk:"id", note:"Partnership pipeline."},
   campaigns:{rows:()=>DB.campaigns, pk:"id", note:"Marketing campaigns and outcomes."},
   content:{rows:()=>DB.content, pk:"id", note:"Editorial calendar."},
+  customers:{rows:()=>DB.customers, pk:"name", note:"The CLIENT'S customers — their data, isolated per pod by row-level security."},
+  jobs:{rows:()=>DB.jobs, pk:"title", note:"What the client sells, one row per unit of work."},
+  customer_interactions:{rows:()=>DB.customer_interactions, pk:"occurred_at", note:"Every call, text and email the pod handled."},
+  customer_invoices:{rows:()=>DB.customer_invoices, pk:"external_id", note:"The client's invoice to their customer — not Hero's."},
+  reviews:{rows:()=>DB.reviews, pk:"job", note:"Asked at close; left or not."},
   payment_accounts:{rows:()=>DB.payment_accounts, pk:"external_id", note:"Merchant accounts. A client-owned row can never settle to Hero."},
   payments:{rows:()=>DB.payments, pk:"external_id", note:"Money that actually moved."},
   dunning_attempts:{rows:()=>DB.dunning_attempts, pk:"invoice", note:"Every rung of the ladder climbed, with its outcome."},

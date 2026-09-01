@@ -29,6 +29,11 @@ SEED = ROOT / "db" / "seed.json"
 # seed key -> live table name. Keys the seed carries that are not tables are skipped.
 TABLES = {
     "front_office": "front_office_capabilities",
+    "customers": "customers",
+    "jobs": "jobs",
+    "customer_interactions": "customer_interactions",
+    "customer_invoices": "customer_invoices",
+    "reviews": "reviews",
     "payment_accounts": "payment_accounts",
     "payments": "payments",
     "dunning_attempts": "dunning_attempts",
@@ -83,7 +88,11 @@ def from_postgres(key: str, where: str | None, limit: int | None) -> list[dict]:
         sql += f" WHERE {where}"          # operator-supplied; this is a local admin tool
     if limit:
         sql += f" LIMIT {int(limit)}"
+    TENANT_SCOPED = {"customers", "jobs", "customer_interactions", "customer_invoices", "reviews"}
     with psycopg.connect(os.environ["DATABASE_URL"]) as conn, conn.cursor() as cur:
+        if table in TENANT_SCOPED and os.environ.get("DEPLOYMENT_ID"):
+            # RLS fails closed: without a tenant these tables return nothing at all
+            cur.execute("SET app.deployment_id = %s", (os.environ["DEPLOYMENT_ID"],))
         cur.execute(sql)
         cols = [c.name for c in cur.description]
         return [{c: jsonable(v) for c, v in zip(cols, row)} for row in cur.fetchall()]

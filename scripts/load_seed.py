@@ -23,7 +23,8 @@ SEED = ROOT / "db" / "seed.json"
 slug = lambda s: re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 # Tables truncated by --truncate, children first.
-WIPE = ["dunning_attempts", "payments", "payment_events", "payment_accounts",
+WIPE = ["reviews", "customer_invoices", "customer_interactions", "jobs", "customers",
+        "dunning_attempts", "payments", "payment_events", "payment_accounts",
         "invoices", "retainers", "quote_lines", "quotes", "price_book",
         "deployment_capabilities", "deployments", "front_office_capabilities",
         "department_throughput", "funnel_snapshots", "agent_runs", "content_items",
@@ -286,7 +287,60 @@ def load(cur, seed):
                      d["attempted_at"], d["outcome"], d["note"]))
         one("dunning_attempts")
 
-    # 16. the registry, the reading list, the brain map
+    # 16. the client's customers — the third party the pod actually serves.
+    #     A pod agent reaches these through RLS; the loader runs as owner.
+    cust_id = {}
+    for c in seed["customers"]:
+        cur.execute("""insert into godly.customers (deployment_id, name, phone, email, address,
+                         arrived_via, consent_sms, consent_email, consent_recording,
+                         do_not_contact, first_seen)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
+                    (dep_id[c["deployment"]], c["name"], c["phone"], c["email"], c["address"],
+                     c["arrived_via"], c["consent_sms"], c["consent_email"], c["consent_recording"],
+                     c["do_not_contact"], c["first_seen"]))
+        cust_id[(c["deployment"], c["name"])] = cur.fetchone()[0]; one("customers")
+    for c in seed["customers"]:                       # referrals resolve after every row exists
+        if c["referred_by"]:
+            cur.execute("update godly.customers set referred_by = %s where id = %s",
+                        (cust_id[(c["deployment"], c["referred_by"])], cust_id[(c["deployment"], c["name"])]))
+
+    job_id = {}
+    for j in seed["jobs"]:
+        cur.execute("""insert into godly.jobs (deployment_id, customer_id, title, service_type,
+                         status, value, scheduled_for, completed_on, booked_by, lost_reason)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
+                    (dep_id[j["deployment"]], cust_id[(j["deployment"], j["customer"])], j["title"],
+                     j["service_type"], j["status"], j["value"], j["scheduled_for"], j["completed_on"],
+                     None if j["booked_by"] == "POD" else j["booked_by"], j["lost_reason"]))
+        job_id[(j["deployment"], j["title"])] = cur.fetchone()[0]; one("jobs")
+
+    for i in seed["customer_interactions"]:
+        cur.execute("""insert into godly.customer_interactions (deployment_id, customer_id, job_id,
+                         channel, direction, handled_by, occurred_at, duration_s, outcome, summary, escalated_to)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                    (dep_id[i["deployment"]], cust_id[(i["deployment"], i["customer"])],
+                     job_id.get((i["deployment"], i["job"])), i["channel"], i["direction"],
+                     None if i["handled_by"] == "POD" else i["handled_by"], i["occurred_at"],
+                     i["duration_s"], i["outcome"], i["summary"], i["escalated_to"]))
+        one("customer_interactions")
+
+    for ci in seed["customer_invoices"]:
+        cur.execute("""insert into godly.customer_invoices (deployment_id, job_id, external_id,
+                         amount, deposit, issued_on, due_on, paid_on, status)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                    (dep_id[ci["deployment"]], job_id[(ci["deployment"], ci["job"])], ci["external_id"],
+                     ci["amount"], ci["deposit"], ci["issued_on"], ci["due_on"], ci["paid_on"], ci["status"]))
+        one("customer_invoices")
+
+    for r in seed["reviews"]:
+        cur.execute("""insert into godly.reviews (deployment_id, job_id, platform, requested_on,
+                         left_on, rating, status)
+                       values (%s,%s,%s,%s,%s,%s,%s) on conflict do nothing""",
+                    (dep_id[r["deployment"]], job_id[(r["deployment"], r["job"])], r["platform"],
+                     r["requested_on"], r["left_on"], r["rating"], r["status"]))
+        one("reviews")
+
+    # 17. the registry, the reading list, the brain map
     for k in seed["api_keys"]:
         cur.execute("""insert into godly.integrations (ref, service, purpose, env_var, host,
                          status, used, quota, unit)

@@ -10,7 +10,9 @@ Building them on one integration is the expensive mistake.
 **Flow A — Hero gets paid.** Retainers, setup fees, overage. Hero is the
 merchant of record. Money moves client → Hero. This is ordinary SaaS billing.
 
-**Flow B — the client gets paid.** The `FO-06 Payment` capability we sell:
+**Flow B — the client gets paid.** The `FO-06 Payment` capability we sell
+(the customer, the job and the invoice all live in the tables added by
+migration 0006, isolated per client):
 the agent takes a deposit, sends the invoice, and chases the balance from *the
 client's own customers*. Money moves homeowner → roofing company. Hero is not
 in that chain and must not be.

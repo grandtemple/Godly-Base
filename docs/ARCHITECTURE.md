@@ -3,6 +3,37 @@
 An AI company that reads as a book. One human seat, seven chiefs, seven
 supervisors, twenty-one agents, one database, one brain.
 
+## Three parties, and the words for them
+
+Every table, every agent charter and every piece of copy uses these words and
+only these words. Getting them mixed up is how a client's customer ends up in a
+Hero prospecting list.
+
+| Word | Who | Where they live |
+|---|---|---|
+| **Hero** | us | the whole of this repository |
+| **The client** | the business owner who buys a pod | `godly.accounts`, and `godly.contacts` for the people at that business |
+| **The customer** | the client's customer — whoever buys their roof, their facial, their service call | `godly.customers`, scoped to one pod |
+
+`contacts` is Hero's prospects. `customers` is the client's. They are different
+tables on purpose, and nothing should ever move a row between them.
+
+### The customer data is not Hero's
+
+Hero is the processor. The client is the controller. Practically:
+
+- **Isolation is enforced by the database.** The five customer tables carry
+  row-level security keyed on `deployment_id`, FORCED so the table owner is
+  subject to it too. A pod with no tenant set reads zero rows — it fails closed.
+- **Export and deletion are the client's call**, and `scripts/extract.py` will
+  produce their data on request in CSV or JSON.
+- **Consent is enforced by a trigger**, not a prompt. An agent that dials and
+  texts consumers is inside TCPA; do-not-contact and per-channel consent are
+  checked on insert, because an agent can be argued out of an instruction and
+  cannot be argued out of a constraint.
+- **Nothing is pooled across clients.** One client's customer list never trains,
+  informs or seeds anything for another, and there is no table where it could.
+
 ## The four layers
 
 | Layer | What it is | Where it runs |
