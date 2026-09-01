@@ -1,33 +1,75 @@
-# Godly-Base
+# Godly Base
 
-A multi-agent feature pipeline for Claude Code: a `/ship` command chains four
-specialist subagents — Planner, Coder, Tester, Reviewer — each handing off
-work to the next via files in `.pipeline/`.
-
-## How it works
-
-1. **Planner** (`opus`) reads the codebase and turns your feature request into
-   a spec at `.pipeline/spec.md`. It writes no code. Ambiguities are flagged
-   as `OPEN QUESTION`s instead of guessed at.
-2. **Coder** (`sonnet`) implements exactly what the spec describes and
-   summarizes the changes at `.pipeline/changes.md`.
-3. **Tester** (`sonnet`) writes and runs tests based on the changes and spec,
-   recording the outcome at `.pipeline/test-results.md`. It does not fix
-   failing code — a failure pauses the pipeline.
-4. **Reviewer** (`opus`, read-only) reads the spec, changes, diff, and test
-   results, then writes a verdict — `SHIP`, `NEEDS WORK`, or `BLOCK` — to
-   `.pipeline/review.md`.
-
-The pipeline never merges anything. It stops after the Reviewer's verdict and
-leaves the branch for you to review.
-
-## Usage
+An AI company bound as a book. The interface is a codex: the left page carries
+the wording, the right page carries the working instrument, and every number on
+both comes out of one database you can open, filter, sort, and take with you.
 
 ```
-/ship add rate limiting to the login endpoint
+web/godly-codex.html     the codex — 9 leaves, opens in any browser
+db/schema.sql            Postgres schema for every data point we keep
+db/seed.json             the rows the codex ships with
+config/agents.yaml       the roster: 7 chiefs, 7 supervisors, 21 paired agents
+config/.env.example      the nerve — key names only, never values
+scripts/extract.py       CSV/JSON extraction from live Postgres or the seed
+docs/ARCHITECTURE.md     chain of command, memory rules, guardrails
+docs/RESEARCH-INDEX.md   40 linked sources, each with a verdict
 ```
 
-Agent definitions live in `.claude/agents/`; the orchestrator command lives at
-`.claude/commands/ship.md`. The `.pipeline/` handoff folder is created at
-runtime and is git-ignored — clear it between runs so agents don't read stale
-output from a previous feature.
+## The leaves
+
+| | Chapter | What it holds |
+|---|---|---|
+| — | Frontispiece | Vitals, agent throughput, today's run ledger |
+| I | The House | Org chart: CEO → chief → supervisor → paired agents |
+| II | Book of Accounts | Sales pipeline, deal marginalia, account file |
+| III | Book of Signals | Marketing funnel, campaigns, editorial calendar |
+| IV | Book of Alliances | Partnership pipeline and program tiers |
+| V | The Vault | All twelve tables — filter, sort, extract as CSV or JSON |
+| VI | The Nerve | Integration registry, credit meters, local cloud |
+| VII | The Appendix | The research index with live links and verdicts |
+| VIII | The Brain | Obsidian/Drive routing, decision records, room to grow |
+
+Chapter tabs run down the spine; `←` and `→` turn leaves.
+
+## Running it
+
+The codex is a single file with no build step and no dependencies:
+
+```bash
+open web/godly-codex.html        # or: python3 -m http.server && visit /web/
+```
+
+The database and the extraction tool:
+
+```bash
+psql "$DATABASE_URL" -f db/schema.sql
+python scripts/extract.py --list
+python scripts/extract.py --table deals --format csv --out exports/
+```
+
+With `DATABASE_URL` set, `extract.py` reads live Postgres; without it, the
+committed seed. Either way the columns and order match what the Vault shows.
+
+## The rules that shape it
+
+- **Every agent is paired.** An output no counterpart has seen is a draft.
+- **Two memories.** Postgres holds what happened; the Obsidian vault holds what
+  it meant, in one decision-record format with a reversal condition.
+- **The local cloud holds the record.** Postgres, CRM, crawler, scheduler, and
+  brain run on our own hardware. Rented services are metered and pausable.
+- **No secrets in data.** The integrations table holds env var *names* and burn.
+- **BBB and TruePeopleSearch stay manual**, LinkedIn goes through a compliant
+  API, and sending reputation outranks send volume.
+
+Details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md); the stack shopping list
+with verdicts is in [docs/RESEARCH-INDEX.md](docs/RESEARCH-INDEX.md).
+
+---
+
+### Also in this repository
+
+A four-stage feature pipeline for Claude Code — Planner → Coder → Tester →
+Reviewer, chained by `/ship` and handing off through files in `.pipeline/`.
+Agent definitions live in `.claude/agents/`, the orchestrator in
+`.claude/commands/ship.md`. The pipeline never merges; it stops at the
+Reviewer's verdict.

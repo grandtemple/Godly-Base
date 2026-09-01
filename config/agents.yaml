@@ -1,0 +1,116 @@
+# Godly Base — org registry. The codex reads this shape; so do the runtimes.
+# Chain: agent → supervisor → chief → CEO. Every agent names a duo partner.
+
+principal:
+  name: Joshua Grand
+  role: CEO / Principal (human)
+  reads: seven supervisor briefs daily; never raw runs
+
+defaults:
+  model: claude-opus-5          # supervisors and chiefs
+  worker_model: claude-sonnet-5 # per-task agents
+  memory_root: /brain
+  db: postgresql://localhost:5432/godly
+  escalation:
+    to_supervisor: any run marked warn|review|failed
+    to_chief: two consecutive failed runs, or spend > $50/day unplanned
+    to_ceo: contract terms, new niche, spend > $500/mo unplanned
+
+departments:
+  - code: CSO
+    title: Chief Sales Officer
+    chief: Ledger
+    charter: Owns revenue — outbound, inbound, proposals, close.
+    supervisor: {id: SUP-SALES, name: Ledger Prime, cadence: hourly sweep; 18:00 brief}
+    agents:
+      - {id: AG-SALES-01, name: Outbound Prospector, duo: AG-SALES-03,
+         tools: [apollo, clay, hunter, instantly, unipile, twenty],
+         daily: [build target list from niche ICP, verify at send time, run sequence steps, log replies]}
+      - {id: AG-SALES-02, name: Proposal Architect, duo: AG-FIN-01,
+         tools: [drive, obsidian, twenty, anthropic],
+         daily: [read account file + niche playbook, draft custom proposal, price with AG-FIN-01, file to Drive]}
+      - {id: AG-SALES-03, name: Inbound & Qualifier, duo: AG-SALES-01,
+         tools: [gmail, calendar, twenty, hunter],
+         daily: [answer inbound within 15 min, verify decision authority, book meeting, write account note]}
+
+  - code: CMO
+    title: Chief Marketing Officer
+    chief: Herald
+    charter: Owns demand — campaigns, funnel, channels, brand.
+    supervisor: {id: SUP-MKT, name: Herald Prime, cadence: twice daily}
+    agents:
+      - {id: AG-MKT-01, name: Campaign Operator, duo: AG-MKT-03,
+         tools: [listmonk, instantly, mautic, n8n], daily: [warm domains, run sends, A/B subject lines, watch bounce rate]}
+      - {id: AG-MKT-02, name: Social Publisher, duo: AG-CNT-01,
+         tools: [postiz, unipile], daily: [schedule per-network variants, engage replies, report reach]}
+      - {id: AG-MKT-03, name: Funnel Analyst, duo: AG-MKT-01,
+         tools: [postgres, plausible], daily: [stage conversion, attribution, kill or scale recommendation]}
+
+  - code: CBDO
+    title: Chief Business Development Officer
+    chief: Bridge
+    charter: Owns partnerships — referral, channel, reseller, alliances.
+    supervisor: {id: SUP-BD, name: Bridge Prime, cadence: daily; weekly partner council}
+    agents:
+      - {id: AG-BD-01, name: Partner Scout, duo: AG-RES-01,
+         tools: [crawl4ai, firecrawl, apollo], daily: [find associations and consortiums per niche, score fit]}
+      - {id: AG-BD-02, name: Alliance Manager, duo: AG-BD-03,
+         tools: [twenty, gmail, calendar], daily: [advance partner stages, track intros, enforce tier criteria]}
+      - {id: AG-BD-03, name: Program Designer, duo: AG-BD-02,
+         tools: [obsidian, drive], daily: [tier design, enablement kits, co-marketing calendar]}
+
+  - code: CTO
+    title: Chief Technology Officer
+    chief: Forge
+    charter: Owns the machine — integrations, pipelines, uptime.
+    supervisor: {id: SUP-DEV, name: Forge Prime, cadence: continuous}
+    agents:
+      - {id: AG-DEV-01, name: Integration Engineer, duo: AG-DEV-02,
+         tools: [github, n8n, mcp], daily: [wire keys and webhooks, add MCP servers, write connector tests]}
+      - {id: AG-DEV-02, name: Reliability Warden, duo: AG-DEV-01,
+         tools: [postgres, n8n, alerts], daily: [watch job queue, retry, respect rate limits, verify backups]}
+      - {id: AG-DEV-03, name: Automation Builder, duo: AG-MKT-01,
+         tools: [n8n, flowise, langgraph], daily: [build and version end-to-end workflows]}
+
+  - code: CIO
+    title: Chief Intelligence Officer
+    chief: Scriven
+    charter: Owns knowledge — research, scraping, verification, memory.
+    supervisor: {id: SUP-RES, name: Scriven Prime, cadence: daily digest; weekly market report}
+    agents:
+      - {id: AG-RES-01, name: Market Scraper, duo: AG-RES-02,
+         tools: [crawl4ai, firecrawl, scrapling, browser-use],
+         daily: [crawl niche directories, structure rows, dedupe against accounts]}
+      - {id: AG-RES-02, name: Ownership Verifier, duo: AG-RES-01,
+         tools: [hunter, apollo, bbb-manual, tps-manual],
+         daily: [corroborate owner across two independent sources, queue manual checks, never bulk-harvest]}
+      - {id: AG-RES-03, name: Competitive Analyst, duo: AG-FIN-03,
+         tools: [firecrawl, anthropic, obsidian], daily: [track rival pricing and positioning per niche]}
+
+  - code: CCO
+    title: Chief Content Officer
+    chief: Quill
+    charter: Owns the voice — long-form, video, sequences, case studies.
+    supervisor: {id: SUP-CNT, name: Quill Prime, cadence: daily editorial stand-up}
+    agents:
+      - {id: AG-CNT-01, name: Long-form Writer, duo: AG-CNT-02, tools: [anthropic, obsidian, drive]}
+      - {id: AG-CNT-02, name: Editor & Fact-checker, duo: AG-CNT-01, tools: [anthropic, websearch],
+         rule: nothing publishes without a source for every claim}
+      - {id: AG-CNT-03, name: Media Producer, duo: AG-MKT-02, tools: [heygen, canva-api, drive]}
+
+  - code: CFO
+    title: Chief Financial Officer
+    chief: Tally
+    charter: Owns the money — unit economics, credits, forecast.
+    supervisor: {id: SUP-FIN, name: Tally Prime, cadence: daily spend check; weekly P&L}
+    agents:
+      - {id: AG-FIN-01, name: Unit Economics, duo: AG-SALES-02, tools: [postgres, sheets],
+         rule: no proposal ships below floor margin without CEO sign-off}
+      - {id: AG-FIN-02, name: Credit Warden, duo: AG-DEV-02, tools: [postgres, provider-apis],
+         rule: pause the consuming agent at 90% of any monthly allowance and file a warn run}
+      - {id: AG-FIN-03, name: Forecast Analyst, duo: AG-RES-03, tools: [postgres],
+         daily: [weighted pipeline forecast, capacity check before partner tier moves]}
+
+growth_rule: >
+  A department earns a fourth agent only by showing a queue its three cannot clear
+  for two consecutive weeks. Pairs are added before departments; departments before tiers.
