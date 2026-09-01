@@ -3,133 +3,211 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
 <style>
 /* ============================================================
-   HERO CAPITAL OS — token layer
-   primitive → semantic → component. Nothing below the token
-   block uses a raw color value.
+   HERO CAPITAL OS — tokens
+   Generated from design-system/tokens.json by tools/build-tokens.js.
+   Do not edit here; edit the JSON and rebuild.
+   primitive → semantic → component. Nothing below this block
+   uses a raw color value.
    ============================================================ */
 :root{
   color-scheme: light dark;
 
-  /* ---- primitive ---------------------------------------- */
-  --green-900:#0A1712; --green-800:#123026; --green-700:#1B4034;
-  --green-600:#226444; --green-500:#0F9280; --green-400:#189E8B;
-  --sage-100:#EEF0EA; --sage-50:#F7F8F4;  --sage-200:#E4E8DF;
-  --sage-300:#CBD2C8; --sage-250:#DDE2D8;
-  --slate-900:#16211C; --slate-700:#4A5A52; --slate-500:#5A6760;
-  --slate-300:#828F87; --slate-200:#9AA79E; --slate-100:#E3E8E0;
-  --night-900:#0B100D; --night-800:#101512; --night-700:#161C18;
-  --night-600:#1D2622; --night-500:#28322C;
-  --amber-700:#71540F; --amber-600:#9A7218; --amber-500:#C79A2A; --amber-400:#D8AE55;
-  --blue-600:#3A62A8;  --blue-400:#6690DE;
-  --gold-600:#9C7010;  --gold-400:#B08820;
-  --rust-600:#A33327;  --rust-400:#D5675A;
-  --clay-600:#8E4D0E;  --clay-400:#C98A33;
+  /* ---- primitive ---- */
+  --primitive-color-green-300: #4EA277;
+  --primitive-color-green-400: #189E8B;
+  --primitive-color-green-500: #0F9280;
+  --primitive-color-green-600: #226444;
+  --primitive-color-green-700: #1B4034;
+  --primitive-color-green-800: #123026;
+  --primitive-color-green-900: #0A1712;
+  --primitive-color-sage-50: #F7F8F4;
+  --primitive-color-sage-100: #EEF0EA;
+  --primitive-color-sage-200: #E4E8DF;
+  --primitive-color-sage-250: #DDE2D8;
+  --primitive-color-sage-300: #CBD2C8;
+  --primitive-color-slate-100: #E3E8E0;
+  --primitive-color-slate-200: #9AA79E;
+  --primitive-color-slate-300: #828F87;
+  --primitive-color-slate-500: #5A6760;
+  --primitive-color-slate-700: #4A5A52;
+  --primitive-color-slate-900: #16211C;
+  --primitive-color-night-450: #1E2721;
+  --primitive-color-night-500: #28322C;
+  --primitive-color-night-600: #1D2622;
+  --primitive-color-night-700: #161C18;
+  --primitive-color-night-800: #101512;
+  --primitive-color-night-850: #060F0B;
+  --primitive-color-night-900: #0B100D;
+  --primitive-color-amber-300: #E8C777;
+  --primitive-color-amber-400: #D8AE55;
+  --primitive-color-amber-500: #C79A2A;
+  --primitive-color-amber-600: #9A7218;
+  --primitive-color-amber-700: #71540F;
+  --primitive-color-blue-400: #6690DE;
+  --primitive-color-blue-600: #3A62A8;
+  --primitive-color-gold-400: #B08820;
+  --primitive-color-gold-600: #9C7010;
+  --primitive-color-rust-400: #D5675A;
+  --primitive-color-rust-600: #A33327;
+  --primitive-color-clay-400: #C98A33;
+  --primitive-color-clay-600: #8E4D0E;
+  --primitive-color-chrome-fg: #DCE6DE;
+  --primitive-color-chrome-fg-muted: #8FA79A;
+  --primitive-color-nav-fg: #C6D3CA;
+  --primitive-color-nav-fg-active: #F2E7CC;
+  --primitive-space-1: 4px;
+  --primitive-space-2: 8px;
+  --primitive-space-3: 12px;
+  --primitive-space-4: 16px;
+  --primitive-space-5: 20px;
+  --primitive-space-6: 24px;
+  --primitive-space-8: 32px;
+  --primitive-space-10: 40px;
+  --primitive-radius-sm: 3px;
+  --primitive-radius-md: 5px;
+  --primitive-radius-lg: 8px;
+  --primitive-text-xs: 11px;
+  --primitive-text-sm: 12.5px;
+  --primitive-text-md: 14px;
+  --primitive-text-lg: 16px;
+  --primitive-text-xl: 20px;
+  --primitive-text-2xl: 26px;
+  --primitive-text-3xl: 34px;
+  --primitive-font-ui: 'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --primitive-font-mono: 'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --primitive-font-display: 'IBM Plex Sans Condensed','IBM Plex Sans',system-ui,sans-serif;
+  --primitive-duration-fast: 110ms;
+  --primitive-duration-base: 180ms;
+  --primitive-ease-standard: cubic-bezier(.2,.6,.3,1);
 
-  /* ---- semantic (light) --------------------------------- */
-  --bg-app:var(--sage-200);
-  --bg-surface:var(--sage-100);
-  --bg-raised:var(--sage-50);
-  --bg-chrome:var(--green-800);
-  --bg-chrome-deep:var(--green-900);
-  --bg-hover:rgba(18,48,38,.055);
-  --bg-selected:rgba(58,98,168,.10);
+  /* ---- semantic ---- */
+  --bg-app: var(--primitive-color-sage-200);
+  --bg-surface: var(--primitive-color-sage-100);
+  --bg-raised: var(--primitive-color-sage-50);
+  --bg-chrome: var(--primitive-color-green-800);
+  --bg-chrome-deep: var(--primitive-color-green-900);
+  --fg-primary: var(--primitive-color-slate-900);
+  --fg-secondary: var(--primitive-color-slate-700);
+  --fg-muted: var(--primitive-color-slate-500);
+  --fg-on-chrome: var(--primitive-color-chrome-fg);
+  --fg-on-chrome-muted: var(--primitive-color-chrome-fg-muted);
+  --border: var(--primitive-color-sage-300);
+  --border-soft: var(--primitive-color-sage-250);
+  --accent: var(--primitive-color-amber-600);
+  --accent-ink: var(--primitive-color-amber-700);
+  --accent-bright: var(--primitive-color-amber-500);
+  --status-good: var(--primitive-color-green-600);
+  --status-info: var(--primitive-color-blue-600);
+  --status-warn: var(--primitive-color-clay-600);
+  --status-critical: var(--primitive-color-rust-600);
+  --status-idle: var(--primitive-color-slate-500);
+  --series-1: var(--primitive-color-blue-600);
+  --series-2: var(--primitive-color-gold-600);
+  --series-3: var(--primitive-color-green-500);
+  --bg-hover: rgba(18,48,38,.055);
+  --bg-selected: rgba(58,98,168,.10);
+  --shadow-panel: 0 1px 0 rgba(18,48,38,.04), 0 10px 24px -20px rgba(18,48,38,.45);
+  --shadow-overlay: 0 24px 60px -28px rgba(10,23,18,.6);
+  --space-1: var(--primitive-space-1);
+  --space-2: var(--primitive-space-2);
+  --space-3: var(--primitive-space-3);
+  --space-4: var(--primitive-space-4);
+  --space-5: var(--primitive-space-5);
+  --space-6: var(--primitive-space-6);
+  --space-8: var(--primitive-space-8);
+  --space-10: var(--primitive-space-10);
+  --radius-sm: var(--primitive-radius-sm);
+  --radius-md: var(--primitive-radius-md);
+  --radius-lg: var(--primitive-radius-lg);
+  --text-xs: var(--primitive-text-xs);
+  --text-sm: var(--primitive-text-sm);
+  --text-md: var(--primitive-text-md);
+  --text-lg: var(--primitive-text-lg);
+  --text-xl: var(--primitive-text-xl);
+  --text-2xl: var(--primitive-text-2xl);
+  --text-3xl: var(--primitive-text-3xl);
+  --font-ui: var(--primitive-font-ui);
+  --font-mono: var(--primitive-font-mono);
+  --font-display: var(--primitive-font-display);
+  --dur-fast: var(--primitive-duration-fast);
+  --dur-base: var(--primitive-duration-base);
+  --ease: var(--primitive-ease-standard);
 
-  --fg-primary:var(--slate-900);
-  --fg-secondary:var(--slate-700);
-  --fg-muted:var(--slate-500);
-  --fg-on-chrome:#DCE6DE;
-  --fg-on-chrome-muted:#8FA79A;
-
-  --border:var(--sage-300);
-  --border-soft:var(--sage-250);
-
-  --accent:var(--amber-600);
-  --accent-ink:var(--amber-700);
-  --accent-bright:var(--amber-500);
-
-  --status-good:var(--green-600);
-  --status-info:var(--blue-600);
-  --status-warn:var(--clay-600);
-  --status-critical:var(--rust-600);
-  --status-idle:var(--slate-500);
-
-  --series-1:var(--blue-600); --series-2:var(--gold-600); --series-3:var(--green-500);
-
-  --shadow-panel:0 1px 0 rgba(18,48,38,.04), 0 10px 24px -20px rgba(18,48,38,.45);
-  --shadow-overlay:0 24px 60px -28px rgba(10,23,18,.6);
-
-  /* ---- scales ------------------------------------------- */
-  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
-  --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px;
-  --radius-sm:3px; --radius-md:5px; --radius-lg:8px;
-  --text-xs:11px; --text-sm:12.5px; --text-md:14px; --text-lg:16px;
-  --text-xl:20px; --text-2xl:26px; --text-3xl:34px;
-  --font-ui:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
-  --font-display:'IBM Plex Sans Condensed','IBM Plex Sans',system-ui,sans-serif;
-  --dur-fast:110ms; --dur-base:180ms; --ease:cubic-bezier(.2,.6,.3,1);
-
-  /* ---- component ---------------------------------------- */
-  --rail-width:236px;
-  --topbar-height:52px;
-  --panel-bg:var(--bg-surface);
-  --panel-border:var(--border);
-  --nav-item-fg:#C6D3CA;
-  --nav-item-fg-active:#F2E7CC;
-  --nav-item-bg-active:rgba(199,154,42,.15);
-  --field-bg:var(--bg-raised);
-  --table-header-bg:var(--bg-surface);
-  --meter-track:var(--border-soft);
+  /* ---- component ---- */
+  --rail-width: 236px;
+  --topbar-height: 52px;
+  --panel-bg: var(--bg-surface);
+  --panel-border: var(--border);
+  --nav-item-fg: var(--primitive-color-nav-fg);
+  --nav-item-fg-active: var(--primitive-color-nav-fg-active);
+  --field-bg: var(--bg-raised);
+  --table-header-bg: var(--bg-surface);
+  --meter-track: var(--border-soft);
+  --quote-accent: var(--accent);
+  --invoice-paid: var(--status-good);
+  --invoice-due: var(--status-info);
+  --invoice-late: var(--status-critical);
+  --nav-item-bg-active: rgba(199,154,42,.15);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg-app:var(--night-900);
-    --bg-surface:var(--night-800);
-    --bg-raised:var(--night-700);
-    --bg-chrome:var(--green-900);
-    --bg-chrome-deep:#060F0B;
-    --bg-hover:rgba(255,255,255,.045);
-    --bg-selected:rgba(102,144,222,.16);
-    --fg-primary:var(--slate-100);
-    --fg-secondary:var(--slate-200);
-    --fg-muted:var(--slate-300);
-    --border:var(--night-500);
-    --border-soft:#1E2721;
-    --accent:var(--amber-400);
-    --accent-ink:var(--amber-400);
-    --accent-bright:#E8C777;
-    --status-good:#4EA277; --status-info:var(--blue-400);
-    --status-warn:var(--clay-400); --status-critical:var(--rust-400);
-    --status-idle:var(--slate-300);
-    --series-1:var(--blue-400); --series-2:var(--gold-400); --series-3:var(--green-400);
-    --shadow-panel:0 1px 0 rgba(0,0,0,.4), 0 12px 28px -22px #000;
-    --shadow-overlay:0 24px 60px -24px #000;
-    --meter-track:var(--night-600);
+    --bg-app: var(--primitive-color-night-900);
+    --bg-surface: var(--primitive-color-night-800);
+    --bg-raised: var(--primitive-color-night-700);
+    --bg-chrome: var(--primitive-color-green-900);
+    --bg-chrome-deep: var(--primitive-color-night-850);
+    --fg-primary: var(--primitive-color-slate-100);
+    --fg-secondary: var(--primitive-color-slate-200);
+    --fg-muted: var(--primitive-color-slate-300);
+    --fg-on-chrome: var(--primitive-color-chrome-fg);
+    --fg-on-chrome-muted: var(--primitive-color-chrome-fg-muted);
+    --border: var(--primitive-color-night-500);
+    --border-soft: var(--primitive-color-night-450);
+    --accent: var(--primitive-color-amber-400);
+    --accent-ink: var(--primitive-color-amber-400);
+    --accent-bright: var(--primitive-color-amber-300);
+    --status-good: var(--primitive-color-green-300);
+    --status-info: var(--primitive-color-blue-400);
+    --status-warn: var(--primitive-color-clay-400);
+    --status-critical: var(--primitive-color-rust-400);
+    --status-idle: var(--primitive-color-slate-300);
+    --series-1: var(--primitive-color-blue-400);
+    --series-2: var(--primitive-color-gold-400);
+    --series-3: var(--primitive-color-green-400);
+    --bg-hover: rgba(255,255,255,.045);
+    --bg-selected: rgba(102,144,222,.16);
+    --shadow-panel: 0 1px 0 rgba(0,0,0,.4), 0 12px 28px -22px #000;
+    --shadow-overlay: 0 24px 60px -24px #000;
   }
 }
 :root[data-theme="dark"]{
-  --bg-app:var(--night-900);
-  --bg-surface:var(--night-800);
-  --bg-raised:var(--night-700);
-  --bg-chrome:var(--green-900);
-  --bg-chrome-deep:#060F0B;
-  --bg-hover:rgba(255,255,255,.045);
-  --bg-selected:rgba(102,144,222,.16);
-  --fg-primary:var(--slate-100);
-  --fg-secondary:var(--slate-200);
-  --fg-muted:var(--slate-300);
-  --border:var(--night-500);
-  --border-soft:#1E2721;
-  --accent:var(--amber-400);
-  --accent-ink:var(--amber-400);
-  --accent-bright:#E8C777;
-  --status-good:#4EA277; --status-info:var(--blue-400);
-  --status-warn:var(--clay-400); --status-critical:var(--rust-400);
-  --status-idle:var(--slate-300);
-  --series-1:var(--blue-400); --series-2:var(--gold-400); --series-3:var(--green-400);
-  --shadow-panel:0 1px 0 rgba(0,0,0,.4), 0 12px 28px -22px #000;
-  --shadow-overlay:0 24px 60px -24px #000;
-  --meter-track:var(--night-600);
+  --bg-app: var(--primitive-color-night-900);
+  --bg-surface: var(--primitive-color-night-800);
+  --bg-raised: var(--primitive-color-night-700);
+  --bg-chrome: var(--primitive-color-green-900);
+  --bg-chrome-deep: var(--primitive-color-night-850);
+  --fg-primary: var(--primitive-color-slate-100);
+  --fg-secondary: var(--primitive-color-slate-200);
+  --fg-muted: var(--primitive-color-slate-300);
+  --fg-on-chrome: var(--primitive-color-chrome-fg);
+  --fg-on-chrome-muted: var(--primitive-color-chrome-fg-muted);
+  --border: var(--primitive-color-night-500);
+  --border-soft: var(--primitive-color-night-450);
+  --accent: var(--primitive-color-amber-400);
+  --accent-ink: var(--primitive-color-amber-400);
+  --accent-bright: var(--primitive-color-amber-300);
+  --status-good: var(--primitive-color-green-300);
+  --status-info: var(--primitive-color-blue-400);
+  --status-warn: var(--primitive-color-clay-400);
+  --status-critical: var(--primitive-color-rust-400);
+  --status-idle: var(--primitive-color-slate-300);
+  --series-1: var(--primitive-color-blue-400);
+  --series-2: var(--primitive-color-gold-400);
+  --series-3: var(--primitive-color-green-400);
+  --bg-hover: rgba(255,255,255,.045);
+  --bg-selected: rgba(102,144,222,.16);
+  --shadow-panel: 0 1px 0 rgba(0,0,0,.4), 0 12px 28px -22px #000;
+  --shadow-overlay: 0 24px 60px -24px #000;
 }
 </style>
 <style>
@@ -2369,7 +2447,327 @@ const DB = {
     ]
    }
   ]
- }
+ },
+ "price_book": [
+  {
+   "code": "POD-CORE",
+   "name": "Front office pod — core",
+   "capability": null,
+   "billing": "monthly",
+   "list": 2400,
+   "unit": "month",
+   "cost": 540,
+   "floor": 1800,
+   "notes": "Inbound call, inbox, booking. The three that pay for themselves first."
+  },
+  {
+   "code": "POD-SETUP",
+   "name": "Configuration and go-live",
+   "capability": null,
+   "billing": "one-time",
+   "list": 4500,
+   "unit": "each",
+   "cost": 1600,
+   "floor": 3000,
+   "notes": "Vocabulary, price book, crew capacity, escalation rules. Two weeks."
+  },
+  {
+   "code": "CAP-QUOTE",
+   "name": "Quote and estimate",
+   "capability": "FO-05",
+   "billing": "monthly",
+   "list": 600,
+   "unit": "month",
+   "cost": 140,
+   "floor": 450,
+   "notes": "Requires the client's price book in a readable form."
+  },
+  {
+   "code": "CAP-PAY",
+   "name": "Payment and collections",
+   "capability": "FO-06",
+   "billing": "monthly",
+   "list": 700,
+   "unit": "month",
+   "cost": 180,
+   "floor": 525,
+   "notes": "Deposit, invoice, chase. Priced against receivables recovered."
+  },
+  {
+   "code": "CAP-REVIEW",
+   "name": "Review and referral engine",
+   "capability": "FO-07",
+   "billing": "monthly",
+   "list": 450,
+   "unit": "month",
+   "cost": 90,
+   "floor": 340,
+   "notes": "Google review at close plus referral follow-up."
+  },
+  {
+   "code": "CAP-OUTBOUND",
+   "name": "Outbound and win-back",
+   "capability": "FO-02",
+   "billing": "monthly",
+   "list": 800,
+   "unit": "month",
+   "cost": 260,
+   "floor": 600,
+   "notes": "Callbacks, reschedules, quiet-quote win-back."
+  },
+  {
+   "code": "CAP-CUSTOM",
+   "name": "Trade-specific work",
+   "capability": "FO-09",
+   "billing": "monthly",
+   "list": 900,
+   "unit": "month",
+   "cost": 300,
+   "floor": 650,
+   "notes": "Scoped per client. Anything with a trigger, a script, and a moment."
+  },
+  {
+   "code": "OVER-MIN",
+   "name": "Call minutes over plan",
+   "capability": "FO-01",
+   "billing": "usage",
+   "list": 0.35,
+   "unit": "minute",
+   "cost": 0.11,
+   "floor": 0.22,
+   "notes": "Plan includes 2,000 minutes. Storm months run over; this is why."
+  }
+ ],
+ "quotes": [
+  {
+   "ref": "QTE-1044",
+   "account": "Keystone Mechanical Group",
+   "deal": "DEAL-901",
+   "status": "sent",
+   "term_months": 12,
+   "sent_on": "2026-08-29",
+   "decided_on": null,
+   "prepared_by": "AG-SALES-02",
+   "priced_by": "AG-FIN-01",
+   "ceo_override": false,
+   "lines": [
+    {
+     "code": "POD-SETUP",
+     "qty": 1,
+     "price": 4500
+    },
+    {
+     "code": "POD-CORE",
+     "qty": 1,
+     "price": 2400
+    },
+    {
+     "code": "CAP-QUOTE",
+     "qty": 1,
+     "price": 600
+    },
+    {
+     "code": "CAP-CUSTOM",
+     "qty": 1,
+     "price": 900
+    }
+   ],
+   "notes": "Work-order triage first; payment waits on their ERP mapping."
+  },
+  {
+   "ref": "QTE-1045",
+   "account": "Vireo Med Spa Group",
+   "deal": "DEAL-903",
+   "status": "accepted",
+   "term_months": 12,
+   "sent_on": "2026-08-11",
+   "decided_on": "2026-08-27",
+   "prepared_by": "AG-SALES-02",
+   "priced_by": "AG-FIN-01",
+   "ceo_override": false,
+   "lines": [
+    {
+     "code": "POD-SETUP",
+     "qty": 1,
+     "price": 4500
+    },
+    {
+     "code": "POD-CORE",
+     "qty": 1,
+     "price": 2400
+    },
+    {
+     "code": "CAP-PAY",
+     "qty": 1,
+     "price": 700
+    },
+    {
+     "code": "CAP-REVIEW",
+     "qty": 1,
+     "price": 450
+    }
+   ],
+   "notes": "No-show recovery carried the pitch, not new leads."
+  },
+  {
+   "ref": "QTE-1046",
+   "account": "Northline Facility Services",
+   "deal": "DEAL-902",
+   "status": "in review",
+   "term_months": 6,
+   "sent_on": null,
+   "decided_on": null,
+   "prepared_by": "AG-SALES-02",
+   "priced_by": "AG-FIN-01",
+   "ceo_override": false,
+   "lines": [
+    {
+     "code": "POD-SETUP",
+     "qty": 1,
+     "price": 4500
+    },
+    {
+     "code": "POD-CORE",
+     "qty": 1,
+     "price": 2400
+    }
+   ],
+   "notes": "Six-month pilot shape. Held until the ops audit call."
+  },
+  {
+   "ref": "QTE-1041",
+   "account": "Halden Guard Group",
+   "deal": "DEAL-910",
+   "status": "declined",
+   "term_months": 9,
+   "sent_on": "2026-07-14",
+   "decided_on": "2026-08-02",
+   "prepared_by": "AG-SALES-02",
+   "priced_by": "AG-FIN-01",
+   "ceo_override": true,
+   "lines": [
+    {
+     "code": "POD-SETUP",
+     "qty": 1,
+     "price": 2800
+    },
+    {
+     "code": "POD-CORE",
+     "qty": 1,
+     "price": 1800
+    }
+   ],
+   "notes": "Discounted below floor on setup with CEO sign-off. Still lost to a budget freeze — the discount bought nothing."
+  }
+ ],
+ "retainers": [
+  {
+   "account": "Ridgeway Restoration",
+   "deployment": "Ridgeway Restoration",
+   "quote": null,
+   "mrr": 4150,
+   "cost": 980,
+   "started_on": "2026-06-02",
+   "term_months": 12,
+   "status": "active",
+   "ended_on": null,
+   "churn_reason": null
+  },
+  {
+   "account": "Bluecrest Aesthetics",
+   "deployment": "Bluecrest Aesthetics",
+   "quote": null,
+   "mrr": 3550,
+   "cost": 810,
+   "started_on": "2026-06-19",
+   "term_months": 12,
+   "status": "active",
+   "ended_on": null,
+   "churn_reason": null
+  },
+  {
+   "account": "Vireo Med Spa Group",
+   "deployment": "Vireo Med Spa Group",
+   "quote": "QTE-1045",
+   "mrr": 1200,
+   "cost": 420,
+   "started_on": "2026-08-28",
+   "term_months": 1,
+   "status": "active",
+   "ended_on": null,
+   "churn_reason": null
+  },
+  {
+   "account": "Palladin Exteriors",
+   "deployment": null,
+   "quote": null,
+   "mrr": 0,
+   "cost": 0,
+   "started_on": "2026-03-04",
+   "term_months": 3,
+   "status": "churned",
+   "ended_on": "2026-06-04",
+   "churn_reason": "Trial ended at the close of storm season; call volume fell and the pod could not show a number they cared about."
+  }
+ ],
+ "invoices": [
+  {
+   "ref": "INV-2026-0031",
+   "account": "Ridgeway Restoration",
+   "retainer": "Ridgeway Restoration",
+   "period": "2026-07",
+   "amount": 4150,
+   "issued_on": "2026-07-01",
+   "due_on": "2026-07-15",
+   "paid_on": "2026-07-09",
+   "status": "paid"
+  },
+  {
+   "ref": "INV-2026-0038",
+   "account": "Bluecrest Aesthetics",
+   "retainer": "Bluecrest Aesthetics",
+   "period": "2026-07",
+   "amount": 3550,
+   "issued_on": "2026-07-01",
+   "due_on": "2026-07-15",
+   "paid_on": "2026-07-14",
+   "status": "paid"
+  },
+  {
+   "ref": "INV-2026-0042",
+   "account": "Ridgeway Restoration",
+   "retainer": "Ridgeway Restoration",
+   "period": "2026-08",
+   "amount": 4402,
+   "issued_on": "2026-08-01",
+   "due_on": "2026-08-15",
+   "paid_on": "2026-08-12",
+   "status": "paid",
+   "note": "Includes 720 call minutes over plan at storm-season volume."
+  },
+  {
+   "ref": "INV-2026-0043",
+   "account": "Bluecrest Aesthetics",
+   "retainer": "Bluecrest Aesthetics",
+   "period": "2026-08",
+   "amount": 3550,
+   "issued_on": "2026-08-01",
+   "due_on": "2026-08-15",
+   "paid_on": null,
+   "status": "late"
+  },
+  {
+   "ref": "INV-2026-0044",
+   "account": "Vireo Med Spa Group",
+   "retainer": "Vireo Med Spa Group",
+   "period": "2026-09",
+   "amount": 1200,
+   "issued_on": "2026-09-01",
+   "due_on": "2026-09-15",
+   "paid_on": null,
+   "status": "issued"
+  }
+ ]
 };
 </script>
 <script>
@@ -2707,6 +3105,92 @@ function organization(){
 }
 </script>
 <script>
+/* ---------- Revenue ---------- */
+function revenue(){
+  const active = DB.retainers.filter(r => r.status === "active");
+  const churned = DB.retainers.filter(r => r.status === "churned");
+  const mrr = sum(active, r => r.mrr), cost = sum(active, r => r.cost);
+  const outstanding = DB.invoices.filter(i => i.status === "issued" || i.status === "late");
+  const today = new Date("2026-09-01T12:00:00");
+  const daysOver = d => Math.round((today - new Date(d + "T12:00:00")) / 86400000);
+  const priced = q => sum(q.lines, l => l.qty * l.price);
+  const monthly = q => sum(q.lines.filter(l => (DB.price_book.find(p => p.code === l.code) || {}).billing === "monthly"), l => l.qty * l.price);
+  const openQuotes = DB.quotes.filter(q => q.status === "sent" || q.status === "in review");
+  const below = DB.quotes.flatMap(q => q.lines
+    .map(l => ({q, l, pb:DB.price_book.find(p => p.code === l.code)}))
+    .filter(x => x.pb && x.l.price < x.pb.floor));
+  const mrrRows = active.map(r => ({label:r.account.replace(/ (Group|Restoration|Aesthetics)$/, ""), value:r.mrr,
+    sub:pf((r.mrr - r.cost) / r.mrr) + " gross margin"}));
+
+  return `<div class="module enter">
+    <div class="cols-3">
+      ${stat(cf.format(mrr), "MRR", nf.format(active.length) + " active retainers")}
+      ${stat(cf.format(mrr * 12), "ARR", "at today’s book")}
+      ${stat(pf((mrr - cost) / mrr, 1), "Gross margin", cf.format(mrr - cost) + "/mo after cost to serve")}
+      ${stat(cf.format(sum(outstanding, i => i.amount)), "Outstanding", nf.format(outstanding.length) + " invoices")}
+      ${stat(cf.format(sum(openQuotes, monthly)), "MRR quoted, undecided", nf.format(openQuotes.length) + " quotes out")}
+      ${stat(nf.format(churned.length), "Churned", churned.length ? "reason on the row" : "none")}
+    </div>
+
+    <div class="split">
+      ${panel("MRR by client", barChart(mrrRows, {fmt:cf.format, aria:"Monthly recurring revenue by client"}) +
+        `<p class="label" style="margin-top:var(--space-2)">Hover a bar for gross margin</p>`)}
+      ${panel("Receivables", outstanding.length ? `<div class="stack">${outstanding.map(i => {
+          const over = daysOver(i.due_on);
+          return `<div class="unit"><span class="nm"><b>${esc(i.account)}</b> — ${cf.format(i.amount)}
+            <br><span class="label" translate="no">${esc(i.ref)} · due ${esc(fmtDate(i.due_on))}</span></span>
+            ${pill(over > 0 ? "crit" : "info", over > 0 ? over + " days late" : "due in " + Math.abs(over) + " days")}</div>`;
+        }).join("")}</div>
+        <p class="note" style="margin-top:var(--space-3)">Collections is a capability we sell, so we run it on ourselves. Anything past due goes to the payment agent on the same schedule a client’s would.</p>`
+        : `<div class="empty"><b>Nothing outstanding.</b><p>Every issued invoice has cleared.</p></div>`)}
+    </div>
+
+    ${panelFlush("Retainers", `<div class="tablewrap"><table class="grid">
+      <caption class="sr">Active and ended retainers</caption>
+      <thead><tr><th scope="col">Client</th><th scope="col">MRR</th><th scope="col">Cost to serve</th>
+        <th scope="col">Gross profit</th><th scope="col">Margin</th><th scope="col">Started</th>
+        <th scope="col">Term</th><th scope="col">State</th></tr></thead>
+      <tbody>${DB.retainers.map(r => `<tr>
+        <td><b>${esc(r.account)}</b>${r.churn_reason ? `<br><span class="label">${esc(r.churn_reason)}</span>` : ""}</td>
+        <td class="num">${r.mrr ? cf.format(r.mrr) : "—"}</td><td class="num">${r.cost ? cf.format(r.cost) : "—"}</td>
+        <td class="num">${r.mrr ? cf.format(r.mrr - r.cost) : "—"}</td>
+        <td class="num">${r.mrr ? pf((r.mrr - r.cost) / r.mrr) : "—"}</td>
+        <td class="num">${esc(fmtDate(r.started_on))}</td><td class="num">${nf.format(r.term_months)} mo</td>
+        <td>${pill(r.status === "active" ? "good" : r.status === "churned" ? "crit" : "idle", r.status)}</td></tr>`).join("")}
+      </tbody></table></div>`)}
+
+    ${panelFlush("Quotes", `<div class="tablewrap"><table class="grid">
+      <caption class="sr">Quotes and their state</caption>
+      <thead><tr><th scope="col">Quote</th><th scope="col">Client</th><th scope="col">Contract value</th>
+        <th scope="col">MRR</th><th scope="col">Term</th><th scope="col">Sent</th><th scope="col">State</th></tr></thead>
+      <tbody>${DB.quotes.map(q => `<tr>
+        <td class="mono" translate="no">${esc(q.ref)}</td><td>${esc(q.account)}<br><span class="label">${esc(q.notes)}</span></td>
+        <td class="num">${cf.format(priced(q))}</td><td class="num">${cf.format(monthly(q))}</td>
+        <td class="num">${nf.format(q.term_months)} mo</td>
+        <td class="num">${q.sent_on ? esc(fmtDate(q.sent_on)) : "—"}</td>
+        <td>${pill(q.status === "accepted" ? "good" : q.status === "declined" ? "crit" : q.status === "sent" ? "info" : "warn", q.status)}</td>
+      </tr>`).join("")}</tbody></table></div>`)}
+
+    <div class="split">
+      ${panelFlush("Price book", `<div class="tablewrap"><table class="grid">
+        <caption class="sr">Price book with margin floors</caption>
+        <thead><tr><th scope="col">Line</th><th scope="col">Billing</th><th scope="col">List</th>
+          <th scope="col">Floor</th><th scope="col">Cost</th></tr></thead>
+        <tbody>${DB.price_book.map(p => `<tr>
+          <td><b>${esc(p.name)}</b><br><span class="label" translate="no">${esc(p.code)}</span></td>
+          <td>${esc(p.billing)}</td><td class="num">${cf.format(p.list)}</td>
+          <td class="num">${cf.format(p.floor)}</td><td class="num">${cf.format(p.cost)}</td></tr>`).join("")}
+        </tbody></table></div>`, `<span class="label">The floor is the sign-off line</span>`)}
+      ${panel("Margin exceptions", below.length ? `<div class="stack">${below.map(x => `
+          <div class="unit"><span class="nm"><b translate="no">${esc(x.q.ref)}</b> — ${esc(x.pb.name)}<br>
+            <span class="label">Sold at ${cf.format(x.l.price)} against a ${cf.format(x.pb.floor)} floor · ${esc(x.q.account)}</span></span>
+          ${pill(x.q.ceo_override ? "warn" : "crit", x.q.ceo_override ? "CEO signed" : "unauthorized")}</div>`).join("")}
+        <p class="note" style="margin-top:var(--space-3)">Every line sold below its floor, and whether a human signed it off. The one on the books was discounted and lost anyway — the discount bought nothing, which is the argument for holding the floor.</p>`
+        : `<div class="empty"><b>Nothing sold below floor.</b><p>Every quoted line cleared its margin guardrail without an override.</p></div>`)}
+    </div>
+  </div>`;
+}
+
 /* ---------- Data ---------- */
 const TABLES = {
   front_office:{rows:()=>DB.front_office, pk:"id", note:"The capability set Hero deploys."},
@@ -2717,6 +3201,10 @@ const TABLES = {
   partners:{rows:()=>DB.partners, pk:"id", note:"Partnership pipeline."},
   campaigns:{rows:()=>DB.campaigns, pk:"id", note:"Marketing campaigns and outcomes."},
   content:{rows:()=>DB.content, pk:"id", note:"Editorial calendar."},
+  price_book:{rows:()=>DB.price_book, pk:"code", note:"What we sell and what it may not be sold below."},
+  quotes:{rows:()=>DB.quotes.map(({lines, ...q}) => ({...q, lines:lines.length})), pk:"ref", note:"Quotes out, with line counts."},
+  retainers:{rows:()=>DB.retainers, pk:"account", note:"What recurs — the number the business lives on."},
+  invoices:{rows:()=>DB.invoices, pk:"ref", note:"Billed, paid, and overdue."},
   agents:{rows:()=>DB.agents, pk:"id", note:"The roster, with pairings and memory paths."},
   agent_runs:{rows:()=>DB.agent_runs, pk:"id", note:"Every task an agent has executed, with cost."},
   api_keys:{rows:()=>DB.api_keys, pk:"id", note:"Integration registry. Names and limits only — never a secret."},
@@ -2891,6 +3379,7 @@ const ICON = {
   table:'<rect x="2" y="3" width="14" height="12" rx="1.5"/><path d="M2 7h14M7 7v8"/>',
   plug:'<path d="M6 2v4M12 2v4"/><path d="M4 6h10v3a5 5 0 0 1-10 0z"/><path d="M9 14v3"/>',
   book:'<path d="M3 3h5a2 2 0 0 1 2 2v10a2 2 0 0 0-2-2H3z"/><path d="M15 3h-5a2 2 0 0 0-2 2v10a2 2 0 0 1 2-2h5z"/>',
+  coin:'<circle cx="9" cy="9" r="6.5"/><path d="M9 5.5v7M11 7.2a2 2 0 0 0-2-1.2c-1.1 0-2 .7-2 1.6S8 9 9 9s2 .6 2 1.6-.9 1.6-2 1.6a2 2 0 0 1-2-1.2"/>',
   brain:'<path d="M7 3a2.5 2.5 0 0 0-2.5 2.5A2 2 0 0 0 3 7.5 2 2 0 0 0 4.5 9.4 2.3 2.3 0 0 0 7 13a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><path d="M11 3a2.5 2.5 0 0 1 2.5 2.5A2 2 0 0 1 15 7.5a2 2 0 0 1-1.5 1.9A2.3 2.3 0 0 1 11 13a2 2 0 0 1-2-2"/>'
 };
 const MODULES = [
@@ -2899,6 +3388,7 @@ const MODULES = [
   {id:"sales",        name:"Sales",         group:"Operations", icon:"chart",  render:sales,         count:()=>openDeals().length},
   {id:"marketing",    name:"Marketing",     group:"Operations", icon:"signal", render:marketing,     count:()=>DB.campaigns.filter(c=>c.status==="running").length},
   {id:"partnerships", name:"Partnerships",  group:"Operations", icon:"link",   render:partnerships,  count:()=>DB.partners.length},
+  {id:"revenue",      name:"Revenue",       group:"Operations", icon:"coin",   render:revenue,       count:()=>DB.retainers.filter(r=>r.status==="active").length},
   {id:"organization", name:"Organization",  group:"System",     icon:"org",    render:organization,  count:()=>DB.agents.length},
   {id:"data",         name:"Data",          group:"System",     icon:"table",  render:dataModule,    count:()=>Object.keys(TABLES).length},
   {id:"integrations", name:"Integrations",  group:"System",     icon:"plug",   render:integrations,  count:()=>DB.api_keys.length},

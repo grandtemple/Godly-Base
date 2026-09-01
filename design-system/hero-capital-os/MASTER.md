@@ -115,6 +115,25 @@ sideways, verified on all ten modules in both themes at 1440px and 390px.
   and `transform`, disabled under `prefers-reduced-motion`. No `transition: all`
   anywhere.
 
+## Generating the tokens
+
+`design-system/tokens.json` is the source. Two artifacts come out of it:
+
+```bash
+node tools/build-tokens.js     # injects the token blocks into web/*.html
+node .../generate-tokens.cjs --config design-system/tokens.json -o design-system/tokens.css
+node .../validate-tokens.cjs --dir web/          # ✅ no violations
+```
+
+The skill's generator flattens aliases to raw values and emits dark mode under
+`.dark`; the OS needs a live `var()` chain and three theme states, so
+`tools/build-tokens.js` writes the blocks the interfaces actually use. Client
+surfaces (the proposal) get the same chain without the dark overrides — a
+proposal is read on a screen once and printed twice.
+
+Every `var()` in both files resolves to a defined token; the check is a one-line
+script and it runs before publishing.
+
 ## Data
 
 The interface ships as one file with no build step, but its data block is

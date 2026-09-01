@@ -23,7 +23,8 @@ SEED = ROOT / "db" / "seed.json"
 slug = lambda s: re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 # Tables truncated by --truncate, children first.
-WIPE = ["deployment_capabilities", "deployments", "front_office_capabilities",
+WIPE = ["invoices", "retainers", "quote_lines", "quotes", "price_book",
+        "deployment_capabilities", "deployments", "front_office_capabilities",
         "department_throughput", "funnel_snapshots", "agent_runs", "content_items",
         "campaigns", "partners", "deals", "contacts", "accounts", "sources",
         "integrations", "brain_map", "decisions", "agents", "supervisors",
@@ -204,7 +205,57 @@ def load(cur, seed):
                            values (%s,%s) on conflict do nothing""", (dep, cap))
             one("deployment_capabilities")
 
-    # 14. the registry, the reading list, the brain map
+    # 14. the money: price book, quotes, retainers, invoices
+    for pb in seed["price_book"]:
+        cur.execute("""insert into godly.price_book (code, name, capability_id, billing, list_price,
+                         unit, cost_to_serve, floor_price, notes)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s) on conflict (code) do nothing""",
+                    (pb["code"], pb["name"], pb["capability"], pb["billing"], pb["list"],
+                     pb["unit"], pb["cost"], pb["floor"], pb["notes"]))
+        one("price_book")
+
+    deal_id = {}
+    cur.execute("select ref, id from godly.deals where ref is not null")
+    deal_id = dict(cur.fetchall())
+    quote_id = {}
+    for q in seed["quotes"]:
+        cur.execute("""insert into godly.quotes (ref, deal_id, account_id, status, term_months,
+                         sent_on, decided_on, prepared_by, priced_by, ceo_override, notes)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
+                    (q["ref"], deal_id.get(q["deal"]), acct_id[q["account"]], q["status"], q["term_months"],
+                     q["sent_on"], q["decided_on"], q["prepared_by"], q["priced_by"], q["ceo_override"], q["notes"]))
+        quote_id[q["ref"]] = cur.fetchone()[0]; one("quotes")
+        for ln in q["lines"]:
+            cur.execute("""insert into godly.quote_lines (quote_id, code, quantity, unit_price)
+                           values (%s,%s,%s,%s) on conflict do nothing""",
+                        (quote_id[q["ref"]], ln["code"], ln["qty"], ln["price"]))
+            one("quote_lines")
+
+    cur.execute("select client_name, id from godly.deployments")
+    dep_id = dict(cur.fetchall())
+    retainer_id = {}
+    for r in seed["retainers"]:
+        cur.execute("""insert into godly.retainers (account_id, deployment_id, quote_id, mrr,
+                         cost_to_serve, started_on, term_months, status, ended_on, churn_reason)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
+                    (acct_id[r["account"]], dep_id.get(r["deployment"]), quote_id.get(r["quote"]),
+                     r["mrr"], r["cost"], r["started_on"], r["term_months"], r["status"],
+                     r["ended_on"], r["churn_reason"]))
+        retainer_id[r["account"]] = cur.fetchone()[0]; one("retainers")
+
+    for inv in seed["invoices"]:
+        y, m = inv["period"].split("-")
+        cur.execute("""insert into godly.invoices (ref, retainer_id, account_id, period_start, period_end,
+                         amount, issued_on, due_on, paid_on, status)
+                       values (%s,%s,%s, make_date(%s,%s,1),
+                               (make_date(%s,%s,1) + interval '1 month - 1 day')::date,
+                               %s,%s,%s,%s,%s)""",
+                    (inv["ref"], retainer_id.get(inv["retainer"]), acct_id[inv["account"]],
+                     int(y), int(m), int(y), int(m),
+                     inv["amount"], inv["issued_on"], inv["due_on"], inv["paid_on"], inv["status"]))
+        one("invoices")
+
+    # 15. the registry, the reading list, the brain map
     for k in seed["api_keys"]:
         cur.execute("""insert into godly.integrations (ref, service, purpose, env_var, host,
                          status, used, quota, unit)

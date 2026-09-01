@@ -122,3 +122,18 @@ proposal in a new niche.
 | Capability list | "AI-powered outbound, full-funnel analytics" | Name the deliverable and when it lands |
 | Invented proof | A case study with numbers nobody can source | Use the adjacent real one and say it is adjacent |
 | Vault-less ship | Proposal in Drive, reasoning nowhere | Drive holds the artifact, the vault holds the why |
+
+## The template
+
+`web/proposal-template.html` is the client-facing document. It is tokenized from
+`design-system/tokens.json`, so it carries the same palette and type as
+everything else Hero ships, and it prints cleanly on A4 and Letter.
+
+Fill every `{{PLACEHOLDER}}`; leave none in a document that goes to a client.
+The pricing lines come from `godly.price_book` by code, quantities and prices
+from `godly.quote_lines`, and the reference from `godly.quotes.ref` — never
+typed by hand, so the proposal and the database agree on what was offered.
+
+Before it sends: `godly.margin_exceptions` must return no row for this quote, or
+`ceo_override` must be true on the quote with the reason recorded in a decision
+note. A line below floor without a signature is not a discount, it is a leak.

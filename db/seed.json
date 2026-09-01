@@ -1871,5 +1871,325 @@
         ]
       }
     ]
-  }
+  },
+  "price_book": [
+    {
+      "code": "POD-CORE",
+      "name": "Front office pod — core",
+      "capability": null,
+      "billing": "monthly",
+      "list": 2400,
+      "unit": "month",
+      "cost": 540,
+      "floor": 1800,
+      "notes": "Inbound call, inbox, booking. The three that pay for themselves first."
+    },
+    {
+      "code": "POD-SETUP",
+      "name": "Configuration and go-live",
+      "capability": null,
+      "billing": "one-time",
+      "list": 4500,
+      "unit": "each",
+      "cost": 1600,
+      "floor": 3000,
+      "notes": "Vocabulary, price book, crew capacity, escalation rules. Two weeks."
+    },
+    {
+      "code": "CAP-QUOTE",
+      "name": "Quote and estimate",
+      "capability": "FO-05",
+      "billing": "monthly",
+      "list": 600,
+      "unit": "month",
+      "cost": 140,
+      "floor": 450,
+      "notes": "Requires the client's price book in a readable form."
+    },
+    {
+      "code": "CAP-PAY",
+      "name": "Payment and collections",
+      "capability": "FO-06",
+      "billing": "monthly",
+      "list": 700,
+      "unit": "month",
+      "cost": 180,
+      "floor": 525,
+      "notes": "Deposit, invoice, chase. Priced against receivables recovered."
+    },
+    {
+      "code": "CAP-REVIEW",
+      "name": "Review and referral engine",
+      "capability": "FO-07",
+      "billing": "monthly",
+      "list": 450,
+      "unit": "month",
+      "cost": 90,
+      "floor": 340,
+      "notes": "Google review at close plus referral follow-up."
+    },
+    {
+      "code": "CAP-OUTBOUND",
+      "name": "Outbound and win-back",
+      "capability": "FO-02",
+      "billing": "monthly",
+      "list": 800,
+      "unit": "month",
+      "cost": 260,
+      "floor": 600,
+      "notes": "Callbacks, reschedules, quiet-quote win-back."
+    },
+    {
+      "code": "CAP-CUSTOM",
+      "name": "Trade-specific work",
+      "capability": "FO-09",
+      "billing": "monthly",
+      "list": 900,
+      "unit": "month",
+      "cost": 300,
+      "floor": 650,
+      "notes": "Scoped per client. Anything with a trigger, a script, and a moment."
+    },
+    {
+      "code": "OVER-MIN",
+      "name": "Call minutes over plan",
+      "capability": "FO-01",
+      "billing": "usage",
+      "list": 0.35,
+      "unit": "minute",
+      "cost": 0.11,
+      "floor": 0.22,
+      "notes": "Plan includes 2,000 minutes. Storm months run over; this is why."
+    }
+  ],
+  "quotes": [
+    {
+      "ref": "QTE-1044",
+      "account": "Keystone Mechanical Group",
+      "deal": "DEAL-901",
+      "status": "sent",
+      "term_months": 12,
+      "sent_on": "2026-08-29",
+      "decided_on": null,
+      "prepared_by": "AG-SALES-02",
+      "priced_by": "AG-FIN-01",
+      "ceo_override": false,
+      "lines": [
+        {
+          "code": "POD-SETUP",
+          "qty": 1,
+          "price": 4500
+        },
+        {
+          "code": "POD-CORE",
+          "qty": 1,
+          "price": 2400
+        },
+        {
+          "code": "CAP-QUOTE",
+          "qty": 1,
+          "price": 600
+        },
+        {
+          "code": "CAP-CUSTOM",
+          "qty": 1,
+          "price": 900
+        }
+      ],
+      "notes": "Work-order triage first; payment waits on their ERP mapping."
+    },
+    {
+      "ref": "QTE-1045",
+      "account": "Vireo Med Spa Group",
+      "deal": "DEAL-903",
+      "status": "accepted",
+      "term_months": 12,
+      "sent_on": "2026-08-11",
+      "decided_on": "2026-08-27",
+      "prepared_by": "AG-SALES-02",
+      "priced_by": "AG-FIN-01",
+      "ceo_override": false,
+      "lines": [
+        {
+          "code": "POD-SETUP",
+          "qty": 1,
+          "price": 4500
+        },
+        {
+          "code": "POD-CORE",
+          "qty": 1,
+          "price": 2400
+        },
+        {
+          "code": "CAP-PAY",
+          "qty": 1,
+          "price": 700
+        },
+        {
+          "code": "CAP-REVIEW",
+          "qty": 1,
+          "price": 450
+        }
+      ],
+      "notes": "No-show recovery carried the pitch, not new leads."
+    },
+    {
+      "ref": "QTE-1046",
+      "account": "Northline Facility Services",
+      "deal": "DEAL-902",
+      "status": "in review",
+      "term_months": 6,
+      "sent_on": null,
+      "decided_on": null,
+      "prepared_by": "AG-SALES-02",
+      "priced_by": "AG-FIN-01",
+      "ceo_override": false,
+      "lines": [
+        {
+          "code": "POD-SETUP",
+          "qty": 1,
+          "price": 4500
+        },
+        {
+          "code": "POD-CORE",
+          "qty": 1,
+          "price": 2400
+        }
+      ],
+      "notes": "Six-month pilot shape. Held until the ops audit call."
+    },
+    {
+      "ref": "QTE-1041",
+      "account": "Halden Guard Group",
+      "deal": "DEAL-910",
+      "status": "declined",
+      "term_months": 9,
+      "sent_on": "2026-07-14",
+      "decided_on": "2026-08-02",
+      "prepared_by": "AG-SALES-02",
+      "priced_by": "AG-FIN-01",
+      "ceo_override": true,
+      "lines": [
+        {
+          "code": "POD-SETUP",
+          "qty": 1,
+          "price": 2800
+        },
+        {
+          "code": "POD-CORE",
+          "qty": 1,
+          "price": 1800
+        }
+      ],
+      "notes": "Discounted below floor on setup with CEO sign-off. Still lost to a budget freeze — the discount bought nothing."
+    }
+  ],
+  "retainers": [
+    {
+      "account": "Ridgeway Restoration",
+      "deployment": "Ridgeway Restoration",
+      "quote": null,
+      "mrr": 4150,
+      "cost": 980,
+      "started_on": "2026-06-02",
+      "term_months": 12,
+      "status": "active",
+      "ended_on": null,
+      "churn_reason": null
+    },
+    {
+      "account": "Bluecrest Aesthetics",
+      "deployment": "Bluecrest Aesthetics",
+      "quote": null,
+      "mrr": 3550,
+      "cost": 810,
+      "started_on": "2026-06-19",
+      "term_months": 12,
+      "status": "active",
+      "ended_on": null,
+      "churn_reason": null
+    },
+    {
+      "account": "Vireo Med Spa Group",
+      "deployment": "Vireo Med Spa Group",
+      "quote": "QTE-1045",
+      "mrr": 1200,
+      "cost": 420,
+      "started_on": "2026-08-28",
+      "term_months": 1,
+      "status": "active",
+      "ended_on": null,
+      "churn_reason": null
+    },
+    {
+      "account": "Palladin Exteriors",
+      "deployment": null,
+      "quote": null,
+      "mrr": 0,
+      "cost": 0,
+      "started_on": "2026-03-04",
+      "term_months": 3,
+      "status": "churned",
+      "ended_on": "2026-06-04",
+      "churn_reason": "Trial ended at the close of storm season; call volume fell and the pod could not show a number they cared about."
+    }
+  ],
+  "invoices": [
+    {
+      "ref": "INV-2026-0031",
+      "account": "Ridgeway Restoration",
+      "retainer": "Ridgeway Restoration",
+      "period": "2026-07",
+      "amount": 4150,
+      "issued_on": "2026-07-01",
+      "due_on": "2026-07-15",
+      "paid_on": "2026-07-09",
+      "status": "paid"
+    },
+    {
+      "ref": "INV-2026-0038",
+      "account": "Bluecrest Aesthetics",
+      "retainer": "Bluecrest Aesthetics",
+      "period": "2026-07",
+      "amount": 3550,
+      "issued_on": "2026-07-01",
+      "due_on": "2026-07-15",
+      "paid_on": "2026-07-14",
+      "status": "paid"
+    },
+    {
+      "ref": "INV-2026-0042",
+      "account": "Ridgeway Restoration",
+      "retainer": "Ridgeway Restoration",
+      "period": "2026-08",
+      "amount": 4402,
+      "issued_on": "2026-08-01",
+      "due_on": "2026-08-15",
+      "paid_on": "2026-08-12",
+      "status": "paid",
+      "note": "Includes 720 call minutes over plan at storm-season volume."
+    },
+    {
+      "ref": "INV-2026-0043",
+      "account": "Bluecrest Aesthetics",
+      "retainer": "Bluecrest Aesthetics",
+      "period": "2026-08",
+      "amount": 3550,
+      "issued_on": "2026-08-01",
+      "due_on": "2026-08-15",
+      "paid_on": null,
+      "status": "late"
+    },
+    {
+      "ref": "INV-2026-0044",
+      "account": "Vireo Med Spa Group",
+      "retainer": "Vireo Med Spa Group",
+      "period": "2026-09",
+      "amount": 1200,
+      "issued_on": "2026-09-01",
+      "due_on": "2026-09-15",
+      "paid_on": null,
+      "status": "issued"
+    }
+  ]
 }
