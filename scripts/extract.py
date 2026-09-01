@@ -29,6 +29,9 @@ SEED = ROOT / "db" / "seed.json"
 # seed key -> live table name. Keys the seed carries that are not tables are skipped.
 TABLES = {
     "front_office": "front_office_capabilities",
+    "payment_accounts": "payment_accounts",
+    "payments": "payments",
+    "dunning_attempts": "dunning_attempts",
     "price_book": "price_book",
     "quotes": "quotes",
     "retainers": "retainers",

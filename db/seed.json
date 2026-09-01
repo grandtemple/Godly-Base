@@ -1102,6 +1102,39 @@
       "limit": 0,
       "unit": "lookup",
       "host": "web"
+    },
+    {
+      "id": "KEY-17",
+      "service": "Stripe (Hero billing)",
+      "purpose": "Flow A — subscriptions, invoices, metered call minutes",
+      "env": "STRIPE_SECRET_KEY",
+      "status": "pending",
+      "used": 0,
+      "limit": 0,
+      "unit": "—",
+      "host": "cloud"
+    },
+    {
+      "id": "KEY-18",
+      "service": "Stripe Connect (client accounts)",
+      "purpose": "Flow B — delegated keys; the client stays merchant of record",
+      "env": "STRIPE_CONNECT_CLIENT_ID",
+      "status": "pending",
+      "used": 0,
+      "limit": 0,
+      "unit": "—",
+      "host": "cloud"
+    },
+    {
+      "id": "KEY-19",
+      "service": "Stripe webhooks",
+      "purpose": "Signature verification for the event ledger",
+      "env": "STRIPE_WEBHOOK_SECRET",
+      "status": "pending",
+      "used": 0,
+      "limit": 0,
+      "unit": "—",
+      "host": "cloud"
     }
   ],
   "agent_runs": [
@@ -2190,6 +2223,155 @@
       "due_on": "2026-09-15",
       "paid_on": null,
       "status": "issued"
+    }
+  ],
+  "payment_accounts": [
+    {
+      "provider": "stripe",
+      "owner": "hero",
+      "account": null,
+      "external_id": null,
+      "access": "api-key",
+      "settles_to_hero": true,
+      "status": "pending",
+      "connected_on": null,
+      "note": "Flow A — billing our own clients. Subscriptions for the pod, invoices for setup, metered call minutes. No key yet."
+    },
+    {
+      "provider": "stripe",
+      "owner": "client",
+      "account": "Ridgeway Restoration",
+      "external_id": "acct_ridgeway_demo",
+      "access": "oauth",
+      "settles_to_hero": false,
+      "status": "connected",
+      "connected_on": "2026-06-04",
+      "note": "Flow B — Connect Standard. They are merchant of record; we hold a delegated key and can be revoked in one click."
+    },
+    {
+      "provider": "stripe",
+      "owner": "client",
+      "account": "Bluecrest Aesthetics",
+      "external_id": "acct_bluecrest_demo",
+      "access": "oauth",
+      "settles_to_hero": false,
+      "status": "connected",
+      "connected_on": "2026-06-21",
+      "note": "Flow B — deposits at booking, balance at close. Their disputes, their account."
+    },
+    {
+      "provider": "square",
+      "owner": "client",
+      "account": "Vireo Med Spa Group",
+      "external_id": null,
+      "access": "none",
+      "settles_to_hero": false,
+      "status": "pending",
+      "connected_on": null,
+      "note": "Already run Square at the front desk. Scoped API access requested; FO-06 stays off until it lands."
+    },
+    {
+      "provider": "quickbooks",
+      "owner": "client",
+      "account": "Keystone Mechanical Group",
+      "external_id": null,
+      "access": "none",
+      "settles_to_hero": false,
+      "status": "pending",
+      "connected_on": null,
+      "note": "Payment waits on their ERP mapping — this is the row that is blocking CAP-PAY on QTE-1044."
+    }
+  ],
+  "dunning_attempts": [
+    {
+      "invoice": "INV-2026-0043",
+      "step": 1,
+      "channel": "email",
+      "by_agent": "AG-FIN-02",
+      "attempted_at": "2026-08-12",
+      "outcome": "opened",
+      "note": "Reminder three days before due."
+    },
+    {
+      "invoice": "INV-2026-0043",
+      "step": 2,
+      "channel": "email",
+      "by_agent": "AG-FIN-02",
+      "attempted_at": "2026-08-16",
+      "outcome": "opened",
+      "note": "First notice, day after due."
+    },
+    {
+      "invoice": "INV-2026-0043",
+      "step": 3,
+      "channel": "sms",
+      "by_agent": "AG-FIN-02",
+      "attempted_at": "2026-08-22",
+      "outcome": "replied",
+      "note": "Practice manager replied: card on file expired, new one coming."
+    },
+    {
+      "invoice": "INV-2026-0043",
+      "step": 4,
+      "channel": "phone",
+      "by_agent": "AG-FIN-02",
+      "attempted_at": "2026-08-29",
+      "outcome": "promised",
+      "note": "Promised payment by 09/03. Ladder pauses on a promise; resumes at step 5 if it passes."
+    }
+  ],
+  "payments": [
+    {
+      "account": "Ridgeway Restoration",
+      "invoice": "INV-2026-0031",
+      "deployment": null,
+      "provider": "stripe",
+      "owner": "hero",
+      "external_id": "pi_demo_0031",
+      "amount": 4150,
+      "method": "ach",
+      "status": "succeeded",
+      "paid_at": "2026-07-09",
+      "failure_reason": null
+    },
+    {
+      "account": "Bluecrest Aesthetics",
+      "invoice": "INV-2026-0038",
+      "deployment": null,
+      "provider": "stripe",
+      "owner": "hero",
+      "external_id": "pi_demo_0038",
+      "amount": 3550,
+      "method": "card",
+      "status": "succeeded",
+      "paid_at": "2026-07-14",
+      "failure_reason": null
+    },
+    {
+      "account": "Ridgeway Restoration",
+      "invoice": "INV-2026-0042",
+      "deployment": null,
+      "provider": "stripe",
+      "owner": "hero",
+      "external_id": "pi_demo_0042",
+      "amount": 4402,
+      "method": "ach",
+      "status": "succeeded",
+      "paid_at": "2026-08-12",
+      "failure_reason": null
+    },
+    {
+      "account": "Bluecrest Aesthetics",
+      "invoice": "INV-2026-0043",
+      "deployment": null,
+      "provider": "stripe",
+      "owner": "hero",
+      "external_id": "pi_demo_0043",
+      "amount": 3550,
+      "method": "card",
+      "status": "failed",
+      "paid_at": null,
+      "failure_reason": "card_expired — the reason the ladder is at step 4"
     }
   ]
 }

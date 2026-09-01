@@ -1678,6 +1678,39 @@ const DB = {
    "limit": 0,
    "unit": "lookup",
    "host": "web"
+  },
+  {
+   "id": "KEY-17",
+   "service": "Stripe (Hero billing)",
+   "purpose": "Flow A — subscriptions, invoices, metered call minutes",
+   "env": "STRIPE_SECRET_KEY",
+   "status": "pending",
+   "used": 0,
+   "limit": 0,
+   "unit": "—",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-18",
+   "service": "Stripe Connect (client accounts)",
+   "purpose": "Flow B — delegated keys; the client stays merchant of record",
+   "env": "STRIPE_CONNECT_CLIENT_ID",
+   "status": "pending",
+   "used": 0,
+   "limit": 0,
+   "unit": "—",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-19",
+   "service": "Stripe webhooks",
+   "purpose": "Signature verification for the event ledger",
+   "env": "STRIPE_WEBHOOK_SECRET",
+   "status": "pending",
+   "used": 0,
+   "limit": 0,
+   "unit": "—",
+   "host": "cloud"
   }
  ],
  "agent_runs": [
@@ -2767,6 +2800,155 @@ const DB = {
    "paid_on": null,
    "status": "issued"
   }
+ ],
+ "payment_accounts": [
+  {
+   "provider": "stripe",
+   "owner": "hero",
+   "account": null,
+   "external_id": null,
+   "access": "api-key",
+   "settles_to_hero": true,
+   "status": "pending",
+   "connected_on": null,
+   "note": "Flow A — billing our own clients. Subscriptions for the pod, invoices for setup, metered call minutes. No key yet."
+  },
+  {
+   "provider": "stripe",
+   "owner": "client",
+   "account": "Ridgeway Restoration",
+   "external_id": "acct_ridgeway_demo",
+   "access": "oauth",
+   "settles_to_hero": false,
+   "status": "connected",
+   "connected_on": "2026-06-04",
+   "note": "Flow B — Connect Standard. They are merchant of record; we hold a delegated key and can be revoked in one click."
+  },
+  {
+   "provider": "stripe",
+   "owner": "client",
+   "account": "Bluecrest Aesthetics",
+   "external_id": "acct_bluecrest_demo",
+   "access": "oauth",
+   "settles_to_hero": false,
+   "status": "connected",
+   "connected_on": "2026-06-21",
+   "note": "Flow B — deposits at booking, balance at close. Their disputes, their account."
+  },
+  {
+   "provider": "square",
+   "owner": "client",
+   "account": "Vireo Med Spa Group",
+   "external_id": null,
+   "access": "none",
+   "settles_to_hero": false,
+   "status": "pending",
+   "connected_on": null,
+   "note": "Already run Square at the front desk. Scoped API access requested; FO-06 stays off until it lands."
+  },
+  {
+   "provider": "quickbooks",
+   "owner": "client",
+   "account": "Keystone Mechanical Group",
+   "external_id": null,
+   "access": "none",
+   "settles_to_hero": false,
+   "status": "pending",
+   "connected_on": null,
+   "note": "Payment waits on their ERP mapping — this is the row that is blocking CAP-PAY on QTE-1044."
+  }
+ ],
+ "dunning_attempts": [
+  {
+   "invoice": "INV-2026-0043",
+   "step": 1,
+   "channel": "email",
+   "by_agent": "AG-FIN-02",
+   "attempted_at": "2026-08-12",
+   "outcome": "opened",
+   "note": "Reminder three days before due."
+  },
+  {
+   "invoice": "INV-2026-0043",
+   "step": 2,
+   "channel": "email",
+   "by_agent": "AG-FIN-02",
+   "attempted_at": "2026-08-16",
+   "outcome": "opened",
+   "note": "First notice, day after due."
+  },
+  {
+   "invoice": "INV-2026-0043",
+   "step": 3,
+   "channel": "sms",
+   "by_agent": "AG-FIN-02",
+   "attempted_at": "2026-08-22",
+   "outcome": "replied",
+   "note": "Practice manager replied: card on file expired, new one coming."
+  },
+  {
+   "invoice": "INV-2026-0043",
+   "step": 4,
+   "channel": "phone",
+   "by_agent": "AG-FIN-02",
+   "attempted_at": "2026-08-29",
+   "outcome": "promised",
+   "note": "Promised payment by 09/03. Ladder pauses on a promise; resumes at step 5 if it passes."
+  }
+ ],
+ "payments": [
+  {
+   "account": "Ridgeway Restoration",
+   "invoice": "INV-2026-0031",
+   "deployment": null,
+   "provider": "stripe",
+   "owner": "hero",
+   "external_id": "pi_demo_0031",
+   "amount": 4150,
+   "method": "ach",
+   "status": "succeeded",
+   "paid_at": "2026-07-09",
+   "failure_reason": null
+  },
+  {
+   "account": "Bluecrest Aesthetics",
+   "invoice": "INV-2026-0038",
+   "deployment": null,
+   "provider": "stripe",
+   "owner": "hero",
+   "external_id": "pi_demo_0038",
+   "amount": 3550,
+   "method": "card",
+   "status": "succeeded",
+   "paid_at": "2026-07-14",
+   "failure_reason": null
+  },
+  {
+   "account": "Ridgeway Restoration",
+   "invoice": "INV-2026-0042",
+   "deployment": null,
+   "provider": "stripe",
+   "owner": "hero",
+   "external_id": "pi_demo_0042",
+   "amount": 4402,
+   "method": "ach",
+   "status": "succeeded",
+   "paid_at": "2026-08-12",
+   "failure_reason": null
+  },
+  {
+   "account": "Bluecrest Aesthetics",
+   "invoice": "INV-2026-0043",
+   "deployment": null,
+   "provider": "stripe",
+   "owner": "hero",
+   "external_id": "pi_demo_0043",
+   "amount": 3550,
+   "method": "card",
+   "status": "failed",
+   "paid_at": null,
+   "failure_reason": "card_expired — the reason the ladder is at step 4"
+  }
  ]
 };
 </script>
@@ -3191,6 +3373,89 @@ function revenue(){
   </div>`;
 }
 
+/* ---------- Payments ---------- */
+const LADDER = [
+  {step:1, when:"Due − 3",  channel:"Email",       owner:"agent"},
+  {step:2, when:"Due + 1",  channel:"Email",       owner:"agent"},
+  {step:3, when:"Due + 7",  channel:"Email + SMS", owner:"agent"},
+  {step:4, when:"Due + 14", channel:"Phone",       owner:"agent"},
+  {step:5, when:"Due + 21", channel:"Phone",       owner:"human"},
+  {step:6, when:"Due + 30", channel:"Decision",    owner:"CEO"}
+];
+function payments(){
+  const today = new Date("2026-09-01T12:00:00");
+  const daysOver = d => Math.round((today - new Date(d + "T12:00:00")) / 86400000);
+  const billed = sum(DB.invoices, i => i.amount);
+  const collected = sum(DB.invoices.filter(i => i.status === "paid"), i => i.amount);
+  const overdue = DB.invoices.filter(i => i.status === "late");
+  const outstanding = DB.invoices.filter(i => i.status === "issued" || i.status === "late");
+  const conn = DB.payment_accounts;
+  const live = conn.filter(c => c.status === "connected");
+  const queue = outstanding.map(i => {
+    const steps = DB.dunning_attempts.filter(d => d.invoice === i.ref);
+    const last = steps.length ? Math.max(...steps.map(d => d.step)) : 0;
+    return {inv:i, last, next:last + 1, over:daysOver(i.due_on), steps};
+  }).sort((a,b) => b.over - a.over);
+
+  const connRow = c => {
+    const [cl, t] = c.status === "connected" ? ["good","connected"]
+      : c.status === "revoked" ? ["crit","revoked"] : ["warn","pending"];
+    return `<div class="keyrow">
+      <span class="kn"><b>${esc(c.account || "Hero Capital")}</b>
+        <code translate="no">${esc(c.provider)}${c.external_id ? " · " + esc(c.external_id) : ""}</code>
+        <span style="font-size:12.5px;color:var(--fg-secondary)">${esc(c.note)}</span></span>
+      <span class="meterwrap"><span class="label">${c.owner === "hero" ? "We are merchant" : "Client is merchant"}</span>
+        <span class="meterval${c.settles_to_hero ? "" : ""}">${c.settles_to_hero ? "settles to Hero" : "settles to them"}</span></span>
+      ${pill(cl, t)}</div>`;
+  };
+
+  return `<div class="module enter">
+    <div class="cols-3">
+      ${stat(cf.format(collected), "Collected", pf(collected / billed, 1) + " of " + cf.format(billed) + " billed")}
+      ${stat(cf.format(sum(outstanding, i => i.amount)), "Outstanding", nf.format(outstanding.length) + " invoices")}
+      ${stat(cf.format(sum(overdue, i => i.amount)), "Overdue", overdue.length ? nf.format(daysOver(overdue[0].due_on)) + " days on the oldest" : "none")}
+      ${stat(nf.format(live.length) + " of " + nf.format(conn.length), "Connections live")}
+    </div>
+
+    <div class="split">
+      ${panel("Collections queue", queue.length ? `<div class="stack">${queue.map(q => {
+        const human = q.next >= 5;
+        return `<div class="unit"><span class="nm"><b>${esc(q.inv.account)}</b> — ${cf.format(q.inv.amount)}
+          <br><span class="label" translate="no">${esc(q.inv.ref)} · due ${esc(fmtDate(q.inv.due_on))} · ${q.over > 0 ? nf.format(q.over) + " days late" : "not yet due"}</span>
+          ${q.steps.length ? `<br><span class="label">Last: step ${q.steps.at(-1).step}, ${esc(q.steps.at(-1).outcome)} — ${esc(q.steps.at(-1).note)}</span>` : ""}</span>
+          ${pill(human ? "crit" : q.over > 0 ? "warn" : "info", human ? "step " + q.next + " · human" : "step " + q.next + " · agent")}</div>`;
+      }).join("")}</div>
+      <p class="note" style="margin-top:var(--space-3)">A human takes over at step 5 because the conversation stops being about an invoice and starts being about the relationship. The ladder stops the moment a payment posts, and pauses on a promise.</p>`
+      : `<div class="empty"><b>Nothing to chase.</b><p>Every issued invoice has cleared.</p></div>`)}
+
+      ${panel("The ladder", `<div class="tablewrap"><table class="grid">
+        <caption class="sr">Dunning ladder</caption>
+        <thead><tr><th scope="col">Step</th><th scope="col">When</th><th scope="col">Channel</th><th scope="col">Who</th></tr></thead>
+        <tbody>${LADDER.map(l => `<tr>
+          <td class="num">${l.step}</td><td class="mono">${esc(l.when)}</td><td>${esc(l.channel)}</td>
+          <td>${l.owner === "agent" ? `<span class="label">agent</span>` : pill(l.owner === "CEO" ? "crit" : "warn", l.owner)}</td>
+        </tr>`).join("")}</tbody></table></div>
+        <p class="note" style="margin-top:var(--space-3)">Chasing money is a capability we sell, so we run it on ourselves the same way. Escalation is by schedule, not by mood.</p>`)}
+    </div>
+
+    ${panel("Connections", conn.map(connRow).join(""),
+      `<span class="label">Two flows, one rule</span>`)}
+
+    <div class="split">
+      ${panel("Whose money moves", `
+        <p class="note" style="margin-bottom:var(--space-3)"><b>Flow A — Hero gets paid.</b> Retainers, setup, overage. Hero is merchant of record and the money lands in our account. Ordinary billing.</p>
+        <p class="note" style="margin-bottom:var(--space-3)"><b>Flow B — the client gets paid.</b> The payment capability we sell takes deposits and chases balances from <i>their</i> customers. The client is merchant of record, funds settle to them, and we hold a delegated key we can be stripped of in one click.</p>
+        <p class="note"><b>Hero never touches Flow B money.</b> Receiving, holding or routing a customer’s payment is money transmission — licensing, KYC, chargeback liability. For a firm of one human and twenty-one agents that is not a cost problem, it is an existential one. The rule is a database constraint, not a paragraph: a client-owned account cannot be marked as settling to Hero.</p>`)}
+      ${panel("How it does not double-charge", `
+        <p class="note" style="margin-bottom:var(--space-3)">Webhooks arrive twice. Agents retry after timeouts. The defence is a ledger, not care: every event is stored with a unique provider event id, so a replay hits the constraint and stops. Every write sends an idempotency key derived from our own row id.</p>
+        <p class="note" style="margin-bottom:var(--space-3)">Payments reconcile to invoices by provider object id, never by amount and date — two invoices for the same client in the same month at the same price is normal.</p>
+        <p class="note">No card number ever reaches our servers, our logs, or an agent’s context. Hosted links only. An agent offered a card over the phone does not write it down; it sends the link.</p>`)}
+    </div>
+
+    <p class="note"><b>Not connected yet.</b> The schema, constraints, queue and surface are built; no provider key exists. What remains is the webhook endpoint, the Connect OAuth callback, and the nightly reconciliation sweep — the tables are already the shape those three need. See <span class="mono" translate="no">docs/PAYMENTS.md</span>.</p>
+  </div>`;
+}
+
 /* ---------- Data ---------- */
 const TABLES = {
   front_office:{rows:()=>DB.front_office, pk:"id", note:"The capability set Hero deploys."},
@@ -3201,6 +3466,9 @@ const TABLES = {
   partners:{rows:()=>DB.partners, pk:"id", note:"Partnership pipeline."},
   campaigns:{rows:()=>DB.campaigns, pk:"id", note:"Marketing campaigns and outcomes."},
   content:{rows:()=>DB.content, pk:"id", note:"Editorial calendar."},
+  payment_accounts:{rows:()=>DB.payment_accounts, pk:"external_id", note:"Merchant accounts. A client-owned row can never settle to Hero."},
+  payments:{rows:()=>DB.payments, pk:"external_id", note:"Money that actually moved."},
+  dunning_attempts:{rows:()=>DB.dunning_attempts, pk:"invoice", note:"Every rung of the ladder climbed, with its outcome."},
   price_book:{rows:()=>DB.price_book, pk:"code", note:"What we sell and what it may not be sold below."},
   quotes:{rows:()=>DB.quotes.map(({lines, ...q}) => ({...q, lines:lines.length})), pk:"ref", note:"Quotes out, with line counts."},
   retainers:{rows:()=>DB.retainers, pk:"account", note:"What recurs — the number the business lives on."},
@@ -3379,6 +3647,7 @@ const ICON = {
   table:'<rect x="2" y="3" width="14" height="12" rx="1.5"/><path d="M2 7h14M7 7v8"/>',
   plug:'<path d="M6 2v4M12 2v4"/><path d="M4 6h10v3a5 5 0 0 1-10 0z"/><path d="M9 14v3"/>',
   book:'<path d="M3 3h5a2 2 0 0 1 2 2v10a2 2 0 0 0-2-2H3z"/><path d="M15 3h-5a2 2 0 0 0-2 2v10a2 2 0 0 1 2-2h5z"/>',
+  card:'<rect x="1.5" y="4" width="15" height="10" rx="2"/><path d="M1.5 7.5h15M4.5 11h3"/>',
   coin:'<circle cx="9" cy="9" r="6.5"/><path d="M9 5.5v7M11 7.2a2 2 0 0 0-2-1.2c-1.1 0-2 .7-2 1.6S8 9 9 9s2 .6 2 1.6-.9 1.6-2 1.6a2 2 0 0 1-2-1.2"/>',
   brain:'<path d="M7 3a2.5 2.5 0 0 0-2.5 2.5A2 2 0 0 0 3 7.5 2 2 0 0 0 4.5 9.4 2.3 2.3 0 0 0 7 13a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><path d="M11 3a2.5 2.5 0 0 1 2.5 2.5A2 2 0 0 1 15 7.5a2 2 0 0 1-1.5 1.9A2.3 2.3 0 0 1 11 13a2 2 0 0 1-2-2"/>'
 };
@@ -3389,6 +3658,7 @@ const MODULES = [
   {id:"marketing",    name:"Marketing",     group:"Operations", icon:"signal", render:marketing,     count:()=>DB.campaigns.filter(c=>c.status==="running").length},
   {id:"partnerships", name:"Partnerships",  group:"Operations", icon:"link",   render:partnerships,  count:()=>DB.partners.length},
   {id:"revenue",      name:"Revenue",       group:"Operations", icon:"coin",   render:revenue,       count:()=>DB.retainers.filter(r=>r.status==="active").length},
+  {id:"payments",     name:"Payments",      group:"Operations", icon:"card",   render:payments,      count:()=>DB.invoices.filter(i=>i.status!=="paid").length},
   {id:"organization", name:"Organization",  group:"System",     icon:"org",    render:organization,  count:()=>DB.agents.length},
   {id:"data",         name:"Data",          group:"System",     icon:"table",  render:dataModule,    count:()=>Object.keys(TABLES).length},
   {id:"integrations", name:"Integrations",  group:"System",     icon:"plug",   render:integrations,  count:()=>DB.api_keys.length},

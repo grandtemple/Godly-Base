@@ -23,7 +23,8 @@ SEED = ROOT / "db" / "seed.json"
 slug = lambda s: re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 # Tables truncated by --truncate, children first.
-WIPE = ["invoices", "retainers", "quote_lines", "quotes", "price_book",
+WIPE = ["dunning_attempts", "payments", "payment_events", "payment_accounts",
+        "invoices", "retainers", "quote_lines", "quotes", "price_book",
         "deployment_capabilities", "deployments", "front_office_capabilities",
         "department_throughput", "funnel_snapshots", "agent_runs", "content_items",
         "campaigns", "partners", "deals", "contacts", "accounts", "sources",
@@ -255,7 +256,37 @@ def load(cur, seed):
                      inv["amount"], inv["issued_on"], inv["due_on"], inv["paid_on"], inv["status"]))
         one("invoices")
 
-    # 15. the registry, the reading list, the brain map
+    # 15. payments: accounts first, then what moved, then the ladder
+    cur.execute("select ref, id from godly.invoices where ref is not null")
+    inv_id = dict(cur.fetchall())
+    pay_acct = {}
+    for pa in seed["payment_accounts"]:
+        cur.execute("""insert into godly.payment_accounts (provider, owner, account_id, external_id,
+                         access, settles_to_hero, status, connected_on, note)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
+                    (pa["provider"], pa["owner"], acct_id.get(pa["account"]), pa["external_id"],
+                     pa["access"], pa["settles_to_hero"], pa["status"], pa["connected_on"], pa["note"]))
+        pay_acct[(pa["provider"], pa["owner"], pa["account"])] = cur.fetchone()[0]
+        one("payment_accounts")
+
+    for pm in seed["payments"]:
+        key = (pm["provider"], pm["owner"], None if pm["owner"] == "hero" else pm["account"])
+        cur.execute("""insert into godly.payments (payment_account_id, invoice_id, deployment_id,
+                         external_id, amount, method, status, paid_at, failure_reason)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                    (pay_acct[key], inv_id.get(pm["invoice"]), None, pm["external_id"], pm["amount"],
+                     pm["method"], pm["status"], pm["paid_at"], pm["failure_reason"]))
+        one("payments")
+
+    for d in seed["dunning_attempts"]:
+        cur.execute("""insert into godly.dunning_attempts (invoice_id, step, channel, by_agent,
+                         attempted_at, outcome, note)
+                       values (%s,%s,%s,%s,%s,%s,%s) on conflict do nothing""",
+                    (inv_id[d["invoice"]], d["step"], d["channel"], d["by_agent"],
+                     d["attempted_at"], d["outcome"], d["note"]))
+        one("dunning_attempts")
+
+    # 16. the registry, the reading list, the brain map
     for k in seed["api_keys"]:
         cur.execute("""insert into godly.integrations (ref, service, purpose, env_var, host,
                          status, used, quota, unit)
