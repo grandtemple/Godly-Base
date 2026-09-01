@@ -1,0 +1,3083 @@
+<title>Hero Capital OS</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
+<style>
+/* ============================================================
+   HERO CAPITAL OS — token layer
+   primitive → semantic → component. Nothing below the token
+   block uses a raw color value.
+   ============================================================ */
+:root{
+  color-scheme: light dark;
+
+  /* ---- primitive ---------------------------------------- */
+  --green-900:#0A1712; --green-800:#123026; --green-700:#1B4034;
+  --green-600:#226444; --green-500:#0F9280; --green-400:#189E8B;
+  --sage-100:#EEF0EA; --sage-50:#F7F8F4;  --sage-200:#E4E8DF;
+  --sage-300:#CBD2C8; --sage-250:#DDE2D8;
+  --slate-900:#16211C; --slate-700:#4A5A52; --slate-500:#5A6760;
+  --slate-300:#828F87; --slate-200:#9AA79E; --slate-100:#E3E8E0;
+  --night-900:#0B100D; --night-800:#101512; --night-700:#161C18;
+  --night-600:#1D2622; --night-500:#28322C;
+  --amber-700:#71540F; --amber-600:#9A7218; --amber-500:#C79A2A; --amber-400:#D8AE55;
+  --blue-600:#3A62A8;  --blue-400:#6690DE;
+  --gold-600:#9C7010;  --gold-400:#B08820;
+  --rust-600:#A33327;  --rust-400:#D5675A;
+  --clay-600:#8E4D0E;  --clay-400:#C98A33;
+
+  /* ---- semantic (light) --------------------------------- */
+  --bg-app:var(--sage-200);
+  --bg-surface:var(--sage-100);
+  --bg-raised:var(--sage-50);
+  --bg-chrome:var(--green-800);
+  --bg-chrome-deep:var(--green-900);
+  --bg-hover:rgba(18,48,38,.055);
+  --bg-selected:rgba(58,98,168,.10);
+
+  --fg-primary:var(--slate-900);
+  --fg-secondary:var(--slate-700);
+  --fg-muted:var(--slate-500);
+  --fg-on-chrome:#DCE6DE;
+  --fg-on-chrome-muted:#8FA79A;
+
+  --border:var(--sage-300);
+  --border-soft:var(--sage-250);
+
+  --accent:var(--amber-600);
+  --accent-ink:var(--amber-700);
+  --accent-bright:var(--amber-500);
+
+  --status-good:var(--green-600);
+  --status-info:var(--blue-600);
+  --status-warn:var(--clay-600);
+  --status-critical:var(--rust-600);
+  --status-idle:var(--slate-500);
+
+  --series-1:var(--blue-600); --series-2:var(--gold-600); --series-3:var(--green-500);
+
+  --shadow-panel:0 1px 0 rgba(18,48,38,.04), 0 10px 24px -20px rgba(18,48,38,.45);
+  --shadow-overlay:0 24px 60px -28px rgba(10,23,18,.6);
+
+  /* ---- scales ------------------------------------------- */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px;
+  --radius-sm:3px; --radius-md:5px; --radius-lg:8px;
+  --text-xs:11px; --text-sm:12.5px; --text-md:14px; --text-lg:16px;
+  --text-xl:20px; --text-2xl:26px; --text-3xl:34px;
+  --font-ui:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --font-display:'IBM Plex Sans Condensed','IBM Plex Sans',system-ui,sans-serif;
+  --dur-fast:110ms; --dur-base:180ms; --ease:cubic-bezier(.2,.6,.3,1);
+
+  /* ---- component ---------------------------------------- */
+  --rail-width:236px;
+  --topbar-height:52px;
+  --panel-bg:var(--bg-surface);
+  --panel-border:var(--border);
+  --nav-item-fg:#C6D3CA;
+  --nav-item-fg-active:#F2E7CC;
+  --nav-item-bg-active:rgba(199,154,42,.15);
+  --field-bg:var(--bg-raised);
+  --table-header-bg:var(--bg-surface);
+  --meter-track:var(--border-soft);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg-app:var(--night-900);
+    --bg-surface:var(--night-800);
+    --bg-raised:var(--night-700);
+    --bg-chrome:var(--green-900);
+    --bg-chrome-deep:#060F0B;
+    --bg-hover:rgba(255,255,255,.045);
+    --bg-selected:rgba(102,144,222,.16);
+    --fg-primary:var(--slate-100);
+    --fg-secondary:var(--slate-200);
+    --fg-muted:var(--slate-300);
+    --border:var(--night-500);
+    --border-soft:#1E2721;
+    --accent:var(--amber-400);
+    --accent-ink:var(--amber-400);
+    --accent-bright:#E8C777;
+    --status-good:#4EA277; --status-info:var(--blue-400);
+    --status-warn:var(--clay-400); --status-critical:var(--rust-400);
+    --status-idle:var(--slate-300);
+    --series-1:var(--blue-400); --series-2:var(--gold-400); --series-3:var(--green-400);
+    --shadow-panel:0 1px 0 rgba(0,0,0,.4), 0 12px 28px -22px #000;
+    --shadow-overlay:0 24px 60px -24px #000;
+    --meter-track:var(--night-600);
+  }
+}
+:root[data-theme="dark"]{
+  --bg-app:var(--night-900);
+  --bg-surface:var(--night-800);
+  --bg-raised:var(--night-700);
+  --bg-chrome:var(--green-900);
+  --bg-chrome-deep:#060F0B;
+  --bg-hover:rgba(255,255,255,.045);
+  --bg-selected:rgba(102,144,222,.16);
+  --fg-primary:var(--slate-100);
+  --fg-secondary:var(--slate-200);
+  --fg-muted:var(--slate-300);
+  --border:var(--night-500);
+  --border-soft:#1E2721;
+  --accent:var(--amber-400);
+  --accent-ink:var(--amber-400);
+  --accent-bright:#E8C777;
+  --status-good:#4EA277; --status-info:var(--blue-400);
+  --status-warn:var(--clay-400); --status-critical:var(--rust-400);
+  --status-idle:var(--slate-300);
+  --series-1:var(--blue-400); --series-2:var(--gold-400); --series-3:var(--green-400);
+  --shadow-panel:0 1px 0 rgba(0,0,0,.4), 0 12px 28px -22px #000;
+  --shadow-overlay:0 24px 60px -24px #000;
+  --meter-track:var(--night-600);
+}
+</style>
+<style>
+/* ============================================================
+   shell
+   ============================================================ */
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg-app); color:var(--fg-primary);
+  font-family:var(--font-ui); font-size:var(--text-md); line-height:1.5;
+  -webkit-font-smoothing:antialiased; touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:is(a,button,input,select,summary,[tabindex]):focus-visible{
+  outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--radius-sm);
+}
+:where(button,a,input,select){transition:background-color var(--dur-fast) var(--ease),
+  border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease)}
+::selection{background:var(--bg-selected)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{
+  position:absolute;left:-9999px;top:var(--space-2);z-index:90;background:var(--bg-raised);
+  color:var(--fg-primary);border:1px solid var(--accent);border-radius:var(--radius-sm);
+  padding:var(--space-2) var(--space-3);font-family:var(--font-mono);font-size:var(--text-xs);
+  text-decoration:none;letter-spacing:.08em;text-transform:uppercase;
+}
+.skip:focus{left:var(--space-2)}
+
+.os{display:grid;grid-template-columns:var(--rail-width) minmax(0,1fr);min-height:100vh}
+
+/* ---- rail ---- */
+.rail{
+  background:var(--bg-chrome);border-right:1px solid var(--bg-chrome-deep);
+  color:var(--fg-on-chrome);display:flex;flex-direction:column;gap:var(--space-5);
+  padding:var(--space-5) 0 var(--space-4);position:sticky;top:0;height:100vh;overflow-y:auto;
+  padding-left:env(safe-area-inset-left);
+}
+.brandmark{display:flex;flex-direction:column;gap:2px;padding:0 var(--space-5)}
+.brandmark .name{
+  font-family:var(--font-display);font-weight:700;font-size:var(--text-xl);line-height:1.05;
+  color:var(--accent-bright);letter-spacing:.005em;
+}
+.brandmark .kind{
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--fg-on-chrome-muted);
+}
+.navgroup{display:flex;flex-direction:column;gap:1px;padding:0 var(--space-2)}
+.navgroup h2{
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--fg-on-chrome-muted);margin:0 0 var(--space-2);padding:0 var(--space-3);font-weight:500;
+}
+.navitem{
+  display:grid;grid-template-columns:18px minmax(0,1fr) auto;align-items:center;gap:var(--space-3);
+  padding:7px var(--space-3);border-radius:var(--radius-sm);color:var(--nav-item-fg);
+  text-decoration:none;font-size:13.5px;min-height:34px;
+}
+.navitem:hover{background:rgba(255,255,255,.06);color:#EAF2EC}
+.navitem[aria-current="page"]{background:var(--nav-item-bg-active);color:var(--nav-item-fg-active);font-weight:500}
+.navitem .glyph{opacity:.85;display:grid;place-items:center}
+.navitem .count{
+  font-family:var(--font-mono);font-size:10.5px;color:var(--fg-on-chrome-muted);
+  font-variant-numeric:tabular-nums;
+}
+.navitem[aria-current="page"] .count{color:var(--accent-bright)}
+.rail-foot{margin-top:auto;padding:0 var(--space-5);display:flex;flex-direction:column;gap:var(--space-3)}
+.hr-chrome{height:1px;background:rgba(255,255,255,.12);border:0;margin:0}
+.uptime{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-mono);
+  font-size:10px;letter-spacing:.1em;color:var(--fg-on-chrome-muted);text-transform:uppercase}
+.led{width:7px;height:7px;border-radius:50%;background:var(--status-good);
+  box-shadow:0 0 0 3px color-mix(in oklab, var(--status-good), transparent 78%)}
+
+/* ---- workspace ---- */
+.workspace{display:flex;flex-direction:column;min-width:0;background:var(--bg-app)}
+.topbar{
+  display:flex;align-items:center;gap:var(--space-4);height:var(--topbar-height);
+  padding:0 var(--space-6);border-bottom:1px solid var(--border-soft);background:var(--bg-surface);
+  position:sticky;top:0;z-index:20;
+}
+.crumb{display:flex;align-items:baseline;gap:var(--space-3);min-width:0;flex:1}
+.crumb .scope{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted)}
+.crumb h1{
+  font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);margin:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-wrap:balance;
+}
+.btn{
+  background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:6px var(--space-3);cursor:pointer;font-family:var(--font-mono);font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--fg-secondary);min-height:32px;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn:hover{border-color:var(--accent);color:var(--fg-primary);background:var(--bg-hover)}
+.btn kbd{font-family:var(--font-mono);font-size:9.5px;border:1px solid var(--border);
+  border-radius:2px;padding:0 3px;color:var(--fg-muted)}
+
+main{padding:var(--space-6);min-width:0;flex:1}
+.module{display:flex;flex-direction:column;gap:var(--space-6);max-width:1440px}
+.enter{animation:rise var(--dur-base) var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .enter{animation:none}
+  *{scroll-behavior:auto}
+}
+
+/* ---- headings & prose ---- */
+h2.sec{font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);margin:0;text-wrap:balance}
+h3.sub{font-family:var(--font-ui);font-weight:600;font-size:var(--text-md);margin:0 0 var(--space-2)}
+.eyebrow{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--fg-muted);margin:0}
+.lede{font-size:15px;line-height:1.6;color:var(--fg-secondary);max-width:76ch;margin:0}
+.note{font-size:var(--text-sm);color:var(--fg-muted);margin:0;max-width:80ch}
+.label{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-muted)}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.row{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center}
+.stack{display:flex;flex-direction:column;gap:var(--space-3);min-width:0}
+.cols{display:grid;gap:var(--space-4);grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.cols-3{display:grid;gap:var(--space-3);grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.split{display:grid;gap:var(--space-6);grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:start}
+@media (max-width:1080px){.split{grid-template-columns:1fr}}
+</style>
+<style>
+/* ============================================================
+   components
+   ============================================================ */
+.panel{
+  background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:var(--radius-md);
+  box-shadow:var(--shadow-panel);min-width:0;
+}
+.panel-head{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
+  padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-soft);
+}
+.panel-body{padding:var(--space-4)}
+.panel-body.flush{padding:0}
+
+.stat{display:flex;flex-direction:column;gap:2px;padding:var(--space-3) var(--space-4);
+  border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-bg);min-width:0}
+.stat .value{font-family:var(--font-display);font-weight:700;font-size:var(--text-2xl);line-height:1.05;
+  font-variant-numeric:tabular-nums;letter-spacing:-.015em}
+.stat .caption{font-size:var(--text-sm);color:var(--fg-muted);min-width:0}
+.stat .delta{font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)}
+
+.tag{display:inline-block;border:1px solid var(--border);border-radius:var(--radius-sm);padding:1px 7px;
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;color:var(--fg-secondary);text-transform:uppercase}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:100px;padding:2px 9px;
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid currentColor}
+.pill .bead{width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.good{color:var(--status-good)} .pill.info{color:var(--status-info)}
+.pill.warn{color:var(--status-warn)} .pill.crit{color:var(--status-critical)}
+.pill.idle{color:var(--status-idle)}
+
+/* tables */
+.tablewrap{overflow-x:auto;overscroll-behavior-x:contain}
+table.grid{border-collapse:collapse;width:100%;font-size:13.5px}
+table.grid caption{text-align:left}
+table.grid th{
+  position:sticky;top:0;z-index:1;background:var(--table-header-bg);text-align:left;
+  padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--border);white-space:nowrap;
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-muted);font-weight:500;
+}
+table.grid th[aria-sort]{color:var(--fg-primary)}
+table.grid th button.sortbtn{
+  all:unset;display:inline-flex;align-items:center;gap:5px;cursor:pointer;min-height:26px;
+  font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;
+}
+table.grid th button.sortbtn:hover{color:var(--fg-primary)}
+table.grid th button.sortbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+table.grid td{padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--border-soft);vertical-align:top}
+table.grid tbody tr:hover{background:var(--bg-hover)}
+table.grid td.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+table.grid.dense td,table.grid.dense th{white-space:nowrap;max-width:280px;overflow:hidden;text-overflow:ellipsis}
+.sortmark{color:var(--accent-ink)}
+
+/* fields */
+input.field,select.field{
+  font:inherit;font-size:13.5px;background:var(--field-bg);color:var(--fg-primary);
+  border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px var(--space-2);min-height:34px;
+}
+input.field{font-family:var(--font-mono);font-size:12.5px;min-width:200px}
+select.field{background-color:var(--field-bg);color:var(--fg-primary)}
+
+/* pipeline board */
+.board{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(180px,1fr);gap:var(--space-2);
+  overflow-x:auto;overscroll-behavior-x:contain;padding-bottom:var(--space-2)}
+.lane{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--panel-bg);
+  display:flex;flex-direction:column;min-height:140px;min-width:0}
+.lane-head{padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--border-soft);
+  display:flex;flex-direction:column;gap:1px}
+.lane-head .t{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-muted)}
+.lane-head .v{font-family:var(--font-display);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.lane-body{display:flex;flex-direction:column;gap:6px;padding:var(--space-2)}
+.record{
+  text-align:left;background:var(--bg-raised);border:1px solid var(--border-soft);
+  border-radius:var(--radius-sm);padding:7px var(--space-2);cursor:pointer;display:flex;
+  flex-direction:column;gap:3px;min-width:0;
+}
+.record:hover{border-color:var(--accent);background:var(--panel-bg)}
+.record[aria-pressed="true"]{border-color:var(--accent);background:var(--bg-selected)}
+.record .co{font-size:13px;font-weight:600;line-height:1.25;overflow-wrap:anywhere}
+.record .meta{display:flex;justify-content:space-between;gap:6px;font-family:var(--font-mono);
+  font-size:10px;color:var(--fg-muted);font-variant-numeric:tabular-nums}
+
+/* org */
+.node{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:var(--space-3);align-items:center;
+  width:100%;text-align:left;background:var(--panel-bg);border:1px solid var(--border);
+  border-left:3px solid var(--accent);border-radius:var(--radius-md);padding:var(--space-2) var(--space-3);cursor:pointer}
+.node:hover{border-color:var(--accent)}
+.node[aria-expanded="true"]{background:var(--bg-raised)}
+.sigil{width:40px;height:40px;border-radius:var(--radius-sm);display:grid;place-items:center;
+  background:var(--bg-chrome);color:var(--accent-bright);font-family:var(--font-mono);
+  font-weight:600;font-size:11px;letter-spacing:.04em}
+.node .who{display:flex;flex-direction:column;gap:1px;min-width:0}
+.node .who b{font-size:14px;font-weight:600}
+.node .who span{font-size:var(--text-sm);color:var(--fg-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crew{display:none;flex-direction:column;gap:6px;padding:var(--space-2) 0 var(--space-2) var(--space-6);
+  border-left:1px dashed var(--border);margin-left:var(--space-5)}
+.crew.open{display:flex}
+.unit{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-3);align-items:center;
+  border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);background:var(--bg-raised)}
+.unit .nm{font-size:13px;min-width:0}
+.pairs{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--accent-ink);text-transform:uppercase}
+
+/* charts */
+.chart{width:100%;display:block;overflow:visible}
+.chart text{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.grid-line{stroke:var(--border-soft);stroke-width:1}
+.axis-line{stroke:var(--border);stroke-width:1}
+.tick{fill:var(--fg-muted);font-size:9.5px;letter-spacing:.06em}
+.val{fill:var(--fg-primary);font-size:10.5px;font-weight:500}
+.bar{transition:opacity var(--dur-fast) var(--ease)}
+.chart:hover .bar{opacity:.5}
+.chart .bar:hover{opacity:1}
+.sparks{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:var(--space-3)}
+.spark{border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);background:var(--panel-bg)}
+.spark .hd{display:flex;justify-content:space-between;align-items:baseline;gap:6px;margin-bottom:4px}
+.spark .hd b{font-size:13px;font-weight:600}
+.spark .hd span{font-family:var(--font-mono);font-size:10.5px;color:var(--fg-secondary);
+  font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}
+
+/* funnel */
+.funnel{display:flex;flex-direction:column;gap:3px}
+.fstep{display:grid;grid-template-columns:120px minmax(0,1fr) 92px;gap:var(--space-3);align-items:center}
+.fstep .fn{font-size:13px;min-width:0}
+.fbar{height:24px;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.fstep .fv{font-family:var(--font-mono);font-size:10.5px;text-align:right;color:var(--fg-secondary);font-variant-numeric:tabular-nums}
+.fstep .thru{color:var(--fg-muted);font-size:9.5px}
+
+/* meters, capability chips, misc */
+.meterwrap{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.meter{width:96px;height:6px;border-radius:100px;background:var(--meter-track);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:100px;background:var(--series-3)}
+.meter i.low{background:var(--status-warn)} .meter i.out{background:var(--status-critical)}
+.meterval{font-family:var(--font-mono);font-size:10px;color:var(--fg-muted);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.meterval.hot{color:var(--status-warn)}
+.keyrow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:var(--space-3);align-items:center;
+  padding:var(--space-2) 0;border-bottom:1px solid var(--border-soft)}
+.keyrow:last-child{border-bottom:0}
+.keyrow .kn{display:flex;flex-direction:column;gap:1px;min-width:0}
+.keyrow .kn b{font-size:13.5px;font-weight:600}
+.keyrow .kn code{font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)}
+span.cap{display:inline-block;border:1px solid var(--border);border-radius:var(--radius-sm);padding:1px 6px;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--fg-muted);background:var(--panel-bg)}
+span.cap.on{border-color:var(--series-3);color:var(--series-3);
+  background:color-mix(in oklab, var(--series-3), transparent 92%)}
+
+/* source entries */
+.entry{display:grid;gap:3px;padding:var(--space-3) 0;border-bottom:1px solid var(--border-soft)}
+.entry:last-child{border-bottom:0}
+.entry .top{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2)}
+.entry a{font-weight:600;font-size:14px;color:var(--fg-primary);text-decoration:none;
+  border-bottom:1px solid var(--accent);overflow-wrap:anywhere}
+.entry a:hover{color:var(--accent-ink)}
+.entry p{margin:0;font-size:var(--text-sm);color:var(--fg-secondary);max-width:74ch}
+.entry .href{font-family:var(--font-mono);font-size:10px;color:var(--fg-muted);overflow-wrap:anywhere}
+
+/* empty state + export */
+.empty{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-2);
+  border:1px dashed var(--border);border-radius:var(--radius-md);padding:var(--space-5);background:var(--panel-bg)}
+.empty b{font-size:14px}
+.empty p{margin:0;font-size:13px;color:var(--fg-secondary);max-width:60ch}
+pre.dump{margin:var(--space-2) 0 0;max-height:220px;overflow:auto;background:var(--bg-raised);
+  border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:var(--space-3);
+  font-family:var(--font-mono);font-size:11px;line-height:1.55;white-space:pre;overscroll-behavior:contain}
+.reserved{border:1px dashed var(--border);border-radius:var(--radius-md);padding:var(--space-4);
+  color:var(--fg-muted);font-size:13px}
+
+/* command palette */
+.scrim{position:fixed;inset:0;z-index:60;background:color-mix(in oklab, var(--bg-chrome-deep), transparent 35%);
+  display:grid;place-items:start center;padding-top:12vh;overscroll-behavior:contain}
+.scrim[hidden]{display:none}
+.palette{width:min(560px,92vw);background:var(--bg-surface);border:1px solid var(--border);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-overlay);overflow:hidden}
+.palette input{width:100%;border:0;border-bottom:1px solid var(--border-soft);background:transparent;
+  color:var(--fg-primary);font-family:var(--font-ui);font-size:15px;padding:var(--space-4);outline:none}
+.palette input:focus-visible{border-bottom-color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
+.palette ul{list-style:none;margin:0;padding:var(--space-2);max-height:46vh;overflow:auto;overscroll-behavior:contain}
+.palette li button{
+  all:unset;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
+  width:100%;box-sizing:border-box;padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);
+  cursor:pointer;font-size:13.5px;
+}
+.palette li button:hover,.palette li button[data-active="true"]{background:var(--bg-selected)}
+.palette li button .where{font-family:var(--font-mono);font-size:10px;color:var(--fg-muted)}
+
+#tip{position:fixed;z-index:70;pointer-events:none;opacity:0;transform:translate(-50%,-115%);
+  background:var(--bg-chrome);color:#EAF2EC;border:1px solid var(--accent);border-radius:var(--radius-sm);
+  padding:6px var(--space-2);font-family:var(--font-mono);font-size:11px;line-height:1.45;
+  white-space:nowrap;transition:opacity var(--dur-fast) var(--ease);box-shadow:var(--shadow-overlay)}
+#tip.on{opacity:1}
+
+@media (max-width:900px){
+  .os{grid-template-columns:1fr}
+  .rail{position:static;height:auto}
+  .navgroup{flex-direction:row;flex-wrap:wrap}
+  .navitem{grid-template-columns:18px auto auto}
+  main{padding:var(--space-4)}
+}
+</style>
+<a class="skip" href="#main">Skip to content</a>
+<div class="os">
+  <aside class="rail">
+    <div class="brandmark">
+      <span class="name" translate="no">Hero Capital</span>
+      <span class="kind">Operating System</span>
+    </div>
+    <hr class="hr-chrome" style="margin:0 20px">
+    <nav class="navgroup" id="navWork" aria-label="Operations"><h2>Operations</h2></nav>
+    <nav class="navgroup" id="navSystem" aria-label="System"><h2>System</h2></nav>
+    <div class="rail-foot">
+      <hr class="hr-chrome">
+      <p class="uptime"><span class="led" aria-hidden="true"></span><span id="hostState">Local cloud · online</span></p>
+      <button class="btn" id="themeBtn" type="button" style="border-color:rgba(255,255,255,.16);color:#DCE6DE">Dark mode</button>
+    </div>
+  </aside>
+
+  <div class="workspace">
+    <header class="topbar">
+      <div class="crumb">
+        <span class="scope" id="scope">Operations</span>
+        <h1 id="moduleTitle">Overview</h1>
+      </div>
+      <button class="btn" id="paletteBtn" type="button" aria-haspopup="dialog">
+        Go To<kbd>&#8984;&nbsp;K</kbd>
+      </button>
+    </header>
+    <main id="main" tabindex="-1"></main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="palette" role="dialog" aria-modal="true" aria-label="Go to module">
+    <label class="sr" for="paletteInput">Search modules</label>
+    <input id="paletteInput" type="search" placeholder="Go to module…" autocomplete="off"
+           spellcheck="false" enterkeyhint="go">
+    <ul id="paletteList"></ul>
+  </div>
+</div>
+<div id="tip" role="status" aria-live="polite"></div>
+<p class="sr" id="routeAnnounce" aria-live="polite"></p>
+<script>
+/* Data. Generated from db/seed.json — the same rows scripts/load_seed.py
+   puts into Postgres, so the interface and the database cannot drift.
+   Regenerate: node tools/build-data.js */
+const DB = {
+ "meta": {
+  "company": "Godly Base",
+  "founded": "2026",
+  "brain": "Obsidian vault @ /brain (MCP)",
+  "niches": [
+   "Roofing & Restoration",
+   "Med Spa & Aesthetics",
+   "Commercial HVAC & Facilities",
+   "Private Security Services"
+  ]
+ },
+ "front_office": [
+  {
+   "id": "FO-01",
+   "capability": "Inbound call",
+   "channel": "Phone",
+   "does": "Answers every call in under two rings, day or night. Qualifies the caller, books the job, or routes a true emergency to a human.",
+   "replaces": "Voicemail, and the call that rings out at 6pm",
+   "writes": "contacts, bookings",
+   "status": "live"
+  },
+  {
+   "id": "FO-02",
+   "capability": "Outbound call",
+   "channel": "Phone",
+   "does": "Confirmations, reschedules, callbacks on missed calls, and win-back on quotes that went quiet.",
+   "replaces": "The callback nobody made",
+   "writes": "bookings, follow_ups",
+   "status": "live"
+  },
+  {
+   "id": "FO-03",
+   "capability": "Inbox",
+   "channel": "Email, web form, SMS",
+   "does": "Reads, triages, and answers. Escalates anything priced or contested to a named human.",
+   "replaces": "A shared inbox nobody owns",
+   "writes": "contacts, threads",
+   "status": "live"
+  },
+  {
+   "id": "FO-04",
+   "capability": "Booking",
+   "channel": "Calendar",
+   "does": "Puts the job on the calendar against real crew capacity and drive time, not an empty grid.",
+   "replaces": "Double-booked Tuesdays",
+   "writes": "bookings",
+   "status": "live"
+  },
+  {
+   "id": "FO-05",
+   "capability": "Quote and estimate",
+   "channel": "Email, SMS",
+   "does": "Builds the quote from the client’s own price book and sends it while the caller still remembers calling.",
+   "replaces": "The estimate that took four days",
+   "writes": "quotes",
+   "status": "live"
+  },
+  {
+   "id": "FO-06",
+   "capability": "Payment",
+   "channel": "Link, phone",
+   "does": "Takes the deposit, sends the invoice, and chases the balance on a schedule the owner sets.",
+   "replaces": "Accounts receivable as a shoebox",
+   "writes": "invoices, payments",
+   "status": "live"
+  },
+  {
+   "id": "FO-07",
+   "capability": "Google review",
+   "channel": "SMS, email",
+   "does": "Asks for the review at the one moment the customer is happiest — job closed, payment cleared.",
+   "replaces": "Asking never, or asking everyone at once",
+   "writes": "reviews",
+   "status": "live"
+  },
+  {
+   "id": "FO-08",
+   "capability": "Referral follow-up",
+   "channel": "SMS, email, phone",
+   "does": "Comes back after the job to ask who else needs the work, and tracks what the answer produced.",
+   "replaces": "Word of mouth left to chance",
+   "writes": "referrals",
+   "status": "pilot"
+  },
+  {
+   "id": "FO-09",
+   "capability": "Trade-specific work",
+   "channel": "Any",
+   "does": "Whatever else that business actually sells — warranty registration, seasonal service reminders, permit status, membership renewals. Configured per client, not per industry.",
+   "replaces": "The task that only lives in one person’s head",
+   "writes": "custom",
+   "status": "pilot"
+  }
+ ],
+ "deployments": [
+  {
+   "client": "Ridgeway Restoration",
+   "niche": "Roofing & Restoration",
+   "live": [
+    "FO-01",
+    "FO-02",
+    "FO-03",
+    "FO-04",
+    "FO-05",
+    "FO-07"
+   ],
+   "stage": "Running",
+   "since": "2026-06-02",
+   "note": "Storm season doubled call volume; inbound was the whole reason they signed."
+  },
+  {
+   "client": "Bluecrest Aesthetics",
+   "niche": "Med Spa & Aesthetics",
+   "live": [
+    "FO-01",
+    "FO-03",
+    "FO-04",
+    "FO-06",
+    "FO-07",
+    "FO-08"
+   ],
+   "stage": "Running",
+   "since": "2026-06-19",
+   "note": "No-show recovery and rebooking carry this one, not new leads."
+  },
+  {
+   "client": "Keystone Mechanical Group",
+   "niche": "Commercial HVAC & Facilities",
+   "live": [
+    "FO-03",
+    "FO-04",
+    "FO-05"
+   ],
+   "stage": "Onboarding",
+   "since": "2026-09-03",
+   "note": "Work-order triage first; payment waits for their ERP mapping."
+  },
+  {
+   "client": "Vireo Med Spa Group",
+   "niche": "Med Spa & Aesthetics",
+   "live": [
+    "FO-01",
+    "FO-04"
+   ],
+   "stage": "Pilot",
+   "since": "2026-08-28",
+   "note": "Two capabilities, one location, thirty days to prove it."
+  }
+ ],
+ "accounts": [
+  {
+   "id": "ACC-1041",
+   "name": "Harker Roofing & Restoration",
+   "niche": "Roofing & Restoration",
+   "city": "Tulsa, OK",
+   "employees": 64,
+   "revenue_band": "$5–10M",
+   "owner_verified": "BBB + Secretary of State",
+   "source": "Apollo",
+   "score": 88
+  },
+  {
+   "id": "ACC-1042",
+   "name": "Vireo Med Spa Group",
+   "niche": "Med Spa & Aesthetics",
+   "city": "Scottsdale, AZ",
+   "employees": 38,
+   "revenue_band": "$3–5M",
+   "owner_verified": "LinkedIn + Hunter",
+   "source": "Clay",
+   "score": 81
+  },
+  {
+   "id": "ACC-1043",
+   "name": "Northline Facility Services",
+   "niche": "Commercial HVAC & Facilities",
+   "city": "Columbus, OH",
+   "employees": 210,
+   "revenue_band": "$20–50M",
+   "owner_verified": "BBB",
+   "source": "Apollo",
+   "score": 93
+  },
+  {
+   "id": "ACC-1044",
+   "name": "Cedar & Iron Security",
+   "niche": "Private Security Services",
+   "city": "Nashville, TN",
+   "employees": 120,
+   "revenue_band": "$10–20M",
+   "owner_verified": "TruePeopleSearch",
+   "source": "Manual",
+   "score": 74
+  },
+  {
+   "id": "ACC-1045",
+   "name": "Palladin Exteriors",
+   "niche": "Roofing & Restoration",
+   "city": "Denver, CO",
+   "employees": 45,
+   "revenue_band": "$3–5M",
+   "owner_verified": "BBB + LinkedIn",
+   "source": "Crawl4AI",
+   "score": 69
+  },
+  {
+   "id": "ACC-1046",
+   "name": "Lumen Aesthetics Partners",
+   "niche": "Med Spa & Aesthetics",
+   "city": "Austin, TX",
+   "employees": 22,
+   "revenue_band": "$1–3M",
+   "owner_verified": "Hunter",
+   "source": "Apollo",
+   "score": 77
+  },
+  {
+   "id": "ACC-1047",
+   "name": "Keystone Mechanical Group",
+   "niche": "Commercial HVAC & Facilities",
+   "city": "Pittsburgh, PA",
+   "employees": 310,
+   "revenue_band": "$50M+",
+   "owner_verified": "BBB + LinkedIn",
+   "source": "Clay",
+   "score": 95
+  },
+  {
+   "id": "ACC-1048",
+   "name": "Sentinel Guard Co.",
+   "niche": "Private Security Services",
+   "city": "Atlanta, GA",
+   "employees": 88,
+   "revenue_band": "$5–10M",
+   "owner_verified": "pending",
+   "source": "Crawl4AI",
+   "score": 58
+  }
+ ],
+ "contacts": [
+  {
+   "id": "CON-3301",
+   "account_id": "ACC-1041",
+   "name": "Dana Harker",
+   "title": "Owner / President",
+   "email": "d.harker@harkerroofing.com",
+   "email_status": "verified",
+   "phone": "+1 918 555 0142",
+   "linkedin": "in/dana-harker",
+   "channel": "Cold email + LinkedIn",
+   "last_touch": "2026-08-27"
+  },
+  {
+   "id": "CON-3302",
+   "account_id": "ACC-1042",
+   "name": "Priya Raman",
+   "title": "Managing Partner",
+   "email": "praman@vireomedspa.com",
+   "email_status": "verified",
+   "phone": "+1 480 555 0188",
+   "linkedin": "in/priya-raman-md",
+   "channel": "LinkedIn",
+   "last_touch": "2026-08-29"
+  },
+  {
+   "id": "CON-3303",
+   "account_id": "ACC-1043",
+   "name": "Marcus Ilo",
+   "title": "VP Operations",
+   "email": "m.ilo@northlinefs.com",
+   "email_status": "verified",
+   "phone": "+1 614 555 0110",
+   "linkedin": "in/marcus-ilo",
+   "channel": "Cold email",
+   "last_touch": "2026-08-30"
+  },
+  {
+   "id": "CON-3304",
+   "account_id": "ACC-1044",
+   "name": "Rae Colvin",
+   "title": "CEO",
+   "email": "rae@cedarandiron.com",
+   "email_status": "risky",
+   "phone": "+1 615 555 0173",
+   "linkedin": "in/rae-colvin",
+   "channel": "Phone + email",
+   "last_touch": "2026-08-21"
+  },
+  {
+   "id": "CON-3305",
+   "account_id": "ACC-1047",
+   "name": "Ben Okafor",
+   "title": "COO",
+   "email": "bokafor@keystonemech.com",
+   "email_status": "verified",
+   "phone": "+1 412 555 0166",
+   "linkedin": "in/ben-okafor",
+   "channel": "LinkedIn + proposal",
+   "last_touch": "2026-08-31"
+  },
+  {
+   "id": "CON-3306",
+   "account_id": "ACC-1046",
+   "name": "Sloane Whit",
+   "title": "Founder",
+   "email": "sloane@lumenaesthetics.co",
+   "email_status": "verified",
+   "phone": "+1 512 555 0121",
+   "linkedin": "in/sloane-whit",
+   "channel": "Cold email",
+   "last_touch": "2026-08-28"
+  },
+  {
+   "id": "CON-3307",
+   "account_id": "ACC-1045",
+   "name": "Tomás Bela",
+   "title": "Owner",
+   "email": "tomas@palladinext.com",
+   "email_status": "catch-all",
+   "phone": "+1 303 555 0134",
+   "linkedin": "in/tomas-bela",
+   "channel": "Cold email",
+   "last_touch": "2026-08-24"
+  },
+  {
+   "id": "CON-3308",
+   "account_id": "ACC-1048",
+   "name": "Junie Park",
+   "title": "Director of Ops",
+   "email": "jpark@sentinelguard.co",
+   "email_status": "unverified",
+   "phone": "—",
+   "linkedin": "in/junie-park",
+   "channel": "Research queue",
+   "last_touch": "2026-08-19"
+  }
+ ],
+ "deals": [
+  {
+   "id": "DEAL-901",
+   "account": "Keystone Mechanical Group",
+   "contact": "Ben Okafor",
+   "stage": "Proposal",
+   "value": 96000,
+   "term": "12 mo retainer",
+   "prob": 0.6,
+   "owner": "AG-SALES-02",
+   "next": "Custom proposal walkthrough 09/03",
+   "opened": "2026-07-22",
+   "niche": "Commercial HVAC & Facilities"
+  },
+  {
+   "id": "DEAL-902",
+   "account": "Northline Facility Services",
+   "contact": "Marcus Ilo",
+   "stage": "Discovery",
+   "value": 54000,
+   "term": "6 mo pilot",
+   "prob": 0.35,
+   "owner": "AG-SALES-01",
+   "next": "Ops audit call 09/04",
+   "opened": "2026-08-11",
+   "niche": "Commercial HVAC & Facilities"
+  },
+  {
+   "id": "DEAL-903",
+   "account": "Vireo Med Spa Group",
+   "contact": "Priya Raman",
+   "stage": "Negotiation",
+   "value": 72000,
+   "term": "12 mo retainer",
+   "prob": 0.75,
+   "owner": "AG-SALES-02",
+   "next": "Redline returned 09/02",
+   "opened": "2026-06-30",
+   "niche": "Med Spa & Aesthetics"
+  },
+  {
+   "id": "DEAL-904",
+   "account": "Harker Roofing & Restoration",
+   "contact": "Dana Harker",
+   "stage": "Qualified",
+   "value": 36000,
+   "term": "6 mo",
+   "prob": 0.25,
+   "owner": "AG-SALES-03",
+   "next": "Storm-season capacity review",
+   "opened": "2026-08-19",
+   "niche": "Roofing & Restoration"
+  },
+  {
+   "id": "DEAL-905",
+   "account": "Lumen Aesthetics Partners",
+   "contact": "Sloane Whit",
+   "stage": "Qualified",
+   "value": 28000,
+   "term": "6 mo",
+   "prob": 0.25,
+   "owner": "AG-SALES-03",
+   "next": "Send niche case study",
+   "opened": "2026-08-26",
+   "niche": "Med Spa & Aesthetics"
+  },
+  {
+   "id": "DEAL-906",
+   "account": "Cedar & Iron Security",
+   "contact": "Rae Colvin",
+   "stage": "Discovery",
+   "value": 45000,
+   "term": "9 mo",
+   "prob": 0.3,
+   "owner": "AG-SALES-01",
+   "next": "Verify decision authority",
+   "opened": "2026-08-14",
+   "niche": "Private Security Services"
+  },
+  {
+   "id": "DEAL-907",
+   "account": "Palladin Exteriors",
+   "contact": "Tomás Bela",
+   "stage": "New",
+   "value": 24000,
+   "term": "3 mo trial",
+   "prob": 0.1,
+   "owner": "AG-SALES-01",
+   "next": "Sequence step 2 pending",
+   "opened": "2026-08-29",
+   "niche": "Roofing & Restoration"
+  },
+  {
+   "id": "DEAL-908",
+   "account": "Ridgeway Restoration",
+   "contact": "Ola Nkemdi",
+   "stage": "Closed Won",
+   "value": 60000,
+   "term": "12 mo retainer",
+   "prob": 1,
+   "owner": "AG-SALES-02",
+   "next": "Onboarding week 2",
+   "opened": "2026-05-18",
+   "niche": "Roofing & Restoration"
+  },
+  {
+   "id": "DEAL-909",
+   "account": "Bluecrest Aesthetics",
+   "contact": "Marta Vane",
+   "stage": "Closed Won",
+   "value": 42000,
+   "term": "12 mo retainer",
+   "prob": 1,
+   "owner": "AG-SALES-03",
+   "next": "Expansion review 10/01",
+   "opened": "2026-06-05",
+   "niche": "Med Spa & Aesthetics"
+  },
+  {
+   "id": "DEAL-910",
+   "account": "Halden Guard Group",
+   "contact": "Ivy Halden",
+   "stage": "Closed Lost",
+   "value": 38000,
+   "term": "—",
+   "prob": 0,
+   "owner": "AG-SALES-01",
+   "next": "Revisit Q1 — budget freeze",
+   "opened": "2026-07-02",
+   "niche": "Private Security Services"
+  }
+ ],
+ "partners": [
+  {
+   "id": "PTR-201",
+   "name": "Ridge Adjusters Network",
+   "type": "Referral",
+   "niche": "Roofing & Restoration",
+   "stage": "Signed",
+   "deal_flow_mo": 6,
+   "rev_share": "15%",
+   "owner": "AG-BD-01",
+   "note": "Feeds storm-claim contractors post-event"
+  },
+  {
+   "id": "PTR-202",
+   "name": "Aesthetic Practice Collective",
+   "type": "Channel",
+   "niche": "Med Spa & Aesthetics",
+   "stage": "Pilot",
+   "deal_flow_mo": 4,
+   "rev_share": "12%",
+   "owner": "AG-BD-02",
+   "note": "Co-branded onboarding for member clinics"
+  },
+  {
+   "id": "PTR-203",
+   "name": "Buildline Facilities Consortium",
+   "type": "Reseller",
+   "niche": "Commercial HVAC & Facilities",
+   "stage": "Negotiation",
+   "deal_flow_mo": 9,
+   "rev_share": "20%",
+   "owner": "AG-BD-01",
+   "note": "White-label agent pods per member firm"
+  },
+  {
+   "id": "PTR-204",
+   "name": "Guardpoint Association",
+   "type": "Referral",
+   "niche": "Private Security Services",
+   "stage": "Intro",
+   "deal_flow_mo": 3,
+   "rev_share": "10%",
+   "owner": "AG-BD-03",
+   "note": "Association newsletter placement"
+  },
+  {
+   "id": "PTR-205",
+   "name": "Northstar MSP",
+   "type": "Tech Alliance",
+   "niche": "Cross-niche",
+   "stage": "Qualified",
+   "deal_flow_mo": 5,
+   "rev_share": "—",
+   "owner": "AG-BD-02",
+   "note": "Hosts local cloud for regulated clients"
+  },
+  {
+   "id": "PTR-206",
+   "name": "Claim & Comply LLC",
+   "type": "Referral",
+   "niche": "Roofing & Restoration",
+   "stage": "Signed",
+   "deal_flow_mo": 2,
+   "rev_share": "15%",
+   "owner": "AG-BD-03",
+   "note": "Compliance review of proposals"
+  }
+ ],
+ "campaigns": [
+  {
+   "id": "CMP-501",
+   "name": "Storm Season Capacity",
+   "channel": "Cold email",
+   "niche": "Roofing & Restoration",
+   "sent": 2400,
+   "replied": 186,
+   "booked": 31,
+   "won": 6,
+   "status": "running",
+   "owner": "AG-MKT-01"
+  },
+  {
+   "id": "CMP-502",
+   "name": "Chair-Hours Reclaimed",
+   "channel": "LinkedIn",
+   "niche": "Med Spa & Aesthetics",
+   "sent": 960,
+   "replied": 142,
+   "booked": 24,
+   "won": 4,
+   "status": "running",
+   "owner": "AG-MKT-02"
+  },
+  {
+   "id": "CMP-503",
+   "name": "Work Order Triage",
+   "channel": "Cold email",
+   "niche": "Commercial HVAC & Facilities",
+   "sent": 1750,
+   "replied": 121,
+   "booked": 19,
+   "won": 5,
+   "status": "running",
+   "owner": "AG-MKT-01"
+  },
+  {
+   "id": "CMP-504",
+   "name": "Post Order Automation",
+   "channel": "Cold email",
+   "niche": "Private Security Services",
+   "sent": 1130,
+   "replied": 64,
+   "booked": 9,
+   "won": 1,
+   "status": "paused",
+   "owner": "AG-MKT-03"
+  },
+  {
+   "id": "CMP-505",
+   "name": "Codex Field Notes",
+   "channel": "Newsletter",
+   "niche": "Cross-niche",
+   "sent": 5400,
+   "replied": 0,
+   "booked": 14,
+   "won": 3,
+   "status": "running",
+   "owner": "AG-CNT-01"
+  }
+ ],
+ "content": [
+  {
+   "id": "CNT-701",
+   "title": "What a roofing GM loses to phone tag",
+   "format": "Long-form + carousel",
+   "niche": "Roofing & Restoration",
+   "channel": "LinkedIn, Newsletter",
+   "status": "scheduled",
+   "date": "2026-09-03",
+   "owner": "AG-CNT-01"
+  },
+  {
+   "id": "CNT-702",
+   "title": "Med spa no-show math (and the recovery sequence)",
+   "format": "Case teardown",
+   "niche": "Med Spa & Aesthetics",
+   "channel": "LinkedIn, X",
+   "status": "drafting",
+   "date": "2026-09-05",
+   "owner": "AG-CNT-02"
+  },
+  {
+   "id": "CNT-703",
+   "title": "Work-order triage in 90 seconds",
+   "format": "Demo video",
+   "niche": "Commercial HVAC & Facilities",
+   "channel": "YouTube, LinkedIn",
+   "status": "in review",
+   "date": "2026-09-08",
+   "owner": "AG-CNT-03"
+  },
+  {
+   "id": "CNT-704",
+   "title": "Guard scheduling without the 2am call",
+   "format": "Long-form",
+   "niche": "Private Security Services",
+   "channel": "Newsletter",
+   "status": "idea",
+   "date": "2026-09-12",
+   "owner": "AG-CNT-01"
+  }
+ ],
+ "funnel": [
+  {
+   "stage": "Reached",
+   "count": 11640,
+   "note": "Verified contacts across 4 niches"
+  },
+  {
+   "stage": "Engaged",
+   "count": 2318,
+   "note": "Opened, clicked, or replied"
+  },
+  {
+   "stage": "Replied",
+   "count": 513,
+   "note": "Human reply, any sentiment"
+  },
+  {
+   "stage": "Booked",
+   "count": 97,
+   "note": "Meeting on calendar"
+  },
+  {
+   "stage": "Proposal",
+   "count": 41,
+   "note": "Custom proposal delivered"
+  },
+  {
+   "stage": "Won",
+   "count": 19,
+   "note": "Signed retainer"
+  }
+ ],
+ "agents": [
+  {
+   "id": "AG-SALES-01",
+   "name": "Outbound Prospector",
+   "department": "Sales",
+   "reports_to": "SUP-SALES",
+   "chief": "CSO",
+   "duo_partner": "AG-SALES-03",
+   "charter": "Builds and works cold lists; sequences email + LinkedIn.",
+   "runs_7d": 184,
+   "status": "hot",
+   "memory": "/brain/agents/ag-sales-01.md"
+  },
+  {
+   "id": "AG-SALES-02",
+   "name": "Proposal Architect",
+   "department": "Sales",
+   "reports_to": "SUP-SALES",
+   "chief": "CSO",
+   "duo_partner": "AG-FIN-01",
+   "charter": "Writes custom, niche-specific proposals and pricing.",
+   "runs_7d": 37,
+   "status": "idle",
+   "memory": "/brain/agents/ag-sales-02.md"
+  },
+  {
+   "id": "AG-SALES-03",
+   "name": "Inbound & Qualifier",
+   "department": "Sales",
+   "reports_to": "SUP-SALES",
+   "chief": "CSO",
+   "duo_partner": "AG-SALES-01",
+   "charter": "Answers inbound, verifies authority, books meetings.",
+   "runs_7d": 96,
+   "status": "active",
+   "memory": "/brain/agents/ag-sales-03.md"
+  },
+  {
+   "id": "AG-MKT-01",
+   "name": "Campaign Operator",
+   "department": "Marketing",
+   "reports_to": "SUP-MKT",
+   "chief": "CMO",
+   "duo_partner": "AG-MKT-03",
+   "charter": "Runs email campaigns, A/B, deliverability warming.",
+   "runs_7d": 141,
+   "status": "active",
+   "memory": "/brain/agents/ag-mkt-01.md"
+  },
+  {
+   "id": "AG-MKT-02",
+   "name": "Social Publisher",
+   "department": "Marketing",
+   "reports_to": "SUP-MKT",
+   "chief": "CMO",
+   "duo_partner": "AG-CNT-01",
+   "charter": "Schedules and cross-posts via the social scheduler.",
+   "runs_7d": 88,
+   "status": "active",
+   "memory": "/brain/agents/ag-mkt-02.md"
+  },
+  {
+   "id": "AG-MKT-03",
+   "name": "Funnel Analyst",
+   "department": "Marketing",
+   "reports_to": "SUP-MKT",
+   "chief": "CMO",
+   "duo_partner": "AG-MKT-01",
+   "charter": "Attribution, stage conversion, kill/scale calls.",
+   "runs_7d": 64,
+   "status": "active",
+   "memory": "/brain/agents/ag-mkt-03.md"
+  },
+  {
+   "id": "AG-BD-01",
+   "name": "Partner Scout",
+   "department": "Business Development",
+   "reports_to": "SUP-BD",
+   "chief": "CBDO",
+   "duo_partner": "AG-RES-01",
+   "charter": "Finds associations, MSPs, adjusters, consortiums.",
+   "runs_7d": 52,
+   "status": "active",
+   "memory": "/brain/agents/ag-bd-01.md"
+  },
+  {
+   "id": "AG-BD-02",
+   "name": "Alliance Manager",
+   "department": "Business Development",
+   "reports_to": "SUP-BD",
+   "chief": "CBDO",
+   "duo_partner": "AG-BD-03",
+   "charter": "Runs partner pipeline stages and rev-share terms.",
+   "runs_7d": 44,
+   "status": "idle",
+   "memory": "/brain/agents/ag-bd-02.md"
+  },
+  {
+   "id": "AG-BD-03",
+   "name": "Program Designer",
+   "department": "Business Development",
+   "reports_to": "SUP-BD",
+   "chief": "CBDO",
+   "duo_partner": "AG-BD-02",
+   "charter": "Designs tiers, enablement kits, co-marketing.",
+   "runs_7d": 29,
+   "status": "idle",
+   "memory": "/brain/agents/ag-bd-03.md"
+  },
+  {
+   "id": "AG-DEV-01",
+   "name": "Integration Engineer",
+   "department": "Technology",
+   "reports_to": "SUP-DEV",
+   "chief": "CTO",
+   "duo_partner": "AG-DEV-02",
+   "charter": "Wires API keys, webhooks, MCP servers.",
+   "runs_7d": 73,
+   "status": "active",
+   "memory": "/brain/agents/ag-dev-01.md"
+  },
+  {
+   "id": "AG-DEV-02",
+   "name": "Reliability Warden",
+   "department": "Technology",
+   "reports_to": "SUP-DEV",
+   "chief": "CTO",
+   "duo_partner": "AG-DEV-01",
+   "charter": "Watches jobs, retries, rate limits, backups.",
+   "runs_7d": 206,
+   "status": "hot",
+   "memory": "/brain/agents/ag-dev-02.md"
+  },
+  {
+   "id": "AG-DEV-03",
+   "name": "Automation Builder",
+   "department": "Technology",
+   "reports_to": "SUP-DEV",
+   "chief": "CTO",
+   "duo_partner": "AG-MKT-01",
+   "charter": "Builds workflows connecting the stack end to end.",
+   "runs_7d": 58,
+   "status": "active",
+   "memory": "/brain/agents/ag-dev-03.md"
+  },
+  {
+   "id": "AG-RES-01",
+   "name": "Market Scraper",
+   "department": "Intelligence",
+   "reports_to": "SUP-RES",
+   "chief": "CIO",
+   "duo_partner": "AG-RES-02",
+   "charter": "Crawls directories, sites, listings into structured rows.",
+   "runs_7d": 312,
+   "status": "hot",
+   "memory": "/brain/agents/ag-res-01.md"
+  },
+  {
+   "id": "AG-RES-02",
+   "name": "Ownership Verifier",
+   "department": "Intelligence",
+   "reports_to": "SUP-RES",
+   "chief": "CIO",
+   "duo_partner": "AG-RES-01",
+   "charter": "Confirms owners across BBB, registries, people search.",
+   "runs_7d": 227,
+   "status": "hot",
+   "memory": "/brain/agents/ag-res-02.md"
+  },
+  {
+   "id": "AG-RES-03",
+   "name": "Competitive Analyst",
+   "department": "Intelligence",
+   "reports_to": "SUP-RES",
+   "chief": "CIO",
+   "duo_partner": "AG-FIN-03",
+   "charter": "Tracks rivals, pricing, positioning per niche.",
+   "runs_7d": 41,
+   "status": "idle",
+   "memory": "/brain/agents/ag-res-03.md"
+  },
+  {
+   "id": "AG-CNT-01",
+   "name": "Long-form Writer",
+   "department": "Content",
+   "reports_to": "SUP-CNT",
+   "chief": "CCO",
+   "duo_partner": "AG-CNT-02",
+   "charter": "Articles, newsletters, niche teardowns.",
+   "runs_7d": 67,
+   "status": "active",
+   "memory": "/brain/agents/ag-cnt-01.md"
+  },
+  {
+   "id": "AG-CNT-02",
+   "name": "Editor & Fact-checker",
+   "department": "Content",
+   "reports_to": "SUP-CNT",
+   "chief": "CCO",
+   "duo_partner": "AG-CNT-01",
+   "charter": "Verifies every claim before it ships.",
+   "runs_7d": 67,
+   "status": "active",
+   "memory": "/brain/agents/ag-cnt-02.md"
+  },
+  {
+   "id": "AG-CNT-03",
+   "name": "Media Producer",
+   "department": "Content",
+   "reports_to": "SUP-CNT",
+   "chief": "CCO",
+   "duo_partner": "AG-MKT-02",
+   "charter": "Video, carousels, proposal design assets.",
+   "runs_7d": 35,
+   "status": "idle",
+   "memory": "/brain/agents/ag-cnt-03.md"
+  },
+  {
+   "id": "AG-FIN-01",
+   "name": "Unit Economics",
+   "department": "Financial",
+   "reports_to": "SUP-FIN",
+   "chief": "CFO",
+   "duo_partner": "AG-SALES-02",
+   "charter": "Prices deals, guards margin on every proposal.",
+   "runs_7d": 31,
+   "status": "idle",
+   "memory": "/brain/agents/ag-fin-01.md"
+  },
+  {
+   "id": "AG-FIN-02",
+   "name": "Credit Warden",
+   "department": "Financial",
+   "reports_to": "SUP-FIN",
+   "chief": "CFO",
+   "duo_partner": "AG-DEV-02",
+   "charter": "Meters API credits; halts runaway spend.",
+   "runs_7d": 174,
+   "status": "hot",
+   "memory": "/brain/agents/ag-fin-02.md"
+  },
+  {
+   "id": "AG-FIN-03",
+   "name": "Forecast Analyst",
+   "department": "Financial",
+   "reports_to": "SUP-FIN",
+   "chief": "CFO",
+   "duo_partner": "AG-RES-03",
+   "charter": "Pipeline-weighted revenue and capacity forecast.",
+   "runs_7d": 26,
+   "status": "idle",
+   "memory": "/brain/agents/ag-fin-03.md"
+  }
+ ],
+ "api_keys": [
+  {
+   "id": "KEY-01",
+   "service": "Anthropic (Claude)",
+   "purpose": "Agent reasoning, drafting, review",
+   "env": "ANTHROPIC_API_KEY",
+   "status": "live",
+   "used": 61,
+   "limit": 100,
+   "unit": "% monthly budget",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-02",
+   "service": "Apollo.io",
+   "purpose": "Contact + company enrichment, waterfall email/phone",
+   "env": "APOLLO_API_KEY",
+   "status": "live",
+   "used": 412,
+   "limit": 1000,
+   "unit": "credits",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-03",
+   "service": "Hunter.io",
+   "purpose": "Email finder + verifier (0.5 credit per verify)",
+   "env": "HUNTER_API_KEY",
+   "status": "live",
+   "used": 44,
+   "limit": 50,
+   "unit": "credits",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-04",
+   "service": "Clay",
+   "purpose": "List building + multi-source enrichment tables",
+   "env": "CLAY_API_KEY",
+   "status": "live",
+   "used": 230,
+   "limit": 500,
+   "unit": "credits",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-05",
+   "service": "Firecrawl",
+   "purpose": "Site → markdown/JSON for research + RAG",
+   "env": "FIRECRAWL_API_KEY",
+   "status": "live",
+   "used": 1180,
+   "limit": 3000,
+   "unit": "pages",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-06",
+   "service": "Crawl4AI (self-hosted)",
+   "purpose": "Local-first crawling, no per-page cost",
+   "env": "CRAWL4AI_BASE_URL",
+   "status": "live",
+   "used": 0,
+   "limit": 0,
+   "unit": "local",
+   "host": "local cloud"
+  },
+  {
+   "id": "KEY-07",
+   "service": "Postiz (self-hosted)",
+   "purpose": "Social scheduling across 30+ networks",
+   "env": "POSTIZ_API_KEY",
+   "status": "live",
+   "used": 0,
+   "limit": 0,
+   "unit": "local",
+   "host": "local cloud"
+  },
+  {
+   "id": "KEY-08",
+   "service": "HubSpot",
+   "purpose": "Mirror of deals/contacts for client-facing reporting",
+   "env": "HUBSPOT_PRIVATE_APP_TOKEN",
+   "status": "live",
+   "used": 38,
+   "limit": 100,
+   "unit": "% daily calls",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-09",
+   "service": "Twenty CRM (self-hosted)",
+   "purpose": "System-of-record CRM on the local cloud",
+   "env": "TWENTY_API_KEY",
+   "status": "live",
+   "used": 0,
+   "limit": 0,
+   "unit": "local",
+   "host": "local cloud"
+  },
+  {
+   "id": "KEY-10",
+   "service": "Unipile (LinkedIn)",
+   "purpose": "Compliant LinkedIn messaging + inbox sync",
+   "env": "UNIPILE_API_KEY",
+   "status": "pending",
+   "used": 0,
+   "limit": 200,
+   "unit": "actions/day",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-11",
+   "service": "Instantly / SMTP pool",
+   "purpose": "Cold email sending + warmup",
+   "env": "INSTANTLY_API_KEY",
+   "status": "live",
+   "used": 2870,
+   "limit": 6000,
+   "unit": "sends/mo",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-12",
+   "service": "Google Drive",
+   "purpose": "Client-facing docs, proposals, exports",
+   "env": "GOOGLE_OAUTH_REFRESH_TOKEN",
+   "status": "live",
+   "used": 12,
+   "limit": 100,
+   "unit": "GB",
+   "host": "cloud"
+  },
+  {
+   "id": "KEY-13",
+   "service": "Obsidian MCP (local)",
+   "purpose": "The brain: memory bank read/write",
+   "env": "OBSIDIAN_VAULT_PATH",
+   "status": "live",
+   "used": 0,
+   "limit": 0,
+   "unit": "local",
+   "host": "local cloud"
+  },
+  {
+   "id": "KEY-14",
+   "service": "Postgres (local cloud)",
+   "purpose": "Every table in this codex",
+   "env": "DATABASE_URL",
+   "status": "live",
+   "used": 2.4,
+   "limit": 50,
+   "unit": "GB",
+   "host": "local cloud"
+  },
+  {
+   "id": "KEY-15",
+   "service": "BBB.org",
+   "purpose": "Business standing + owner corroboration",
+   "env": "— (no public API)",
+   "status": "manual",
+   "used": 0,
+   "limit": 0,
+   "unit": "lookup",
+   "host": "web"
+  },
+  {
+   "id": "KEY-16",
+   "service": "TruePeopleSearch",
+   "purpose": "Last-resort owner corroboration only",
+   "env": "— (no public API)",
+   "status": "restricted",
+   "used": 0,
+   "limit": 0,
+   "unit": "lookup",
+   "host": "web"
+  }
+ ],
+ "agent_runs": [
+  {
+   "id": "RUN-88401",
+   "agent": "AG-RES-01",
+   "task": "Crawl 240 roofing firms (Tulsa metro)",
+   "started": "2026-09-01 06:02",
+   "dur_s": 812,
+   "rows": 238,
+   "status": "ok",
+   "cost": "$0.94"
+  },
+  {
+   "id": "RUN-88402",
+   "agent": "AG-RES-02",
+   "task": "Verify ownership · BBB + registry cross-check",
+   "started": "2026-09-01 06:31",
+   "dur_s": 604,
+   "rows": 238,
+   "status": "ok",
+   "cost": "$0.00"
+  },
+  {
+   "id": "RUN-88403",
+   "agent": "AG-SALES-01",
+   "task": "Sequence step 1 · Storm Season Capacity",
+   "started": "2026-09-01 07:15",
+   "dur_s": 96,
+   "rows": 180,
+   "status": "ok",
+   "cost": "$1.80"
+  },
+  {
+   "id": "RUN-88404",
+   "agent": "AG-MKT-02",
+   "task": "Publish 4 posts · LinkedIn + X",
+   "started": "2026-09-01 08:00",
+   "dur_s": 41,
+   "rows": 4,
+   "status": "ok",
+   "cost": "$0.00"
+  },
+  {
+   "id": "RUN-88405",
+   "agent": "AG-SALES-02",
+   "task": "Draft custom proposal · Keystone Mechanical",
+   "started": "2026-09-01 09:12",
+   "dur_s": 288,
+   "rows": 1,
+   "status": "review",
+   "cost": "$2.40"
+  },
+  {
+   "id": "RUN-88406",
+   "agent": "AG-FIN-02",
+   "task": "Credit sweep · Hunter at 88% of monthly",
+   "started": "2026-09-01 09:30",
+   "dur_s": 12,
+   "rows": 16,
+   "status": "warn",
+   "cost": "$0.00"
+  },
+  {
+   "id": "RUN-88407",
+   "agent": "AG-DEV-02",
+   "task": "Retry failed webhook · Twenty CRM sync",
+   "started": "2026-09-01 10:04",
+   "dur_s": 7,
+   "rows": 3,
+   "status": "ok",
+   "cost": "$0.00"
+  },
+  {
+   "id": "RUN-88408",
+   "agent": "AG-RES-03",
+   "task": "Competitor pricing sweep · med spa vendors",
+   "started": "2026-09-01 10:40",
+   "dur_s": 433,
+   "rows": 22,
+   "status": "ok",
+   "cost": "$0.61"
+  }
+ ],
+ "sources": [
+  {
+   "cat": "Agent frameworks",
+   "name": "LangGraph",
+   "url": "https://github.com/langchain-ai/langgraph",
+   "kind": "OSS",
+   "verdict": "adopt",
+   "note": "Stateful graph orchestration with human-in-the-loop checkpoints — the spine for supervisor→agent handoffs."
+  },
+  {
+   "cat": "Agent frameworks",
+   "name": "CrewAI",
+   "url": "https://github.com/crewAIInc/crewAI",
+   "kind": "OSS",
+   "verdict": "pilot",
+   "note": "Role-playing crews: fastest way to stand up a department of three agents and a supervisor."
+  },
+  {
+   "cat": "Agent frameworks",
+   "name": "AG2 (AutoGen community fork)",
+   "url": "https://github.com/ag2ai/ag2",
+   "kind": "OSS",
+   "verdict": "watch",
+   "note": "Conversation-shaped multi-agent; Microsoft moved AutoGen into Agent Framework, AG2 carries the v0.2 lineage."
+  },
+  {
+   "cat": "Agent frameworks",
+   "name": "Microsoft Agent Framework",
+   "url": "https://github.com/microsoft/agent-framework",
+   "kind": "OSS",
+   "verdict": "watch",
+   "note": "Where AutoGen + Semantic Kernel converged; relevant if we ever run on Azure."
+  },
+  {
+   "cat": "Agent frameworks",
+   "name": "Dify",
+   "url": "https://github.com/langgenius/dify",
+   "kind": "OSS",
+   "verdict": "pilot",
+   "note": "Self-hostable LLM app platform — useful as the internal console for non-engineers."
+  },
+  {
+   "cat": "Agent frameworks",
+   "name": "Frameworks comparison (2026)",
+   "url": "https://www.firecrawl.dev/blog/best-open-source-agent-frameworks",
+   "kind": "Reading",
+   "verdict": "read",
+   "note": "Current landscape read on adoption and trade-offs."
+  },
+  {
+   "cat": "Scraping & research",
+   "name": "Crawl4AI",
+   "url": "https://github.com/unclecode/crawl4ai",
+   "kind": "OSS",
+   "verdict": "adopt",
+   "note": "Local-first crawler, clean markdown out, no per-page fee — runs on our local cloud for bulk niche sweeps."
+  },
+  {
+   "cat": "Scraping & research",
+   "name": "Firecrawl",
+   "url": "https://github.com/firecrawl/firecrawl",
+   "kind": "OSS + API",
+   "verdict": "adopt",
+   "note": "Site → markdown/JSON with a mature hosted API; use for anything JS-heavy or awkward."
+  },
+  {
+   "cat": "Scraping & research",
+   "name": "Scrapling",
+   "url": "https://github.com/D4Vinci/Scrapling",
+   "kind": "OSS",
+   "verdict": "pilot",
+   "note": "Adaptive selectors that survive layout changes — cuts scraper maintenance."
+  },
+  {
+   "cat": "Scraping & research",
+   "name": "browser-use",
+   "url": "https://github.com/browser-use/browser-use",
+   "kind": "OSS",
+   "verdict": "pilot",
+   "note": "Agent drives a real browser; for portals and directories with no clean HTML."
+  },
+  {
+   "cat": "Scraping & research",
+   "name": "Scrapy",
+   "url": "https://github.com/scrapy/scrapy",
+   "kind": "OSS",
+   "verdict": "adopt",
+   "note": "The boring, reliable workhorse for scheduled large crawls."
+  },
+  {
+   "cat": "Scraping & research",
+   "name": "Crawlee",
+   "url": "https://github.com/apify/crawlee",
+   "kind": "OSS",
+   "verdict": "watch",
+   "note": "Node-side crawling with queue + proxy handling built in."
+  },
+  {
+   "cat": "CRM & sales system",
+   "name": "Twenty CRM",
+   "url": "https://github.com/twentyhq/twenty",
+   "kind": "OSS",
+   "verdict": "adopt",
+   "note": "Modern open-source Salesforce/HubSpot alternative, self-hosted, no per-seat cost — our system of record."
+  },
+  {
+   "cat": "CRM & sales system",
+   "name": "EspoCRM",
+   "url": "https://github.com/espocrm/espocrm",
+   "kind": "OSS",
+   "verdict": "watch",
+   "note": "Lighter and feature-mature (mass email, IMAP sync, report builder) if Twenty proves heavy."
+  },
+  {
+   "cat": "CRM & sales system",
+   "name": "HubSpot API",
+   "url": "https://developers.hubspot.com/",
+   "kind": "API",
+   "verdict": "adopt",
+   "note": "Mirror deals outward for clients who already live in HubSpot."
+  },
+  {
+   "cat": "CRM & sales system",
+   "name": "Salesforce REST API",
+   "url": "https://developer.salesforce.com/docs",
+   "kind": "API",
+   "verdict": "watch",
+   "note": "Enterprise clients only; heavier integration cost."
+  },
+  {
+   "cat": "Marketing & publishing",
+   "name": "Postiz",
+   "url": "https://github.com/gitroomhq/postiz-app",
+   "kind": "OSS",
+   "verdict": "adopt",
+   "note": "Self-hosted scheduling to 30+ networks with AI drafting — the Octopost-shaped piece of the stack."
+  },
+  {
+   "cat": "Marketing & publishing",
+   "name": "Mautic",
+   "url": "https://github.com/mautic/mautic",
+   "kind": "OSS",
+   "verdict": "pilot",
+   "note": "Mature open marketing automation: nurture, scoring, landing pages."
+  },
+  {
+   "cat": "Marketing & publishing",
+   "name": "listmonk",
+   "url": "https://github.com/knadh/listmonk",
+   "kind": "OSS",
+   "verdict": "adopt",
+   "note": "Fast self-hosted newsletter + campaign sender; cheap at volume."
+  },
+  {
+   "cat": "Marketing & publishing",
+   "name": "n8n",
+   "url": "https://github.com/n8n-io/n8n",
+   "kind": "OSS",
+   "verdict": "adopt",
+   "note": "The connective tissue between CRM, sender, scraper, and the brain."
+  },
+  {
+   "cat": "Marketing & publishing",
+   "name": "Flowise",
+   "url": "https://github.com/FlowiseAI/Flowise",
+   "kind": "OSS",
+   "verdict": "watch",
+   "note": "Visual LLM flows for quick internal tools."
+  },
+  {
+   "cat": "Sales intelligence",
+   "name": "Apollo.io API",
+   "url": "https://docs.apollo.io/reference/apollo-api",
+   "kind": "API",
+   "verdict": "adopt",
+   "note": "240M+ contacts, waterfall email/phone enrichment, MCP server. Seat-priced — meter it."
+  },
+  {
+   "cat": "Sales intelligence",
+   "name": "Hunter.io API",
+   "url": "https://hunter.io/api-documentation/",
+   "kind": "API",
+   "verdict": "adopt",
+   "note": "Email finder (1 credit, only charged on a hit) + verifier (0.5 credit). Free tier is 50 credits/mo — the 50-credit mark to watch."
+  },
+  {
+   "cat": "Sales intelligence",
+   "name": "Hunter Email Verifier",
+   "url": "https://hunter.io/api/email-verifier",
+   "kind": "API",
+   "verdict": "adopt",
+   "note": "Deliverability gate before any send; protects domain reputation."
+  },
+  {
+   "cat": "Sales intelligence",
+   "name": "Clay",
+   "url": "https://www.clay.com/",
+   "kind": "SaaS",
+   "verdict": "adopt",
+   "note": "Waterfall enrichment across many providers in one table — best list-building surface today."
+  },
+  {
+   "cat": "Sales intelligence",
+   "name": "BBB.org",
+   "url": "https://www.bbb.org/",
+   "kind": "Web",
+   "verdict": "manual",
+   "note": "Standing, complaints, and named principals. No public API — verifier agent reads it as a human would, no bulk scraping."
+  },
+  {
+   "cat": "Sales intelligence",
+   "name": "TruePeopleSearch",
+   "url": "https://www.truepeoplesearch.com/",
+   "kind": "Web",
+   "verdict": "restricted",
+   "note": "Last-resort corroboration of an owner name already found elsewhere. Terms prohibit automated harvesting — keep it manual and logged."
+  },
+  {
+   "cat": "Sales intelligence",
+   "name": "Unipile (LinkedIn API)",
+   "url": "https://www.unipile.com/",
+   "kind": "API",
+   "verdict": "pilot",
+   "note": "Compliant route to LinkedIn messaging and inbox sync instead of browser automation that gets accounts banned."
+  },
+  {
+   "cat": "Brain & memory",
+   "name": "obsidian-mcp",
+   "url": "https://github.com/lstpsche/obsidian-mcp",
+   "kind": "OSS",
+   "verdict": "adopt",
+   "note": "Dependency-free MCP server over the vault; works whether Obsidian is open or not."
+  },
+  {
+   "cat": "Brain & memory",
+   "name": "knowledge-base-server",
+   "url": "https://github.com/willynikes2/knowledge-base-server",
+   "kind": "OSS",
+   "verdict": "pilot",
+   "note": "SQLite FTS5 memory + Obsidian sync + MCP/REST — a candidate for the decision memory bank."
+  },
+  {
+   "cat": "Brain & memory",
+   "name": "awesome-mcp-servers",
+   "url": "https://github.com/TensorBlock/awesome-mcp-servers",
+   "kind": "Index",
+   "verdict": "read",
+   "note": "Directory of MCP servers; scan before building any connector by hand."
+  },
+  {
+   "cat": "Brain & memory",
+   "name": "Model Context Protocol",
+   "url": "https://github.com/modelcontextprotocol",
+   "kind": "Spec",
+   "verdict": "adopt",
+   "note": "The wire format the whole brain speaks."
+  },
+  {
+   "cat": "Market watch",
+   "name": "Jasper",
+   "url": "https://www.jasper.ai/",
+   "kind": "Company",
+   "verdict": "study",
+   "note": "Brand-context agents with knowledge bases; the benchmark for on-brand content at scale."
+  },
+  {
+   "cat": "Market watch",
+   "name": "Clay",
+   "url": "https://www.clay.com/",
+   "kind": "Company",
+   "verdict": "study",
+   "note": "Owns the enrichment layer; study their credit model before pricing ours."
+  },
+  {
+   "cat": "Market watch",
+   "name": "HeyGen",
+   "url": "https://www.heygen.com/",
+   "kind": "Company",
+   "verdict": "study",
+   "note": "AI avatar video — cheapest path to per-prospect video in proposals."
+  },
+  {
+   "cat": "Market watch",
+   "name": "Warmly",
+   "url": "https://www.warmly.ai/",
+   "kind": "Company",
+   "verdict": "study",
+   "note": "Signal-based orchestration: de-anonymize traffic, act in the moment."
+  },
+  {
+   "cat": "Market watch",
+   "name": "Smartly.io",
+   "url": "https://www.smartly.io/",
+   "kind": "Company",
+   "verdict": "study",
+   "note": "Paid-media automation; the model for closed-loop creative optimization."
+  },
+  {
+   "cat": "Market watch",
+   "name": "11x",
+   "url": "https://www.11x.ai/",
+   "kind": "Company",
+   "verdict": "study",
+   "note": "AI SDR positioning — direct comparison set for our outbound pod."
+  },
+  {
+   "cat": "Market watch",
+   "name": "Artisan",
+   "url": "https://www.artisan.co/",
+   "kind": "Company",
+   "verdict": "study",
+   "note": "'AI employee' packaging; watch how they price a seat vs. an outcome."
+  },
+  {
+   "cat": "Market watch",
+   "name": "Regie.ai",
+   "url": "https://www.regie.ai/",
+   "kind": "Company",
+   "verdict": "study",
+   "note": "Sequence generation + agentic prospecting inside existing CRMs."
+  }
+ ],
+ "brain": [
+  {
+   "zone": "Obsidian vault (/brain)",
+   "path": "/brain/decisions",
+   "holds": "Decision records: what we chose, the numbers behind it, what would reverse it.",
+   "writer": "Supervisors",
+   "read_by": "Every agent, every run"
+  },
+  {
+   "zone": "Obsidian vault (/brain)",
+   "path": "/brain/niches",
+   "holds": "Per-niche playbooks: language, objections, pricing, proof.",
+   "writer": "AG-RES-03, AG-CNT-01",
+   "read_by": "Sales, Content, Marketing"
+  },
+  {
+   "zone": "Obsidian vault (/brain)",
+   "path": "/brain/accounts",
+   "holds": "One note per account, linked to the row in Postgres.",
+   "writer": "AG-RES-02",
+   "read_by": "Sales, BD"
+  },
+  {
+   "zone": "Obsidian vault (/brain)",
+   "path": "/brain/agents",
+   "holds": "Agent charters, standing instructions, post-run reflections.",
+   "writer": "Supervisors",
+   "read_by": "CEO, chiefs"
+  },
+  {
+   "zone": "Postgres (local cloud)",
+   "path": "godly.*",
+   "holds": "Every row you can browse in Chapter VI — the numeric truth.",
+   "writer": "All agents via API",
+   "read_by": "Dashboards, exports"
+  },
+  {
+   "zone": "Google Drive",
+   "path": "/Hero/Clients",
+   "holds": "Client-facing proposals, contracts, deliverables.",
+   "writer": "AG-SALES-02, AG-CNT-03",
+   "read_by": "Clients, CEO"
+  },
+  {
+   "zone": "Local object store",
+   "path": "/vault/raw",
+   "holds": "Raw crawl output, transcripts, screenshots before parsing.",
+   "writer": "AG-RES-01",
+   "read_by": "Research, DevOps"
+  }
+ ],
+ "throughput": {
+  "Sales": [
+   42,
+   38,
+   51,
+   47,
+   60,
+   55,
+   71,
+   66,
+   74,
+   69,
+   82,
+   77,
+   91,
+   96
+  ],
+  "Marketing": [
+   30,
+   34,
+   29,
+   41,
+   38,
+   46,
+   44,
+   52,
+   49,
+   58,
+   55,
+   63,
+   60,
+   68
+  ],
+  "Research": [
+   88,
+   92,
+   85,
+   101,
+   97,
+   110,
+   105,
+   118,
+   121,
+   131,
+   127,
+   140,
+   136,
+   152
+  ],
+  "Content": [
+   12,
+   14,
+   11,
+   16,
+   15,
+   18,
+   17,
+   21,
+   19,
+   23,
+   22,
+   26,
+   24,
+   29
+  ]
+ },
+ "org": {
+  "principal": {
+   "name": "Joshua Grand",
+   "role": "CEO / Principal (human)",
+   "note": "Sets doctrine, approves spend, breaks ties. Everything below reports up to this seat."
+  },
+  "chiefs": [
+   {
+    "code": "CSO",
+    "title": "Chief Sales Officer",
+    "agentName": "Ledger",
+    "charter": "Owns revenue: outbound, inbound, proposals, close.",
+    "supervisor": {
+     "id": "SUP-SALES",
+     "name": "Sales Supervisor — Ledger Prime",
+     "cadence": "Hourly queue sweep · 18:00 daily brief to CEO"
+    },
+    "units": [
+     {
+      "id": "AG-SALES-01",
+      "name": "Outbound Prospector",
+      "duo": "AG-SALES-03",
+      "job": "Builds and works cold lists; sequences email + LinkedIn.",
+      "runs": 184
+     },
+     {
+      "id": "AG-SALES-02",
+      "name": "Proposal Architect",
+      "duo": "AG-FIN-01",
+      "job": "Writes custom, niche-specific proposals and pricing.",
+      "runs": 37
+     },
+     {
+      "id": "AG-SALES-03",
+      "name": "Inbound & Qualifier",
+      "duo": "AG-SALES-01",
+      "job": "Answers inbound, verifies authority, books meetings.",
+      "runs": 96
+     }
+    ]
+   },
+   {
+    "code": "CMO",
+    "title": "Chief Marketing Officer",
+    "agentName": "Herald",
+    "charter": "Owns demand: campaigns, funnel, channels, brand.",
+    "supervisor": {
+     "id": "SUP-MKT",
+     "name": "Marketing Supervisor — Herald Prime",
+     "cadence": "Twice daily · funnel deltas to CEO"
+    },
+    "units": [
+     {
+      "id": "AG-MKT-01",
+      "name": "Campaign Operator",
+      "duo": "AG-MKT-03",
+      "job": "Runs email campaigns, A/B, deliverability warming.",
+      "runs": 141
+     },
+     {
+      "id": "AG-MKT-02",
+      "name": "Social Publisher",
+      "duo": "AG-CNT-01",
+      "job": "Schedules and cross-posts via the social scheduler.",
+      "runs": 88
+     },
+     {
+      "id": "AG-MKT-03",
+      "name": "Funnel Analyst",
+      "duo": "AG-MKT-01",
+      "job": "Attribution, stage conversion, kill/scale calls.",
+      "runs": 64
+     }
+    ]
+   },
+   {
+    "code": "CBDO",
+    "title": "Chief Business Development Officer",
+    "agentName": "Bridge",
+    "charter": "Owns partnerships: referral, channel, reseller, alliances.",
+    "supervisor": {
+     "id": "SUP-BD",
+     "name": "BD Supervisor — Bridge Prime",
+     "cadence": "Daily · weekly partner council"
+    },
+    "units": [
+     {
+      "id": "AG-BD-01",
+      "name": "Partner Scout",
+      "duo": "AG-RES-01",
+      "job": "Finds associations, MSPs, adjusters, consortiums.",
+      "runs": 52
+     },
+     {
+      "id": "AG-BD-02",
+      "name": "Alliance Manager",
+      "duo": "AG-BD-03",
+      "job": "Runs partner pipeline stages and rev-share terms.",
+      "runs": 44
+     },
+     {
+      "id": "AG-BD-03",
+      "name": "Program Designer",
+      "duo": "AG-BD-02",
+      "job": "Designs tiers, enablement kits, co-marketing.",
+      "runs": 29
+     }
+    ]
+   },
+   {
+    "code": "CTO",
+    "title": "Chief Technology Officer",
+    "agentName": "Forge",
+    "charter": "Owns the machine: integrations, pipelines, uptime.",
+    "supervisor": {
+     "id": "SUP-DEV",
+     "name": "DevOps Supervisor — Forge Prime",
+     "cadence": "Continuous · incident escalation immediate"
+    },
+    "units": [
+     {
+      "id": "AG-DEV-01",
+      "name": "Integration Engineer",
+      "duo": "AG-DEV-02",
+      "job": "Wires API keys, webhooks, MCP servers.",
+      "runs": 73
+     },
+     {
+      "id": "AG-DEV-02",
+      "name": "Reliability Warden",
+      "duo": "AG-DEV-01",
+      "job": "Watches jobs, retries, rate limits, backups.",
+      "runs": 206
+     },
+     {
+      "id": "AG-DEV-03",
+      "name": "Automation Builder",
+      "duo": "AG-MKT-01",
+      "job": "Builds workflows connecting the stack end to end.",
+      "runs": 58
+     }
+    ]
+   },
+   {
+    "code": "CIO",
+    "title": "Chief Intelligence Officer",
+    "agentName": "Scriven",
+    "charter": "Owns knowledge: research, scraping, verification, memory.",
+    "supervisor": {
+     "id": "SUP-RES",
+     "name": "Research Supervisor — Scriven Prime",
+     "cadence": "Daily digest · weekly market report"
+    },
+    "units": [
+     {
+      "id": "AG-RES-01",
+      "name": "Market Scraper",
+      "duo": "AG-RES-02",
+      "job": "Crawls directories, sites, listings into structured rows.",
+      "runs": 312
+     },
+     {
+      "id": "AG-RES-02",
+      "name": "Ownership Verifier",
+      "duo": "AG-RES-01",
+      "job": "Confirms owners across BBB, registries, people search.",
+      "runs": 227
+     },
+     {
+      "id": "AG-RES-03",
+      "name": "Competitive Analyst",
+      "duo": "AG-FIN-03",
+      "job": "Tracks rivals, pricing, positioning per niche.",
+      "runs": 41
+     }
+    ]
+   },
+   {
+    "code": "CCO",
+    "title": "Chief Content Officer",
+    "agentName": "Quill",
+    "charter": "Owns the voice: long-form, video, sequences, case studies.",
+    "supervisor": {
+     "id": "SUP-CNT",
+     "name": "Content Supervisor — Quill Prime",
+     "cadence": "Daily editorial stand-up"
+    },
+    "units": [
+     {
+      "id": "AG-CNT-01",
+      "name": "Long-form Writer",
+      "duo": "AG-CNT-02",
+      "job": "Articles, newsletters, niche teardowns.",
+      "runs": 67
+     },
+     {
+      "id": "AG-CNT-02",
+      "name": "Editor & Fact-checker",
+      "duo": "AG-CNT-01",
+      "job": "Verifies every claim before it ships.",
+      "runs": 67
+     },
+     {
+      "id": "AG-CNT-03",
+      "name": "Media Producer",
+      "duo": "AG-MKT-02",
+      "job": "Video, carousels, proposal design assets.",
+      "runs": 35
+     }
+    ]
+   },
+   {
+    "code": "CFO",
+    "title": "Chief Financial Officer",
+    "agentName": "Tally",
+    "charter": "Owns the money: unit economics, credits, forecast.",
+    "supervisor": {
+     "id": "SUP-FIN",
+     "name": "Finance Supervisor — Tally Prime",
+     "cadence": "Daily spend check · weekly P&L"
+    },
+    "units": [
+     {
+      "id": "AG-FIN-01",
+      "name": "Unit Economics",
+      "duo": "AG-SALES-02",
+      "job": "Prices deals, guards margin on every proposal.",
+      "runs": 31
+     },
+     {
+      "id": "AG-FIN-02",
+      "name": "Credit Warden",
+      "duo": "AG-DEV-02",
+      "job": "Meters API credits; halts runaway spend.",
+      "runs": 174
+     },
+     {
+      "id": "AG-FIN-03",
+      "name": "Forecast Analyst",
+      "duo": "AG-RES-03",
+      "job": "Pipeline-weighted revenue and capacity forecast.",
+      "runs": 26
+     }
+    ]
+   }
+  ]
+ }
+};
+</script>
+<script>
+/* ============================================================
+   HERO CAPITAL OS — application
+   Routing is the URL: #/<module> and, for Data, ?table=&q=&sort=
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nf = new Intl.NumberFormat(undefined);
+const cf = new Intl.NumberFormat(undefined, {style:"currency", currency:"USD", maximumFractionDigits:0});
+const pf = (n, d=0) => new Intl.NumberFormat(undefined, {style:"percent", maximumFractionDigits:d}).format(n);
+const df = new Intl.DateTimeFormat(undefined, {year:"numeric", month:"short", day:"numeric"});
+const fmtDate = s => { const d = new Date(s + (s.length === 10 ? "T12:00:00" : "")); return isNaN(d) ? s : df.format(d); };
+const usdK = n => n >= 1000 ? "$" + nf.format(Math.round(n/100)/10) + "k" : cf.format(n);
+const sum = (a, f) => a.reduce((t, x) => t + f(x), 0);
+
+const tip = $("#tip");
+document.addEventListener("mouseover", e => {
+  const t = e.target.closest("[data-tip]"); if (!t) return;
+  tip.innerHTML = t.getAttribute("data-tip").replace(/\|/g, "<br>"); tip.classList.add("on");
+});
+document.addEventListener("mousemove", e => {
+  if (!tip.classList.contains("on")) return;
+  tip.style.left = e.clientX + "px"; tip.style.top = (e.clientY - 8) + "px";
+});
+document.addEventListener("mouseout", e => { if (e.target.closest("[data-tip]")) tip.classList.remove("on"); });
+
+/* ---------- shared blocks ---------- */
+const stat = (v, caption, delta) => `<div class="stat">
+  <span class="value">${esc(v)}</span><span class="caption">${esc(caption)}</span>
+  ${delta ? `<span class="delta">${esc(delta)}</span>` : ""}</div>`;
+const pill = (cls, txt) => `<span class="pill ${cls}"><span class="bead" aria-hidden="true"></span>${esc(txt)}</span>`;
+const statusPill = s => ({
+  live:["good","live"], ok:["good","ok"], running:["good","running"], Running:["good","running"],
+  Signed:["good","signed"], hot:["good","hot"], active:["info","active"], Onboarding:["info","onboarding"],
+  pending:["warn","pending"], warn:["warn","attention"], paused:["warn","paused"], Pilot:["warn","pilot"],
+  pilot:["warn","pilot"], review:["warn","in review"], manual:["warn","manual"],
+  restricted:["crit","restricted"], idle:["idle","idle"]
+}[s] || ["idle", String(s)]);
+const panel = (title, body, right="") => `<section class="panel">
+  <div class="panel-head"><h2 class="sec">${esc(title)}</h2>${right}</div>
+  <div class="panel-body">${body}</div></section>`;
+const panelFlush = (title, body, right="") => `<section class="panel">
+  <div class="panel-head"><h2 class="sec">${esc(title)}</h2>${right}</div>
+  <div class="panel-body flush">${body}</div></section>`;
+
+/* ---------- charts ---------- */
+function barChart(rows, opt={}){
+  const w = 560, rowH = 30, padL = 130, padR = 76, h = rows.length * rowH + 22;
+  const max = Math.max(...rows.map(r => r.value)) || 1;
+  const scale = v => (v / max) * (w - padL - padR);
+  let g = [0,.5,1].map(f => `<line class="grid-line" x1="${padL + f*(w-padL-padR)}" y1="6" x2="${padL + f*(w-padL-padR)}" y2="${h-16}"/>`).join("");
+  g += rows.map((r,i) => {
+    const y = 10 + i*rowH, bw = Math.max(scale(r.value), 2);
+    return `<g class="bar" data-tip="${esc(r.label)}|${esc(opt.fmt ? opt.fmt(r.value) : nf.format(r.value))}${r.sub ? "|"+esc(r.sub) : ""}">
+      <rect x="${padL}" y="${y}" width="${bw}" height="16" rx="4" fill="var(--series-3)"/>
+      <text class="tick" x="${padL-10}" y="${y+12}" text-anchor="end">${esc(r.label)}</text>
+      <text class="val" x="${padL+bw+8}" y="${y+12}">${esc(opt.fmt ? opt.fmt(r.value) : nf.format(r.value))}</text>
+    </g>`;
+  }).join("");
+  g += `<line class="axis-line" x1="${padL}" y1="6" x2="${padL}" y2="${h-16}"/>`;
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(opt.aria || "Bar chart")}">${g}</svg>`;
+}
+function sparkline(series, label){
+  const w = 150, h = 34, max = Math.max(...series), min = Math.min(...series);
+  const x = i => (i/(series.length-1))*(w-4)+2, y = v => h-3 - ((v-min)/((max-min)||1))*(h-9);
+  const pts = series.map((v,i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}: ${series.join(", ")}">
+    <path d="M2,${h-1} L${pts.split(" ").join(" L")} L${w-2},${h-1} Z" fill="var(--series-3)" opacity=".12"/>
+    <polyline points="${pts}" fill="none" stroke="var(--series-3)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${x(series.length-1)}" cy="${y(series[series.length-1])}" r="3.2" fill="var(--series-3)" stroke="var(--panel-bg)" stroke-width="2"/>
+  </svg>`;
+}
+function funnelChart(steps){
+  const top = steps[0].count;
+  return `<div class="funnel">` + steps.map((s,i) => {
+    const wpct = Math.max((s.count/top)*100, 3), shade = 12 + i*11;
+    const conv = i ? s.count/steps[i-1].count : 1;
+    return `<div class="fstep">
+      <div class="fn">${esc(s.stage)}</div>
+      <div class="fbar" style="width:${wpct}%;background:color-mix(in oklab, var(--series-3), var(--fg-primary) ${shade}%)"
+        data-tip="${esc(s.stage)}|${nf.format(s.count)}${i ? " · " + pf(conv) + " of prior" : ""}|${esc(s.note)}"></div>
+      <div class="fv">${nf.format(s.count)}${i ? `<br><span class="thru">${pf(conv)} through</span>` : ""}</div>
+    </div>`;
+  }).join("") + `</div>`;
+}
+</script>
+<script>
+/* ============================================================
+   modules
+   ============================================================ */
+const ui = { deal:"DEAL-901", chief:null, table:"deals", sort:{col:null,dir:1}, q:"", fmt:"csv" };
+const STAGES = ["New","Qualified","Discovery","Proposal","Negotiation","Closed Won","Closed Lost"];
+const openDeals = () => DB.deals.filter(d => !d.stage.startsWith("Closed"));
+
+/* ---------- Overview ---------- */
+function overview(){
+  const open = openDeals(), won = DB.deals.filter(d => d.stage === "Closed Won");
+  const escalations = DB.agent_runs.filter(r => r.status !== "ok");
+  const sparks = Object.entries(DB.throughput).map(([dept, series]) => `
+    <div class="spark"><div class="hd"><b>${esc(dept)}</b><span>${nf.format(series.at(-1))} runs/day</span></div>
+    ${sparkline(series, dept + " daily agent runs")}</div>`).join("");
+  const runs = DB.agent_runs.slice(0,6).map(r => {
+    const [c,t] = statusPill(r.status);
+    return `<tr><td class="mono" translate="no">${esc(r.agent)}</td><td>${esc(r.task)}</td>
+      <td class="num">${nf.format(r.rows)}</td><td>${pill(c,t)}</td><td class="num">${esc(r.cost)}</td></tr>`;
+  }).join("");
+
+  return `<div class="module enter">
+    <div class="cols-3">
+      ${stat(usdK(sum(open, d => d.value)), "Open pipeline", open.length + " deals")}
+      ${stat(usdK(sum(open, d => d.value * d.prob)), "Weighted by stage")}
+      ${stat(usdK(sum(won, d => d.value)), "Closed won", "trailing quarter")}
+      ${stat(nf.format(DB.deployments.length), "Client pods deployed")}
+      ${stat(nf.format(DB.agents.length), "Agents", "plus 7 supervisors")}
+      ${stat(nf.format(DB.accounts.length), "Accounts on file")}
+    </div>
+    <div class="split">
+      ${panel("Needs a human", escalations.length ? `<div class="stack">${escalations.map(r => {
+        const [c,t] = statusPill(r.status);
+        return `<div class="unit"><span class="nm"><b translate="no">${esc(r.agent)}</b> — ${esc(r.task)}</span>${pill(c,t)}</div>`;
+      }).join("")}</div>` : `<div class="empty"><b>Nothing is waiting on you.</b>
+        <p>Every run in the last sweep closed clean. Escalations appear here the moment a run is marked warn, review, or failed.</p></div>`,
+        `<span class="label">${escalations.length} of ${DB.agent_runs.length} runs</span>`)}
+      ${panel("Agent throughput", `<div class="sparks">${sparks}</div>`, `<span class="label">Last 14 days</span>`)}
+    </div>
+    ${panelFlush("Recent activity", `<div class="tablewrap"><table class="grid">
+      <caption class="sr">Recent agent runs</caption>
+      <thead><tr><th scope="col">Agent</th><th scope="col">Task</th><th scope="col">Rows</th><th scope="col">State</th><th scope="col">Cost</th></tr></thead>
+      <tbody>${runs}</tbody></table></div>`)}
+  </div>`;
+}
+
+/* ---------- Front Office (the product) ---------- */
+function frontOffice(){
+  const fo = DB.front_office;
+  const caps = fo.map(f => { const [c,t] = statusPill(f.status);
+    return `<tr><td><b>${esc(f.capability)}</b><br><span class="label">${esc(f.channel)}</span></td>
+      <td>${esc(f.does)}</td><td style="color:var(--fg-muted)">${esc(f.replaces)}</td><td>${pill(c,t)}</td></tr>`;
+  }).join("");
+  const deploys = DB.deployments.map(d => `
+    <section class="panel"><div class="panel-body">
+      <div class="panel-head" style="padding:0 0 var(--space-2);border:0">
+        <div style="min-width:0"><b style="font-size:14.5px">${esc(d.client)}</b><br>
+          <span class="label">${esc(d.niche)} · live since ${esc(fmtDate(d.since))}</span></div>
+        ${pill(statusPill(d.stage)[0], d.stage)}
+      </div>
+      <div class="row" style="gap:5px;margin-bottom:var(--space-2)">
+        ${fo.map(f => `<span class="cap ${d.live.includes(f.id) ? "on" : ""}"
+          data-tip="${esc(f.capability)}|${d.live.includes(f.id) ? "live for this client" : "not deployed"}">${esc(f.capability)}</span>`).join("")}
+      </div>
+      <p class="note">${esc(d.note)}</p>
+    </div></section>`).join("");
+
+  return `<div class="module enter">
+    <p class="lede">Hero puts an AI front office into a business: agents that answer the phone, work the inbox, book the job, take the payment, then chase the review and the referral. The capability set is the same everywhere — the vocabulary, price book, crew capacity and escalation rules are configured per client.</p>
+    <div class="cols-3">
+      ${stat(nf.format(DB.deployments.length), "Businesses with a pod")}
+      ${stat(nf.format(DB.deployments.filter(d => d.stage === "Running").length), "Fully running")}
+      ${stat(fo.filter(f => f.status === "live").length + " of " + fo.length, "Capabilities out of pilot")}
+    </div>
+    ${panelFlush("Capability set", `<div class="tablewrap"><table class="grid">
+      <caption class="sr">Front office capabilities</caption>
+      <thead><tr><th scope="col">Capability</th><th scope="col">What it does</th><th scope="col">What it replaces</th><th scope="col">State</th></tr></thead>
+      <tbody>${caps}</tbody></table></div>`, `<span class="label">${fo.length} capabilities</span>`)}
+    <div>
+      <h2 class="sec" style="margin-bottom:var(--space-3)">Deployed today</h2>
+      <div class="cols">${deploys}</div>
+    </div>
+    <p class="note"><b>What this does not claim.</b> This is what is deployed and where, not what it earned. Calls recovered, jobs booked, receivables closed and reviews added are outcome measures, and they land here once four retainers have run long enough for the figures to mean something. A capability list is not a result.</p>
+  </div>`;
+}
+
+/* ---------- Sales ---------- */
+function sales(){
+  const d = DB.deals.find(x => x.id === ui.deal) || DB.deals[0];
+  const acct = DB.accounts.find(a => a.name === d.account);
+  const con = DB.contacts.find(c => c.name === d.contact);
+  const stageRows = STAGES.filter(s => !s.startsWith("Closed")).map(s => ({
+    label:s, value:sum(DB.deals.filter(x => x.stage === s), x => x.value),
+    sub:DB.deals.filter(x => x.stage === s).length + " deals"
+  }));
+  const board = STAGES.map(s => {
+    const ds = DB.deals.filter(x => x.stage === s);
+    return `<div class="lane">
+      <div class="lane-head"><span class="t">${esc(s)}</span><span class="v">${usdK(sum(ds, x => x.value))}</span></div>
+      <div class="lane-body">${ds.map(x => `
+        <button class="record" type="button" data-deal="${esc(x.id)}" aria-pressed="${x.id === ui.deal}">
+          <span class="co">${esc(x.account)}</span>
+          <span class="meta"><span translate="no">${esc(x.owner)}</span><span>${usdK(x.value)}</span></span>
+        </button>`).join("") || `<span class="label">Empty</span>`}</div></div>`;
+  }).join("");
+
+  return `<div class="module enter">
+    ${panelFlush("Pipeline", `<div class="panel-body"><div class="board">${board}</div></div>`,
+      `<span class="label">Select a deal for detail · scrolls sideways</span>`)}
+    <div class="split">
+      ${panel("Deal detail — " + d.id, `
+        <div class="panel-head" style="padding:0 0 var(--space-3);border:0">
+          <div style="min-width:0"><b style="font-size:15px">${esc(d.account)}</b><br><span class="label">${esc(d.niche)}</span></div>
+          ${pill(d.stage === "Closed Won" ? "good" : d.stage === "Closed Lost" ? "crit" : "info", d.stage)}
+        </div>
+        <div class="cols-3" style="margin-bottom:var(--space-3)">
+          ${stat(usdK(d.value), d.term)}${stat(pf(d.prob), "Stage probability")}
+          ${stat(usdK(Math.round(d.value * d.prob)), "Weighted value")}
+        </div>
+        <div class="stack" style="font-size:13.5px">
+          <div><span class="label">Contact</span><br>${esc(d.contact)}${con ? ` · ${esc(con.title)} · <span class="mono">${esc(con.email)}</span> ${pill(con.email_status === "verified" ? "good" : con.email_status === "risky" ? "warn" : "idle", con.email_status)}` : ""}</div>
+          <div><span class="label">Owned by</span><br><span class="mono" translate="no">${esc(d.owner)}</span> — ${esc((DB.agents.find(a => a.id === d.owner) || {}).name || "unassigned")}</div>
+          <div><span class="label">Next move</span><br>${esc(d.next)}</div>
+          ${acct ? `<div><span class="label">Account</span><br>${esc(acct.city)} · ${nf.format(acct.employees)} staff · ${esc(acct.revenue_band)} · ownership confirmed via ${esc(acct.owner_verified)} · sourced from ${esc(acct.source)}</div>` : ""}
+        </div>`)}
+      ${panel("Open pipeline by stage", barChart(stageRows, {fmt:usdK, aria:"Open pipeline value by stage"}) +
+        `<p class="label" style="margin-top:var(--space-2)">Hover a bar for deal count</p>`)}
+    </div>
+    ${panelFlush("Accounts", `<div class="tablewrap"><table class="grid"><caption class="sr">Accounts</caption>
+      <thead><tr><th scope="col">Account</th><th scope="col">Industry</th><th scope="col">Staff</th><th scope="col">Ownership verified</th><th scope="col">Fit</th></tr></thead>
+      <tbody>${DB.accounts.map(a => `<tr><td><b>${esc(a.name)}</b><br><span class="label">${esc(a.city)}</span></td>
+        <td>${esc(a.niche)}</td><td class="num">${nf.format(a.employees)}</td><td>${esc(a.owner_verified)}</td>
+        <td class="num">${a.score}</td></tr>`).join("")}</tbody></table></div>`)}
+  </div>`;
+}
+</script>
+<script>
+/* ---------- Marketing ---------- */
+function marketing(){
+  const c = DB.campaigns, f = Object.fromEntries(DB.funnel.map(x => [x.stage, x.count]));
+  const totalSent = sum(c, x => x.sent), totalBooked = sum(c, x => x.booked);
+  return `<div class="module enter">
+    <div class="cols-3">
+      ${stat(nf.format(totalSent), "Touches sent", "trailing 90 days")}
+      ${stat(nf.format(totalBooked), "Meetings booked")}
+      ${stat(pf(totalBooked/totalSent, 1), "Send-to-meeting rate")}
+    </div>
+    <div class="split">
+      ${panel("Funnel", funnelChart(DB.funnel) + `<p class="label" style="margin-top:var(--space-2)">Hover a bar for the stage note</p>`)}
+      ${panel("Where it leaks", `
+        <p class="note" style="margin-bottom:var(--space-3)">Reached to engaged holds at ${pf(f.Engaged/f.Reached)}, respectable for cold and a sign the deliverability warming is working. The expensive loss is <b>replied to booked</b>: ${nf.format(f.Replied)} replies produced ${nf.format(f.Booked)} meetings, so ${pf(1 - f.Booked/f.Replied)} of conversations end after a human answers. That is a routing problem, not a copy problem, and it sits in the qualifier’s queue.</p>
+        <p class="note"><b>Standing rule.</b> No new channel opens while an existing stage converts below half its industry benchmark. Fix the leak, then add pressure.</p>`)}
+    </div>
+    ${panelFlush("Campaigns", `<div class="tablewrap"><table class="grid"><caption class="sr">Campaigns</caption>
+      <thead><tr><th scope="col">Campaign</th><th scope="col">Channel</th><th scope="col">Sent</th><th scope="col">Replied</th><th scope="col">Booked</th><th scope="col">Won</th><th scope="col">State</th></tr></thead>
+      <tbody>${c.map(x => { const [cl,t] = statusPill(x.status); return `<tr>
+        <td><b>${esc(x.name)}</b><br><span class="label">${esc(x.niche)}</span></td><td>${esc(x.channel)}</td>
+        <td class="num">${nf.format(x.sent)}</td><td class="num">${nf.format(x.replied)}</td>
+        <td class="num">${nf.format(x.booked)}</td><td class="num">${nf.format(x.won)}</td><td>${pill(cl,t)}</td></tr>`; }).join("")}
+      </tbody></table></div>`)}
+    ${panel("Editorial calendar", `<div class="stack">${DB.content.map(x => { const [cl,t] = statusPill(x.status);
+      return `<div class="unit"><span class="nm"><b>${esc(x.title)}</b><br><span class="label">${esc(fmtDate(x.date))} · ${esc(x.format)} · ${esc(x.channel)} · ${esc(x.niche)}</span></span>${pill(cl,t)}</div>`;
+    }).join("")}</div>`)}
+  </div>`;
+}
+
+/* ---------- Partnerships ---------- */
+function partnerships(){
+  const P = ["Intro","Qualified","Pilot","Negotiation","Signed"];
+  const rows = P.map(s => ({label:s, value:sum(DB.partners.filter(p => p.stage === s), p => p.deal_flow_mo),
+    sub:DB.partners.filter(p => p.stage === s).length + " partners"}));
+  const board = P.map(s => {
+    const ps = DB.partners.filter(p => p.stage === s);
+    return `<div class="lane"><div class="lane-head"><span class="t">${esc(s)}</span>
+      <span class="v">${nf.format(sum(ps, p => p.deal_flow_mo))}/mo</span></div>
+      <div class="lane-body">${ps.map(p => `<div class="record" style="cursor:default">
+        <span class="co">${esc(p.name)}</span>
+        <span class="meta"><span>${esc(p.type)}</span><span>${esc(p.rev_share)}</span></span></div>`).join("") || `<span class="label">Empty</span>`}
+      </div></div>`;
+  }).join("");
+  return `<div class="module enter">
+    <p class="lede">Partnerships are a second pipeline with their own stages, owner, and unit of value: introductions per month, not dollars per deal.</p>
+    ${panelFlush("Partner pipeline", `<div class="panel-body"><div class="board">${board}</div></div>`,
+      `<span class="label">Scrolls sideways</span>`)}
+    <div class="split">
+      ${panel("Expected introductions by stage", barChart(rows, {fmt:v => nf.format(v) + "/mo", aria:"Partner-sourced introductions per month by stage"}))}
+      ${panel("The program, in four tiers", `<div class="stack">
+        <div class="unit"><span class="nm"><b>Referral</b> — they name us, we pay on close. Lowest friction, and the entry tier for associations and adjusters.</span></div>
+        <div class="unit"><span class="nm"><b>Channel</b> — co-branded onboarding into a member base.</span></div>
+        <div class="unit"><span class="nm"><b>Reseller</b> — they sell an agent pod under their own name and we run it underneath.</span></div>
+        <div class="unit"><span class="nm"><b>Tech alliance</b> — no revenue share. They host or integrate, and both books get bigger.</span></div>
+        </div>
+        <p class="note" style="margin-top:var(--space-3)"><b>Earning the next tier:</b> three sourced introductions that reach Discovery, one closed retainer, and a named human who answers within a business day. A partner that sends volume we cannot service is a liability, so capacity is checked before any tier moves up.</p>`)}
+    </div>
+    ${panelFlush("Partner register", `<div class="tablewrap"><table class="grid"><caption class="sr">Partners</caption>
+      <thead><tr><th scope="col">Partner</th><th scope="col">Type</th><th scope="col">Industry</th><th scope="col">Intros/mo</th><th scope="col">Share</th><th scope="col">Owner</th></tr></thead>
+      <tbody>${DB.partners.map(p => `<tr><td><b>${esc(p.name)}</b><br><span class="label">${esc(p.note)}</span></td>
+        <td>${esc(p.type)}</td><td>${esc(p.niche)}</td><td class="num">${nf.format(p.deal_flow_mo)}</td>
+        <td class="num">${esc(p.rev_share)}</td><td class="mono" translate="no" style="font-size:11px">${esc(p.owner)}</td></tr>`).join("")}
+      </tbody></table></div>`)}
+  </div>`;
+}
+
+/* ---------- Organization ---------- */
+function organization(){
+  const org = DB.org.chiefs.map((c,i) => `
+    <div>
+      <button class="node" type="button" data-chief="${i}" aria-expanded="${ui.chief === i}">
+        <span class="sigil" translate="no">${esc(c.code)}</span>
+        <span class="who"><b>${esc(c.title)} · ${esc(c.agentName)}</b><span>${esc(c.charter)}</span></span>
+        <span class="label">${ui.chief === i ? "Close" : "Open"}</span>
+      </button>
+      <div class="crew ${ui.chief === i ? "open" : ""}">
+        <div class="unit" style="border-color:var(--accent)">
+          <span class="nm"><b>${esc(c.supervisor.name)}</b><br><span class="label">${esc(c.supervisor.cadence)}</span></span>
+          <span class="label">Supervisor</span>
+        </div>
+        ${c.units.map(u => `<div class="unit">
+          <span class="nm"><b>${esc(u.name)}</b> <span class="mono" translate="no" style="color:var(--fg-muted);font-size:11px">${esc(u.id)}</span><br>
+            <span style="color:var(--fg-muted);font-size:12.5px">${esc(u.job)}</span></span>
+          <span style="text-align:right"><span class="pairs" translate="no">Pairs ${esc(u.duo)}</span><br>
+            <span class="mono" style="font-size:11px;color:var(--fg-muted)">${nf.format(u.runs)} runs/7d</span></span>
+        </div>`).join("")}
+      </div>
+    </div>`).join("");
+  return `<div class="module enter">
+    <div class="split">
+      ${panel("Chain of command", `
+        <p class="note" style="margin-bottom:var(--space-3)"><b>Agents</b> do the day’s tasks and file every run with its inputs, outputs and cost. <b>Supervisors</b> sweep those runs on a cadence, resolve conflicts, and write the decision record. <b>Chiefs</b> hold the charter for a domain. The <b>CEO</b> reads seven briefs, not the ${nf.format(Object.values(DB.throughput).reduce((t,s) => t + s.at(-1), 0))} runs a day behind them.</p>
+        <h3 class="sub">The double-agent rule</h3>
+        <p class="note" style="margin-bottom:var(--space-3)">Every agent has a named counterpart, sometimes inside its own department and often across one. The prospector’s lists are checked by the qualifier. The proposal architect prices nothing the unit-economics agent has not seen. The writer never publishes without the fact-checker. Pairing is structure, not courtesy: an unpaired output is a draft.</p>
+        <h3 class="sub">The two names</h3>
+        <p class="note">Everything a client can see says <b>Hero</b>. <b>Hero Capital</b> appears only where a registered entity name is required. An agent that cannot tell whether a surface is client-facing assumes it is.</p>
+        <h3 class="sub" style="margin-top:var(--space-3)">Growth</h3>
+        <p class="note">A department earns a fourth agent by showing a queue its three cannot clear for two consecutive weeks. Pairs before agents, agents before departments.</p>`)}
+      <div class="stack">
+        <section class="panel"><div class="panel-body">
+          <div class="panel-head" style="padding:0 0 var(--space-2);border:0">
+            <h2 class="sec">${esc(DB.org.principal.name)}</h2><span class="label">${esc(DB.org.principal.role)}</span>
+          </div>
+          <p class="note">${esc(DB.org.principal.note)}</p>
+        </div></section>
+        ${org}
+      </div>
+    </div>
+  </div>`;
+}
+</script>
+<script>
+/* ---------- Data ---------- */
+const TABLES = {
+  front_office:{rows:()=>DB.front_office, pk:"id", note:"The capability set Hero deploys."},
+  deployments:{rows:()=>DB.deployments, pk:"client", note:"Which capabilities are live in which client business."},
+  accounts:{rows:()=>DB.accounts, pk:"id", note:"Companies researched and qualified."},
+  contacts:{rows:()=>DB.contacts, pk:"id", note:"People, their verification state, and last touch."},
+  deals:{rows:()=>DB.deals, pk:"id", note:"Sales pipeline rows."},
+  partners:{rows:()=>DB.partners, pk:"id", note:"Partnership pipeline."},
+  campaigns:{rows:()=>DB.campaigns, pk:"id", note:"Marketing campaigns and outcomes."},
+  content:{rows:()=>DB.content, pk:"id", note:"Editorial calendar."},
+  agents:{rows:()=>DB.agents, pk:"id", note:"The roster, with pairings and memory paths."},
+  agent_runs:{rows:()=>DB.agent_runs, pk:"id", note:"Every task an agent has executed, with cost."},
+  api_keys:{rows:()=>DB.api_keys, pk:"id", note:"Integration registry. Names and limits only — never a secret."},
+  sources:{rows:()=>DB.sources, pk:"name", note:"The research index."},
+  brain_map:{rows:()=>DB.brain, pk:"path", note:"Where each class of file lives and who writes it."},
+  funnel:{rows:()=>DB.funnel, pk:"stage", note:"Funnel stage counts."}
+};
+function dataRows(){
+  const t = TABLES[ui.table]; let rows = t.rows().slice();
+  if (ui.q){ const q = ui.q.toLowerCase();
+    rows = rows.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q))); }
+  if (ui.sort.col){ const c = ui.sort.col, dir = ui.sort.dir;
+    rows.sort((a,b) => { const x = a[c], y = b[c];
+      return (typeof x === "number" && typeof y === "number") ? (x-y)*dir : String(x).localeCompare(String(y))*dir; }); }
+  return rows;
+}
+function toCSV(rows){
+  if (!rows.length) return "";
+  const cols = [...new Set(rows.flatMap(Object.keys))];
+  const cell = v => { const s = Array.isArray(v) ? v.join(" ") : String(v ?? "");
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s; };
+  return [cols.join(","), ...rows.map(r => cols.map(c => cell(r[c])).join(","))].join("\n");
+}
+function dataModule(){
+  const t = TABLES[ui.table], rows = dataRows();
+  const cols = rows.length ? [...new Set(rows.flatMap(Object.keys))] : [];
+  const dump = ui.fmt === "csv" ? toCSV(rows) : JSON.stringify(rows, null, 2);
+  const head = cols.map(c => {
+    const on = ui.sort.col === c, dir = ui.sort.dir > 0 ? "ascending" : "descending";
+    return `<th scope="col"${on ? ` aria-sort="${dir}"` : ""}>
+      <button class="sortbtn" type="button" data-col="${esc(c)}" aria-label="Sort by ${esc(c)}${on ? ", currently " + dir : ""}">
+        ${esc(c)}${on ? `<span class="sortmark" aria-hidden="true">${ui.sort.dir > 0 ? "▲" : "▼"}</span>` : ""}
+      </button></th>`;
+  }).join("");
+  const body = rows.map(r => `<tr>${cols.map(c => {
+    const v = r[c], isNum = typeof v === "number";
+    return `<td class="${isNum ? "num" : ""}">${esc(isNum && c.includes("value") ? cf.format(v) : Array.isArray(v) ? v.join(", ") : v)}</td>`;
+  }).join("")}</tr>`).join("");
+
+  return `<div class="module enter">
+    <div class="row" style="gap:var(--space-3)">
+      <label class="sr" for="tableSel">Table</label>
+      <select class="field" id="tableSel">${Object.keys(TABLES).map(k =>
+        `<option value="${k}"${k === ui.table ? " selected" : ""}>${k} (${TABLES[k].rows().length})</option>`).join("")}</select>
+      <label class="sr" for="qBox">Filter rows</label>
+      <input class="field" id="qBox" type="search" placeholder="Filter rows…" value="${esc(ui.q)}"
+        autocomplete="off" spellcheck="false">
+      <span class="label">${esc(t.note)}</span>
+    </div>
+    ${rows.length ? `${panelFlush(ui.table, `<div class="tablewrap" style="max-height:56vh;overflow:auto">
+        <table class="grid dense"><caption class="sr">${esc(ui.table)}</caption>
+        <thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`,
+        `<span class="label">${nf.format(rows.length)} of ${nf.format(t.rows().length)} rows · key ${esc(t.pk)}</span>`)}`
+      : `<div class="empty"><b>Nothing matches “${esc(ui.q)}” in ${esc(ui.table)}.</b>
+          <p>The filter reads every column, so try a shorter fragment — an industry, an agent id like <span class="mono" translate="no">AG-SALES</span>, or a city. Other tables are not searched.</p>
+          <button class="btn" type="button" id="clearQ">Clear Filter</button></div>`}
+    ${panel("Export", `
+      <div class="row" style="margin-bottom:var(--space-2)">
+        <span class="label">${nf.format(rows.length)} rows selected</span>
+        <button class="btn" type="button" data-fmt="csv"${ui.fmt === "csv" ? ' style="border-color:var(--accent);color:var(--fg-primary)"' : ""} aria-pressed="${ui.fmt === "csv"}">CSV</button>
+        <button class="btn" type="button" data-fmt="json"${ui.fmt === "json" ? ' style="border-color:var(--accent);color:var(--fg-primary)"' : ""} aria-pressed="${ui.fmt === "json"}">JSON</button>
+        <button class="btn" type="button" id="copyBtn">Copy To Clipboard</button>
+      </div>
+      <pre class="dump" id="dump" tabindex="0">${esc(dump) || "— no rows in the current selection —"}</pre>
+      <p class="note" style="margin-top:var(--space-2)">For a file on disk, the same selection runs from the repository:
+        <span class="mono" translate="no">python scripts/extract.py --table ${esc(ui.table)} --format ${esc(ui.fmt)} --out exports/</span> — same columns, same order, straight out of Postgres.</p>`)}
+  </div>`;
+}
+
+/* ---------- Integrations ---------- */
+function integrations(){
+  const local = DB.api_keys.filter(k => k.host === "local cloud");
+  const metered = DB.api_keys.filter(k => k.host === "cloud");
+  const manual = DB.api_keys.filter(k => k.host === "web");
+  const meter = k => {
+    if (!k.limit) return `<span class="label">Local · unmetered</span>`;
+    const f = Math.min(k.used / k.limit, 1), cls = f >= .95 ? "out" : f >= .8 ? "low" : "";
+    const read = `${nf.format(k.used)} / ${nf.format(k.limit)} ${k.unit}`;
+    return `<span class="meterwrap">
+      <span class="meter" role="img" aria-label="${esc(k.service)}: ${esc(read)} used"><i class="${cls}" style="width:${(f*100).toFixed(0)}%"></i></span>
+      <span class="meterval${f >= .8 ? " hot" : ""}">${esc(read)}</span></span>`;
+  };
+  const row = k => { const [cl,t] = statusPill(k.status); return `<div class="keyrow">
+    <span class="kn"><b>${esc(k.service)}</b><code translate="no">${esc(k.env)}</code>
+      <span style="font-size:12.5px;color:var(--fg-secondary)">${esc(k.purpose)}</span></span>
+    ${meter(k)}${pill(cl,t)}</div>`; };
+  return `<div class="module enter">
+    <div class="cols-3">
+      ${stat(nf.format(local.length), "On the local cloud")}
+      ${stat(nf.format(metered.length), "Metered external services")}
+      ${stat(nf.format(manual.length), "Manual only, by policy")}
+    </div>
+    <div class="split">
+      ${panel("Local cloud", local.map(row).join(""), `<span class="label">Self-hosted · no per-call cost</span>`)}
+      <div class="stack">
+        ${panel("External, metered", metered.map(row).join(""), `<span class="label" translate="no">Warden: AG-FIN-02</span>`)}
+        ${panel("Manual only", manual.map(row).join("") + `<p class="note" style="margin-top:var(--space-3)">BBB.org and TruePeopleSearch have no public API and terms that prohibit bulk automation. The verifier queues those lookups for a human, one at a time, and records the corroboration rather than the page.</p>`,
+          `<span class="label">No API · human in the loop</span>`)}
+      </div>
+    </div>
+    <p class="note"><b>Where the keys live.</b> In <span class="mono" translate="no">.env</span> on the local cloud, loaded per agent by scope: a content agent never holds a sending key, a research agent never holds a CRM write key. This registry shows names, purposes and burn — nothing that could be pasted into a terminal. The credit warden pauses the consuming agent at 90% of any monthly allowance rather than quietly overspending.</p>
+  </div>`;
+}
+</script>
+<script>
+/* ---------- Research ---------- */
+function research(){
+  const cats = [...new Set(DB.sources.map(s => s.cat))];
+  const vp = v => ({adopt:"good",pilot:"info",watch:"idle",read:"idle",study:"info",manual:"warn",restricted:"crit"}[v] || "idle");
+  return `<div class="module enter">
+    <p class="lede">${nf.format(DB.sources.length)} sources, each marked with what we intend to do about it. A shopping list with a verdict column, not a bookmark folder.</p>
+    ${panel("How to read the verdicts", `<p class="note"><b>Adopt</b> — in the stack now or next sprint. <b>Pilot</b> — one bounded test with a decision date. <b>Watch</b> — matters later, not now. <b>Study</b> — a company whose product decisions inform ours. <b>Manual</b> and <b>restricted</b> — usable only with a human in the loop, for terms-of-service reasons that are not negotiable.</p>
+      <p class="note" style="margin-top:var(--space-3)"><b>Scraping, honestly.</b> Public pages, published rates, official filings and directories that invite indexing are fair game at reasonable rates. Login-walled data, personal records behind terms that forbid harvesting, and anything that would put a sending domain at risk are not. The restraint is strategic: sending reputation is the asset.</p>`)}
+    <div class="cols">${cats.map(cat => `
+      <section class="panel"><div class="panel-head">
+        <h2 class="sec">${esc(cat)}</h2><span class="label">${DB.sources.filter(s => s.cat === cat).length} entries</span></div>
+        <div class="panel-body">${DB.sources.filter(s => s.cat === cat).map(s => `
+          <div class="entry"><div class="top">
+            <a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.name)}</a>
+            <span class="label">${esc(s.kind)}</span>${pill(vp(s.verdict), s.verdict)}</div>
+            <p>${esc(s.note)}</p><span class="href" translate="no">${esc(s.url)}</span></div>`).join("")}
+        </div></section>`).join("")}</div>
+  </div>`;
+}
+
+/* ---------- Memory ---------- */
+function memory(){
+  return `<div class="module enter">
+    <div class="split">
+      ${panel("Two memories, deliberately separate", `
+        <p class="note" style="margin-bottom:var(--space-3)">Postgres remembers <i>what happened</i> — rows, amounts, timestamps, costs. The Obsidian vault remembers <i>what it meant</i> — the decision, the alternative rejected, the threshold that would reverse it. An agent that reads only the first repeats last quarter’s mistakes with better formatting.</p>
+        <h3 class="sub">The write discipline</h3>
+        <p class="note" style="margin-bottom:var(--space-3)">Every run writes a row. Every <i>decision</i> writes a note: the question, the numbers in front of us, the call, the owner, and the reversal condition. Notes link to account files, which link to rows by primary key. That link is what lets an agent reconstruct a judgment six months later instead of re-litigating it.</p>
+        <h3 class="sub">Drive’s narrow job</h3>
+        <p class="note">Drive holds only what a client opens: proposals, contracts, deliverables, handed-over exports. It is the outward face, never the memory.</p>`)}
+      ${panel("Decision record — the only note format", `<pre class="dump" style="max-height:none" tabindex="0">---
+id: DEC-2026-08-14-hunter-rationing
+owner: SUP-FIN
+question: Verify every scraped contact, or only pre-send?
+numbers: 4,180 scraped/mo · 50 free credits · 0.5 credit per verify
+decision: Verify at send time only; queue the rest unverified.
+rejected: Bulk verification at scrape time — 41x over allowance.
+reverses_if: Bounce rate > 3% for two consecutive weeks.
+links: [godly.contacts, /brain/agents/ag-res-02]
+---</pre>`)}
+    </div>
+    ${panelFlush("Memory routing", `<div class="tablewrap"><table class="grid"><caption class="sr">Where files live</caption>
+      <thead><tr><th scope="col">Zone</th><th scope="col">Path</th><th scope="col">Holds</th><th scope="col">Written by</th><th scope="col">Read by</th></tr></thead>
+      <tbody>${DB.brain.map(b => `<tr><td>${esc(b.zone)}</td>
+        <td class="mono" translate="no" style="font-size:11.5px">${esc(b.path)}</td><td>${esc(b.holds)}</td>
+        <td class="mono" translate="no" style="font-size:11.5px">${esc(b.writer)}</td><td>${esc(b.read_by)}</td></tr>`).join("")}
+      </tbody></table></div>`)}
+    ${panel("Reserved modules", `<div class="cols-3">
+      <div class="reserved"><b>Service Delivery</b><br><span class="label">Opens at four running retainers</span></div>
+      <div class="reserved"><b>Finance &amp; Forecast</b><br><span class="label">Opens at four closed quarters</span></div>
+      <div class="reserved"><b>Client Portals</b><br><span class="label">Opens on first client request</span></div>
+    </div>
+    <p class="note" style="margin-top:var(--space-3)">Named with the condition that opens each one, which is a stronger commitment than a roadmap date.</p>`)}
+  </div>`;
+}
+
+/* ============================================================
+   modules registry, routing, palette
+   ============================================================ */
+const ICON = {
+  gauge:'<path d="M2 11a7 7 0 0 1 14 0"/><path d="M9 11l3.2-3.2"/>',
+  phone:'<path d="M4 3h3l1.4 3.2-1.7 1.2a9 9 0 0 0 4 4l1.2-1.7L15 11v3a1 1 0 0 1-1.1 1A12 12 0 0 1 3 4.1 1 1 0 0 1 4 3z"/>',
+  chart:'<path d="M3 15V8"/><path d="M8 15V3"/><path d="M13 15v-5"/>',
+  signal:'<path d="M2 4h14"/><path d="M4 9h10"/><path d="M7 14h4"/>',
+  link:'<path d="M7 9a3 3 0 0 1 0-4l1-1a3 3 0 1 1 4 4l-.5.5"/><path d="M11 9a3 3 0 0 1 0 4l-1 1a3 3 0 1 1-4-4l.5-.5"/>',
+  org:'<rect x="6.5" y="2" width="5" height="4" rx="1"/><rect x="1.5" y="12" width="5" height="4" rx="1"/><rect x="11.5" y="12" width="5" height="4" rx="1"/><path d="M9 6v3H4v3M9 9h5v3"/>',
+  table:'<rect x="2" y="3" width="14" height="12" rx="1.5"/><path d="M2 7h14M7 7v8"/>',
+  plug:'<path d="M6 2v4M12 2v4"/><path d="M4 6h10v3a5 5 0 0 1-10 0z"/><path d="M9 14v3"/>',
+  book:'<path d="M3 3h5a2 2 0 0 1 2 2v10a2 2 0 0 0-2-2H3z"/><path d="M15 3h-5a2 2 0 0 0-2 2v10a2 2 0 0 1 2-2h5z"/>',
+  brain:'<path d="M7 3a2.5 2.5 0 0 0-2.5 2.5A2 2 0 0 0 3 7.5 2 2 0 0 0 4.5 9.4 2.3 2.3 0 0 0 7 13a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><path d="M11 3a2.5 2.5 0 0 1 2.5 2.5A2 2 0 0 1 15 7.5a2 2 0 0 1-1.5 1.9A2.3 2.3 0 0 1 11 13a2 2 0 0 1-2-2"/>'
+};
+const MODULES = [
+  {id:"overview",     name:"Overview",      group:"Operations", icon:"gauge",  render:overview,      count:()=>null},
+  {id:"front-office", name:"Front Office",  group:"Operations", icon:"phone",  render:frontOffice,   count:()=>DB.deployments.length},
+  {id:"sales",        name:"Sales",         group:"Operations", icon:"chart",  render:sales,         count:()=>openDeals().length},
+  {id:"marketing",    name:"Marketing",     group:"Operations", icon:"signal", render:marketing,     count:()=>DB.campaigns.filter(c=>c.status==="running").length},
+  {id:"partnerships", name:"Partnerships",  group:"Operations", icon:"link",   render:partnerships,  count:()=>DB.partners.length},
+  {id:"organization", name:"Organization",  group:"System",     icon:"org",    render:organization,  count:()=>DB.agents.length},
+  {id:"data",         name:"Data",          group:"System",     icon:"table",  render:dataModule,    count:()=>Object.keys(TABLES).length},
+  {id:"integrations", name:"Integrations",  group:"System",     icon:"plug",   render:integrations,  count:()=>DB.api_keys.length},
+  {id:"research",     name:"Research",      group:"System",     icon:"book",   render:research,      count:()=>DB.sources.length},
+  {id:"memory",       name:"Memory",        group:"System",     icon:"brain",  render:memory,        count:()=>DB.brain.length}
+];
+const byId = id => MODULES.find(m => m.id === id) || MODULES[0];
+let current = "overview";
+
+function svg(name){
+  return `<svg width="15" height="15" viewBox="0 0 18 18" fill="none" stroke="currentColor"
+    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[name]}</svg>`;
+}
+function drawNav(){
+  for (const [sel, group] of [["#navWork","Operations"], ["#navSystem","System"]]){
+    const el = $(sel);
+    el.querySelectorAll(".navitem").forEach(n => n.remove());
+    el.insertAdjacentHTML("beforeend", MODULES.filter(m => m.group === group).map(m => {
+      const c = m.count();
+      return `<a class="navitem" href="#/${m.id}"${m.id === current ? ' aria-current="page"' : ""}>
+        <span class="glyph">${svg(m.icon)}</span><span>${esc(m.name)}</span>
+        <span class="count">${c === null ? "" : nf.format(c)}</span></a>`;
+    }).join(""));
+  }
+}
+</script>
+<script>
+/* ---------- routing: the URL is the state ---------- */
+function readURL(){
+  const raw = location.hash.replace(/^#\/?/, "");
+  const [path, query] = raw.split("?");
+  const id = byId(path || "overview").id;
+  const p = new URLSearchParams(query || "");
+  if (id === "data"){
+    if (p.get("table") && TABLES[p.get("table")]) ui.table = p.get("table");
+    ui.q = p.get("q") || "";
+    const sc = p.get("sort");
+    ui.sort = sc ? {col:sc.replace(/^-/, ""), dir:sc.startsWith("-") ? -1 : 1} : {col:null, dir:1};
+    if (p.get("fmt") === "json" || p.get("fmt") === "csv") ui.fmt = p.get("fmt");
+  }
+  return id;
+}
+function writeURL(replace){
+  let hash = "#/" + current;
+  if (current === "data"){
+    const p = new URLSearchParams();
+    p.set("table", ui.table);
+    if (ui.q) p.set("q", ui.q);
+    if (ui.sort.col) p.set("sort", (ui.sort.dir < 0 ? "-" : "") + ui.sort.col);
+    if (ui.fmt !== "csv") p.set("fmt", ui.fmt);
+    hash += "?" + p.toString();
+  }
+  if (location.hash === hash) return;
+  if (replace) history.replaceState(null, "", hash); else history.pushState(null, "", hash);
+}
+function paint(announce){
+  const m = byId(current);
+  $("#main").innerHTML = m.render();
+  $("#moduleTitle").textContent = m.name;
+  $("#scope").textContent = m.group;
+  document.title = m.name + " · Hero Capital OS";
+  drawNav();
+  if (announce) $("#routeAnnounce").textContent = m.name + " module loaded";
+}
+function go(id, opts={}){
+  current = byId(id).id;
+  writeURL(opts.replace);
+  paint(true);
+  if (!opts.keepScroll) window.scrollTo({top:0, behavior:"instant"});
+  if (opts.focus) $("#main").focus();
+}
+/* an in-module state change repaints without a history entry */
+function refresh(){ writeURL(true); paint(false); }
+
+addEventListener("hashchange", () => { current = readURL(); paint(true); });
+
+/* ---------- delegated interaction ---------- */
+$("#main").addEventListener("click", e => {
+  const deal = e.target.closest("[data-deal]");
+  if (deal){ ui.deal = deal.dataset.deal; refresh(); return; }
+
+  const chief = e.target.closest("[data-chief]");
+  if (chief){ const i = +chief.dataset.chief; ui.chief = ui.chief === i ? null : i; refresh(); return; }
+
+  const col = e.target.closest("button[data-col]");
+  if (col){ const c = col.dataset.col;
+    ui.sort = ui.sort.col === c ? {col:c, dir:-ui.sort.dir} : {col:c, dir:1}; refresh(); return; }
+
+  const fmt = e.target.closest("[data-fmt]");
+  if (fmt){ ui.fmt = fmt.dataset.fmt; refresh(); return; }
+
+  if (e.target.closest("#clearQ")){ ui.q = ""; refresh(); $("#qBox")?.focus(); return; }
+
+  const copy = e.target.closest("#copyBtn");
+  if (copy){
+    navigator.clipboard.writeText($("#dump").textContent).then(
+      () => { copy.textContent = "Copied"; setTimeout(() => { copy.textContent = "Copy To Clipboard"; }, 1600); },
+      () => { const r = document.createRange(); r.selectNodeContents($("#dump"));
+        const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        copy.textContent = "Selected — press ⌘C"; setTimeout(() => { copy.textContent = "Copy To Clipboard"; }, 2600); }
+    );
+  }
+});
+$("#main").addEventListener("change", e => {
+  if (e.target.id === "tableSel"){
+    ui.table = e.target.value; ui.sort = {col:null, dir:1}; ui.q = "";
+    refresh(); $("#tableSel")?.focus();
+  }
+});
+$("#main").addEventListener("input", e => {
+  if (e.target.id === "qBox"){
+    ui.q = e.target.value; refresh();
+    const box = $("#qBox");
+    if (box){ box.focus(); box.setSelectionRange(box.value.length, box.value.length); }
+  }
+});
+
+/* ---------- command palette ---------- */
+const scrim = $("#scrim"), pInput = $("#paletteInput"), pList = $("#paletteList");
+let pIndex = 0, lastFocus = null;
+function paletteMatches(){
+  const q = pInput.value.trim().toLowerCase();
+  return MODULES.filter(m => !q || m.name.toLowerCase().includes(q) || m.group.toLowerCase().includes(q));
+}
+function drawPalette(){
+  const items = paletteMatches();
+  pIndex = Math.min(pIndex, Math.max(items.length - 1, 0));
+  pList.innerHTML = items.length ? items.map((m,i) => `
+    <li><button type="button" data-go="${m.id}" data-active="${i === pIndex}">
+      <span>${esc(m.name)}</span><span class="where">${esc(m.group)}</span></button></li>`).join("")
+    : `<li><button type="button" disabled style="cursor:default;color:var(--fg-muted)">No module matches that name</button></li>`;
+}
+function openPalette(){
+  lastFocus = document.activeElement;
+  scrim.hidden = false; pInput.value = ""; pIndex = 0; drawPalette(); pInput.focus();
+}
+function closePalette(){ scrim.hidden = true; lastFocus?.focus(); }
+$("#paletteBtn").addEventListener("click", openPalette);
+pInput.addEventListener("input", () => { pIndex = 0; drawPalette(); });
+pList.addEventListener("click", e => {
+  const b = e.target.closest("[data-go]"); if (!b) return;
+  closePalette(); go(b.dataset.go, {focus:true});
+});
+scrim.addEventListener("mousedown", e => { if (e.target === scrim) closePalette(); });
+pInput.addEventListener("keydown", e => {
+  const items = paletteMatches();
+  if (e.key === "ArrowDown"){ e.preventDefault(); pIndex = (pIndex + 1) % items.length; drawPalette(); }
+  else if (e.key === "ArrowUp"){ e.preventDefault(); pIndex = (pIndex - 1 + items.length) % items.length; drawPalette(); }
+  else if (e.key === "Enter" && items[pIndex]){ e.preventDefault(); closePalette(); go(items[pIndex].id, {focus:true}); }
+  else if (e.key === "Escape"){ e.preventDefault(); closePalette(); }
+});
+addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k"){ e.preventDefault(); scrim.hidden ? openPalette() : closePalette(); return; }
+  if (e.key === "Escape" && !scrim.hidden){ closePalette(); return; }
+  if (e.target.matches("input, select, textarea") || !scrim.hidden) return;
+  if (e.key === "[" || e.key === "]"){
+    const i = MODULES.findIndex(m => m.id === current);
+    go(MODULES[(i + (e.key === "]" ? 1 : MODULES.length - 1)) % MODULES.length].id);
+  }
+});
+
+/* ---------- theme ---------- */
+const themeBtn = $("#themeBtn");
+const isDark = () => document.documentElement.getAttribute("data-theme") === "dark" ||
+  (!document.documentElement.hasAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+function applyTheme(t){
+  if (t) document.documentElement.setAttribute("data-theme", t);
+  else document.documentElement.removeAttribute("data-theme");
+  themeBtn.textContent = isDark() ? "Light Mode" : "Dark Mode";
+}
+themeBtn.addEventListener("click", () => {
+  const next = isDark() ? "light" : "dark";
+  applyTheme(next);
+  try { localStorage.setItem("hero-os-theme", next); } catch {}
+});
+try { applyTheme(localStorage.getItem("hero-os-theme")); } catch { applyTheme(null); }
+
+/* ---------- boot ---------- */
+current = readURL();
+writeURL(true);
+paint(false);
+</script>

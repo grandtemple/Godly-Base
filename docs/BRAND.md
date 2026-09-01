@@ -1,6 +1,6 @@
 # Brand and voice
 
-The brand and messaging system for Godly Base: what we say we are, how we sound, and what we call things. It governs the codex (`web/godly-codex.html`), the README, client-facing copy, and anything an agent drafts for a human to send.
+The brand and messaging system for Godly Base: what we say we are, how we sound, and what we call things. It governs the Hero Capital OS (`web/hero-os.html`), the README, client-facing copy, and anything an agent drafts for a human to send.
 
 ## Read this first: three names, one rule
 
@@ -11,7 +11,7 @@ The firm goes to market as **Hero**.
 |---|---|---|
 | **Hero** | The firm as the market meets it. The spoken brand, the one on a proposal cover, a signature, a LinkedIn profile, a cold email. | Clients, prospects, partners, the public |
 | **Hero Capital** | The formal entity name, used where a legal name is required. | Contracts, invoices, banking, filings |
-| **Godly Base** | The operating system this repository builds — the codex, the vault, the agent roster. An internal name. | Joshua, the agents, anyone reading this repo |
+| **Godly Base** | The repository. The system it builds is the **Hero Capital OS** — modules, database, agent roster. Internal. | Joshua, the agents, anyone reading this repo |
 | **Godly** | The Christian community app. A separate product by the same owner. | Its own community |
 
 **The rule that follows from it:** any surface a client can see says Hero.
@@ -55,9 +55,9 @@ is expensive, because deliverability reputation does not transfer.
 
 Until 2 and 3 are answered, three defaults hold:
 
-- No faith language in Hero copy aimed at a client or prospect. The book and codex metaphor is fine; Scripture used to sell a retainer is not.
+- No faith language in Hero copy aimed at a client or prospect. The systems-and-instruments metaphor is fine; Scripture used to sell a retainer is not.
 - No commercial or sales language in Godly app copy.
-- The palettes stay distinct. Do not port the codex green into the app, or the app indigo into Hero's client-facing work.
+- The palettes stay distinct. Do not port the OS green into the app, or the app indigo into Hero's client-facing work.
 
 ## Positioning
 
@@ -96,7 +96,7 @@ The profile below comes from Joshua's own emails, as documented in the `godly-ne
 - Contractions, because they carry the warmth.
 - Sentences under 20 words as the target, and one idea per paragraph.
 - Specific numbers instead of vague quantifiers: "97 meetings from 513 replies", not "many meetings".
-- Colons and commas where the sentence wants a break. The codex chapter prose earns its em dashes; nothing else does.
+- Colons and commas where the sentence wants a break. The OS module prose earns its em dashes; nothing else does.
 
 ## Three audiences, one voice, three registers
 
@@ -104,7 +104,7 @@ The voice does not change between audiences. The register does: how much of Josh
 
 | | Internal operating docs | Client-facing | The Godly community |
 |---|---|---|---|
-| **Where** | The codex, README, `docs/`, decision records, agent prompts | Proposals, outbound email, LinkedIn posts, the site | Newsletter, in-app copy, announcements |
+| **Where** | The OS, README, `docs/`, decision records, agent prompts | Proposals, outbound email, LinkedIn posts, the site | Newsletter, in-app copy, announcements |
 | **Person** | "We" for standing commitments, no "I" | "I" when Joshua sends it, "we" for what the firm commits to | "I" throughout |
 | **Register** | Declarative and rule-shaped. Every claim carries its evidence. | Warm and plain. The ask arrives early and stays small. | Warm and personal, closer to pastoral than to professional. |
 | **Ends with** | A rule, a threshold, or a reversal condition | One next step, with an easier alternative offered | One invitation, never more than one |
@@ -141,7 +141,7 @@ The same fact in all three registers:
 
 **The three names.** "Hero" for the firm in market, "Hero Capital" only where a legal entity name is required, "Godly Base" for the internal operating system, "Godly" for the community app. Never GodlyBase, godlybase, Godly-Base, or GB outside a code identifier; never HeroCapital, Hero Cap, or HC. The repository slug `Godly-Base` is the one exception and stays as it is, because it is internal.
 
-**Which name goes where.** A proposal, an email signature, a case study, a LinkedIn profile, a landing page, a contract, an invoice: Hero (or Hero Capital where the paperwork demands a registered name). The codex, the vault, agent charters, decision records, this repository: Godly Base. If you cannot tell whether a surface is client-facing, assume it is and write Hero.
+**Which name goes where.** A proposal, an email signature, a case study, a LinkedIn profile, a landing page, a contract, an invoice: Hero (or Hero Capital where the paperwork demands a registered name). The OS, the database, agent charters, decision records, this repository: internal names only. If you cannot tell whether a surface is client-facing, assume it is and write Hero.
 
 **Chapters.** Roman numerals in order, with two title shapes already established: `Book of <Plural Noun>` for a pipeline the business runs, and `The <Singular Noun>` for a system it depends on. A new chapter picks the shape that matches its job, and the reserved chapters keep their titles: IX Service Delivery, X Finance and Forecast, XI Client Portals.
 

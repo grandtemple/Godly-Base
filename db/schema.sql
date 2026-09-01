@@ -1,5 +1,5 @@
 -- Godly Base — operating schema for the local cloud (PostgreSQL 15+, tested on 16).
--- Schema: godly.  Every table in the codex's Vault chapter is one of these.
+-- Schema: godly.  Every table in the OS Data module is one of these.
 -- Secrets are NEVER stored here: the integrations table holds env var NAMES and
 -- usage counters, never values.
 --
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS niches (
 -- as the doctrine reads. Growing tables below use surrogate bigint keys instead.
 CREATE TABLE IF NOT EXISTS departments (
   code          text PRIMARY KEY CHECK (code = upper(code) AND code <> ''),  -- CSO, CMO, CBDO, CTO, CIO, CCO, CFO
-  name          text NOT NULL UNIQUE,        -- 'Sales' — the label the seed and codex show
+  name          text NOT NULL UNIQUE,        -- 'Sales' — the label the seed and OS show
   title         text NOT NULL,               -- 'Chief Sales Officer'
   chief_name    text NOT NULL,               -- 'Ledger'
   charter       text NOT NULL,
@@ -138,7 +138,7 @@ CREATE INDEX IF NOT EXISTS agents_reports_to_idx  ON agents (reports_to, departm
 CREATE INDEX IF NOT EXISTS agents_duo_partner_idx ON agents (duo_partner);                  -- FK index: partner lookups and delete checks
 
 -- Append-only run log: the highest-volume table here (21 agents x hundreds of
--- runs/day). Surrogate identity key; the codex's 'RUN-88401' label is kept as a
+-- runs/day). Surrogate identity key; the OS 'RUN-88401' label is kept as a
 -- unique reference, not as the primary key.
 CREATE TABLE IF NOT EXISTS agent_runs (
   id            bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -172,7 +172,7 @@ CREATE INDEX IF NOT EXISTS agent_runs_escalation_idx
 
 -- ---------------------------------------------------------------- sales core
 -- From here down, tables grow with the business, so the primary key is a bigint
--- identity and the codex's human label ('ACC-1041') is a nullable UNIQUE `ref`.
+-- identity and the OS human label ('ACC-1041') is a nullable UNIQUE `ref`.
 -- Why: those labels are display codes minted by the UI, they can be renumbered,
 -- rows created by an agent may not have one yet, and an 8-byte sequential key
 -- keeps the indexes small and the inserts local.
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS deals (
   updated_at      timestamptz NOT NULL DEFAULT now()
   -- No niche_id: a deal's niche is its account's niche. One place to change it.
 );
-CREATE INDEX IF NOT EXISTS deals_stage_idx      ON deals (stage);       -- FK index + the codex's stage filter
+CREATE INDEX IF NOT EXISTS deals_stage_idx      ON deals (stage);       -- FK index + the OS stage filter
 CREATE INDEX IF NOT EXISTS deals_account_idx    ON deals (account_id);  -- FK index: account -> deals on every account panel
 CREATE INDEX IF NOT EXISTS deals_contact_idx    ON deals (contact_id);
 -- The working pipeline. The closed stages are spelled out because an index
@@ -349,7 +349,7 @@ CREATE INDEX IF NOT EXISTS content_owner_idx ON content_items (owner_agent);
 CREATE INDEX IF NOT EXISTS content_calendar_idx
   ON content_items (publish_at) WHERE status IN ('scheduled','in review');
 -- No GIN index on channels yet: four rows and no query filters on it. Add
--- `USING gin (channels)` the day the codex filters content by channel.
+-- `USING gin (channels)` the day the OS filters content by channel.
 
 -- Funnel stages are ordered for display and must show even at zero, so they get
 -- a lookup table for the same reason deal_stages does.
@@ -373,7 +373,7 @@ CREATE TABLE IF NOT EXISTS funnel_snapshots (
 -- that are never deleted, so the only cost would be write amplification.
 -- Not partitioned: one row per stage per day is ~2k rows a year.
 
--- Daily runs per department — the codex's throughput sparkline. Composite
+-- Daily runs per department — the OS throughput sparkline. Composite
 -- natural key: it is a measurement identified by its dimensions, and a surrogate
 -- id would only invite duplicate days.
 CREATE TABLE IF NOT EXISTS department_throughput (

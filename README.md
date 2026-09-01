@@ -4,22 +4,22 @@ Godly Base is the operating system of a firm that puts an AI front office into
 other businesses: agents that answer the phone, work the inbox, book the job,
 take the payment, then chase the Google review and the referral. Roofing and
 restoration, med spa, commercial HVAC, and private security are where it runs
-today, not a closed list. The interface is a codex: the left
-page carries the reasoning, the right page carries the working instrument, and
-every number on both comes out of one database you can open, filter, sort, and
-take with you.
+today, not a closed list. The interface is an operating system: ten
+modules behind a fixed rail, every number in them drawn from one database you
+can open, filter, sort, and take with you.
 
-**The firm goes to market as Hero.** "Godly Base" is the internal name for the
-machine — this repository, the codex, the vault, the agent roster — and a client
-never hears it. Anything a client can see says Hero, or Hero Capital where a
+**The firm goes to market as Hero.** "Godly Base" is the repository; the system
+it builds is the **Hero Capital OS** — the modules, the database, the agent
+roster. A client never hears either name. Anything a client can see says Hero, or Hero Capital where a
 registered entity name is required. Godly, the Christian community app, is a
 separate product by the same owner. The rules are in
 [docs/BRAND.md](docs/BRAND.md).
 
 ```
-web/godly-codex.html     the codex — 9 leaves, opens in any browser
+web/hero-os.html         the OS — 10 modules, opens in any browser
+tools/build-data.js      rebuilds the OS data block from db/seed.json
 db/schema.sql            Postgres schema for every data point we keep
-db/seed.json             the rows the codex ships with
+db/seed.json             the rows the OS and Postgres both load
 config/agents.yaml       the roster: 7 chiefs, 7 supervisors, 21 paired agents
 config/.env.example      the nerve — key names only, never values
 scripts/extract.py       CSV/JSON extraction from live Postgres or the seed
@@ -27,28 +27,30 @@ docs/ARCHITECTURE.md     chain of command, memory rules, guardrails
 docs/RESEARCH-INDEX.md   40 linked sources, each with a verdict
 ```
 
-## The leaves
+## The modules
 
-| | Chapter | What it holds |
+| Group | Module | What it holds |
 |---|---|---|
-| — | Frontispiece | Vitals, agent throughput, today's run ledger |
-| I | The House | Org chart: CEO → chief → supervisor → paired agents |
-| II | Book of Accounts | Sales pipeline, deal marginalia, account file |
-| III | Book of Signals | Marketing funnel, campaigns, editorial calendar |
-| IV | Book of Alliances | Partnership pipeline and program tiers |
-| V | The Vault | All twelve tables — filter, sort, extract as CSV or JSON |
-| VI | The Nerve | Integration registry, credit meters, local cloud |
-| VII | The Appendix | The research index with live links and verdicts |
-| VIII | The Brain | Obsidian/Drive routing, decision records, room to grow |
+| Operations | Overview | Vitals, escalations, agent throughput, recent runs |
+| Operations | Front Office | The product: nine capabilities and which are live per client |
+| Operations | Sales | Pipeline board, deal detail, accounts |
+| Operations | Marketing | Funnel, where it leaks, campaigns, editorial calendar |
+| Operations | Partnerships | Partner pipeline, the four tiers, register |
+| System | Organization | CEO → chief → supervisor → paired agents |
+| System | Data | All fourteen tables — filter, sort, export as CSV or JSON |
+| System | Integrations | Registry, credit meters, local cloud, manual-only sources |
+| System | Research | Forty linked sources with verdicts |
+| System | Memory | Obsidian/Drive routing, decision-record format, reserved modules |
 
-Chapter tabs run down the spine; `←` and `→` turn leaves.
+The URL is the state: `#/sales`, or `#/data?table=deals&q=hvac&sort=-value`.
+Press ⌘K for the module palette, `[` and `]` to step between modules.
 
 ## Running it
 
-The codex is a single file with no build step and no dependencies:
+The OS is a single file with no build step and no dependencies:
 
 ```bash
-open web/godly-codex.html        # macOS; xdg-open on Linux, start on Windows
+open web/hero-os.html            # macOS; xdg-open on Linux, start on Windows
 python3 -m http.server           # or serve the repo and visit /web/
 ```
 

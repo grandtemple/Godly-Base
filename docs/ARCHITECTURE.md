@@ -7,7 +7,7 @@ supervisors, twenty-one agents, one database, one brain.
 
 | Layer | What it is | Where it runs |
 |---|---|---|
-| **The codex** | `web/godly-codex.html` — the interface. Left page argues, right page operates. | Anywhere; published as an Artifact |
+| **The OS** | `web/hero-os.html` — the interface. Ten modules behind a fixed rail; the URL is the state. | Anywhere; published as an Artifact |
 | **The vault** | Postgres (`db/schema.sql`), schema `godly`. Every data point the business keeps. | Local cloud |
 | **The nerve** | Integrations registry + API keys, scoped per agent. | Local cloud + metered APIs |
 | **The brain** | Obsidian vault at `/brain`, served over MCP. Decisions, playbooks, account notes. | Local cloud |

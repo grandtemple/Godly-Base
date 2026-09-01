@@ -51,7 +51,7 @@
       "id": "FO-05",
       "capability": "Quote and estimate",
       "channel": "Email, SMS",
-      "does": "Builds the quote from the client's own price book and sends it while the caller still remembers calling.",
+      "does": "Builds the quote from the client’s own price book and sends it while the caller still remembers calling.",
       "replaces": "The estimate that took four days",
       "writes": "quotes",
       "status": "live"
@@ -88,7 +88,7 @@
       "capability": "Trade-specific work",
       "channel": "Any",
       "does": "Whatever else that business actually sells — warranty registration, seasonal service reminders, permit status, membership renewals. Configured per client, not per industry.",
-      "replaces": "The task that only lives in one person's head",
+      "replaces": "The task that only lives in one person’s head",
       "writes": "custom",
       "status": "pilot"
     }

@@ -1,5 +1,10 @@
 # Copy edits
 
+> **Historical record.** These edits were applied on 1 September 2026 to
+> `web/godly-codex.html`, the book-metaphor interface that preceded the Hero
+> Capital OS. The file no longer exists; the prose that survived the rebuild
+> lives in `web/hero-os.html`. Kept for the reasoning, not as a to-do list.
+
 Fifteen edits to prose already in the repository, verified against the working tree on 1 September 2026. Quoted text is exact and unique in its file, so each block can be matched and replaced by hand. Line numbers are given as a hint only, because `web/godly-codex.html` is being edited concurrently.
 
 Two notes before the list. First, most of this prose is good and I have not touched it; the section at the end names what I would leave alone and why. Second, one item is a data problem rather than a wording problem, and it is flagged separately at the bottom rather than dressed up as an edit.

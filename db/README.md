@@ -35,7 +35,7 @@ would add a planner filter to every row and protect nothing, and cargo-culted
 `using (true)` policies are worse — they read as security while granting
 everything. Isolation is done with roles instead, in
 `0002_roles_and_grants.sql`: `godly_app` (select/insert/update, **no delete** —
-agents mark, they do not erase) and `godly_readonly` for the codex and
+agents mark, they do not erase) and `godly_readonly` for the OS and
 `scripts/extract.py`. Revisit this the day a second tenant, a client login, or a
 browser-facing connection appears.
 
@@ -76,7 +76,7 @@ matter; `set constraints all deferred` covers the one self-reference):
 7. `accounts` — `seed.accounts`, **plus a stub row per account named only by a
    deal** (Ridgeway Restoration, Bluecrest Aesthetics, Halden Guard Group).
    The deal carries the niche, so the stub is derived, not invented; it has no
-   `ref` until the codex mints one
+   `ref` until the OS mints one
 8. `contacts` — `seed.contacts`, plus a stub per deal champion with no contact
    row (Ola Nkemdi, Marta Vane, Ivy Halden), attached to their deal's account
 9. `deals` — resolve `account` and `contact` names to ids
@@ -129,7 +129,7 @@ run counts to change after a real load — that is the point.
 
 `pipeline_by_stage`, `agent_load_7d` (both kept from the draft, same column
 names), plus `agent_roster` (the org chart in one query), `deal_board` (deals
-with the account, contact and owner names the codex prints), `funnel_latest`
+with the account, contact and owner names the OS prints), `funnel_latest`
 (newest snapshot per stage, in funnel order) and `integration_budget` (the
 credit warden's 90% sweep). All plain views: at this size a materialized view
 would buy nothing and add a refresh to own.

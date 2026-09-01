@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Extract any Godly Base table to CSV or JSON on disk.
 
-The codex's Vault chapter shows the same rows and copies them to the clipboard;
+The OS Data module shows the same rows and copies them to the clipboard;
 this writes real files. It reads live Postgres when DATABASE_URL is set, and
 falls back to the committed seed (db/seed.json) otherwise.
 
