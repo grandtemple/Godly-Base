@@ -39,6 +39,26 @@ agents mark, they do not erase) and `godly_readonly` for the OS and
 `scripts/extract.py`. Revisit this the day a second tenant, a client login, or a
 browser-facing connection appears.
 
+## Fresh install vs upgrade — they are different paths
+
+`db/schema.sql` always describes the **current** shape: every migration is
+folded back into it. So replaying `0002…000N` on a fresh database is wrong, not
+merely redundant — `0008` removes a column `0004` builds a view on, and the
+replay fails. It failed exactly that way once, which is why this section exists.
+
+```bash
+# NEW database — the baseline is the whole schema, and it records every
+# version it already contains so a later upgrade does not re-apply them.
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/0001_baseline.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/0002_roles_and_grants.sql  # optional, needs CREATEROLE
+
+# EXISTING database — only what is newer than it, in order.
+psql "$DATABASE_URL" -tAc "select max(version) from godly.schema_migrations"
+```
+
+Both paths are idempotent: re-running the baseline on a current database is a
+no-op, verified.
+
 ## Loading db/seed.json
 
 `scripts/load_seed.py` does all of this in one transaction. It is the loader the

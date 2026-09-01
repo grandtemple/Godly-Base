@@ -38,6 +38,8 @@ TABLES = {
     "payments": "payments",
     "dunning_attempts": "dunning_attempts",
     "price_book": "price_book",
+    "time_entries": "time_entries",
+    "consulting_sessions": "consulting_sessions",
     "quotes": "quotes",
     "retainers": "retainers",
     "invoices": "invoices",

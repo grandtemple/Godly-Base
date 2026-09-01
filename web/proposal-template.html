@@ -237,18 +237,21 @@ footer{margin-top:var(--space-6);font-family:var(--font-mono);font-size:var(--te
     <caption class="sr">Pricing</caption>
     <thead><tr><th scope="col">Line</th><th scope="col">Billing</th><th class="num" scope="col">Qty</th><th class="num" scope="col">Price</th></tr></thead>
     <tbody>
-      <tr><td>{{LINE_1_NAME}}</td><td class="muted">{{LINE_1_BILLING}}</td><td class="num">{{LINE_1_QTY}}</td><td class="num">{{LINE_1_PRICE}}</td></tr>
-      <tr><td>{{LINE_2_NAME}}</td><td class="muted">{{LINE_2_BILLING}}</td><td class="num">{{LINE_2_QTY}}</td><td class="num">{{LINE_2_PRICE}}</td></tr>
-      <tr><td>{{LINE_3_NAME}}</td><td class="muted">{{LINE_3_BILLING}}</td><td class="num">{{LINE_3_QTY}}</td><td class="num">{{LINE_3_PRICE}}</td></tr>
-      <tr class="total"><td colspan="3">One-time, to go live</td><td class="num">{{ONE_TIME_TOTAL}}</td></tr>
-      <tr class="total"><td colspan="3">Monthly, from go-live</td><td class="num">{{MONTHLY_TOTAL}}</td></tr>
+      <tr><td>Configuration and go-live</td><td class="muted">one-time</td><td class="num">1</td><td class="num">{{SETUP_FEE}}</td></tr>
+      <tr><td>Front office pod<br><span class="muted">All capabilities. No tiers, no add-ons.</span></td><td class="muted">monthly</td><td class="num">1</td><td class="num">{{MONTHLY_FEE}}</td></tr>
+      <tr><td>Consulting<br><span class="muted">Up to three sessions a week, billed for time worked</span></td><td class="muted">hourly</td><td class="num">as used</td><td class="num">{{HOURLY_RATE}}</td></tr>
+      <tr class="total"><td colspan="3">One-time, to go live</td><td class="num">{{SETUP_FEE}}</td></tr>
+      <tr class="total"><td colspan="3">Monthly, from go-live</td><td class="num">{{MONTHLY_FEE}}</td></tr>
     </tbody>
   </table>
-  <p class="muted">{{USAGE_NOTE}}</p>
+  <p class="muted">These are our published prices. We do not discount them, which is
+  the same reason we will not be talked into discounting for anyone else while you
+  are a client. Consulting is billed only for sessions actually held.</p>
 
   <h2>Terms</h2>
   <dl class="terms">
     <dt>Term</dt><dd>{{TERM}}</dd>
+    <dt>Consulting</dt><dd>Up to three sessions a week, booked on our calendar. Unused sessions do not roll over; a cancellation frees the slot.</dd>
     <dt>Go live</dt><dd>{{GO_LIVE}}</dd>
     <dt>Billing</dt><dd>{{BILLING_TERMS}}</dd>
     <dt>Your data</dt><dd>{{DATA_TERMS}}</dd>

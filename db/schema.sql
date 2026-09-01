@@ -661,20 +661,18 @@ CREATE TABLE IF NOT EXISTS price_book (
   code            text PRIMARY KEY,                 -- FO-01-SETUP, POD-CORE …
   name            text NOT NULL,
   capability_id   text REFERENCES front_office_capabilities(id) ON DELETE SET NULL,
-  billing         text NOT NULL CHECK (billing IN ('one-time','monthly','usage')),
+  billing         text NOT NULL CHECK (billing IN ('one-time','monthly','hourly')),
   list_price      numeric(12,2) NOT NULL CHECK (list_price >= 0),
   unit            text NOT NULL DEFAULT 'each',
   cost_to_serve   numeric(12,2) NOT NULL DEFAULT 0 CHECK (cost_to_serve >= 0),
-  floor_price     numeric(12,2) NOT NULL CHECK (floor_price >= 0),
   active          boolean NOT NULL DEFAULT true,
   notes           text,
-  updated_at      timestamptz NOT NULL DEFAULT now(),
-  -- the guardrail the proposal skill enforces, made structural
-  CONSTRAINT price_book_floor_below_list CHECK (floor_price <= list_price),
-  CONSTRAINT price_book_floor_above_cost CHECK (floor_price >= cost_to_serve)
+  -- Set pricing: the published price is the only price. The guardrail is the
+  -- enforce_set_pricing trigger, which refuses a quote line that does not match.
+  updated_at      timestamptz NOT NULL DEFAULT now()
 );
 COMMENT ON TABLE price_book IS
-  'What we sell and what it may not be sold below. floor_price is the margin guardrail: AG-FIN-01 blocks anything under it without CEO sign-off.';
+  'What we sell, at the only price we sell it for. Set pricing: the enforce_set_pricing trigger refuses a quote line that does not match list_price.';
 
 CREATE TABLE IF NOT EXISTS quotes (
   id              bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -688,7 +686,6 @@ CREATE TABLE IF NOT EXISTS quotes (
   decided_on      date,
   prepared_by     text REFERENCES agents(id) ON DELETE SET NULL,
   priced_by       text REFERENCES agents(id) ON DELETE SET NULL,  -- the second pair of eyes
-  ceo_override    boolean NOT NULL DEFAULT false,   -- true only when a line went below floor
   notes           text,
   created_at      timestamptz NOT NULL DEFAULT now(),
   updated_at      timestamptz NOT NULL DEFAULT now(),
@@ -798,16 +795,6 @@ FROM invoices i JOIN accounts a ON a.id = i.account_id
 WHERE i.status IN ('issued','late')
 ORDER BY i.due_on;
 
--- Every line ever sold below its floor, and whether a human signed it off.
-CREATE OR REPLACE VIEW margin_exceptions AS
-SELECT q.ref AS quote, a.name AS client, l.code, p.name AS line,
-       p.floor_price, l.unit_price, p.floor_price - l.unit_price AS below_floor_by,
-       q.ceo_override, q.status
-FROM quote_lines l
-JOIN quotes q ON q.id = l.quote_id
-JOIN accounts a ON a.id = q.account_id
-JOIN price_book p ON p.code = l.code
-WHERE l.unit_price < p.floor_price;
 
 -- --------------------------------------------- payments (0005)
 -- Which merchant account, whose it is, and where the money lands.
@@ -1239,3 +1226,208 @@ CREATE INDEX IF NOT EXISTS funnel_snapshots_stage_idx ON funnel_snapshots (stage
 -- The roster is 21 rows, agents are never deleted, and none of these is a
 -- filter on a hot path. They are write cost for no reader. Add one the day a
 -- per-agent attribution report exists and shows up slow.
+
+-- ---------------------------------------- set pricing (0008)
+-- (0008 retired the discount rig; the definitions above are already the
+-- post-0008 shape, so nothing is dropped here.)
+
+-- Margin is still watched — it is just watched on the published price now,
+-- because that is the only price there is.
+CREATE OR REPLACE VIEW price_margin AS
+SELECT code, name, billing, unit, list_price, cost_to_serve,
+       list_price - cost_to_serve                                    AS gross_per_unit,
+       CASE WHEN list_price > 0
+            THEN round((list_price - cost_to_serve) / list_price, 4) END AS gross_margin
+FROM price_book WHERE active
+ORDER BY billing, code;
+
+-- ------------------------------------------- 2. the price is the price
+CREATE OR REPLACE FUNCTION godly.enforce_set_pricing()
+RETURNS trigger LANGUAGE plpgsql AS $$
+DECLARE listed numeric(12,2);
+BEGIN
+  SELECT list_price INTO listed FROM godly.price_book WHERE code = NEW.code;
+  IF listed IS NULL THEN
+    RAISE EXCEPTION 'no price book entry for %', NEW.code USING ERRCODE = 'foreign_key_violation';
+  END IF;
+  IF NEW.unit_price <> listed THEN
+    RAISE EXCEPTION 'set pricing: % is % and may not be quoted at %',
+      NEW.code, listed, NEW.unit_price USING ERRCODE = 'check_violation';
+  END IF;
+  RETURN NEW;
+END $$;
+COMMENT ON FUNCTION godly.enforce_set_pricing() IS
+  'Set pricing is only real if it cannot be quietly departed from. A quote line that does not match the published price is refused.';
+
+CREATE OR REPLACE TRIGGER quote_lines_set_pricing
+  BEFORE INSERT OR UPDATE ON quote_lines
+  FOR EACH ROW EXECUTE FUNCTION godly.enforce_set_pricing();
+
+-- ------------------------------------------------ 3. billable time
+CREATE TABLE IF NOT EXISTS time_entries (
+  id            bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  account_id    bigint NOT NULL REFERENCES accounts(id) ON DELETE RESTRICT,
+  deployment_id bigint REFERENCES deployments(id) ON DELETE SET NULL,
+  worked_on     date NOT NULL,
+  hours         numeric(6,2) NOT NULL CHECK (hours > 0 AND hours <= 24),
+  rate          numeric(10,2) NOT NULL CHECK (rate >= 0),   -- snapshot: the rate the day it was worked
+  description   text NOT NULL,
+  worked_by     text,                                        -- a human name; consulting is human time
+  agent_id      text REFERENCES agents(id) ON DELETE SET NULL,
+  invoice_id    bigint REFERENCES invoices(id) ON DELETE SET NULL,   -- null = not yet billed
+  approved      boolean NOT NULL DEFAULT false,
+  created_at    timestamptz NOT NULL DEFAULT now(),
+  -- unapproved time is never billed; approval is what turns work into revenue
+  CONSTRAINT time_entries_billed_is_approved CHECK (invoice_id IS NULL OR approved),
+  CONSTRAINT time_entries_has_a_worker CHECK (worked_by IS NOT NULL OR agent_id IS NOT NULL)
+);
+CREATE INDEX IF NOT EXISTS time_entries_unbilled_idx ON time_entries (account_id, worked_on)
+  WHERE invoice_id IS NULL;
+CREATE INDEX IF NOT EXISTS time_entries_invoice_idx ON time_entries (invoice_id);
+COMMENT ON TABLE time_entries IS
+  'Consulting hours at the published rate. Work in progress until approved, revenue only once invoiced.';
+
+-- Invoices now come from three places, and it matters which.
+ALTER TABLE invoices ADD COLUMN IF NOT EXISTS kind text NOT NULL DEFAULT 'monthly';
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'invoices_kind_check') THEN
+    ALTER TABLE invoices ADD CONSTRAINT invoices_kind_check
+      CHECK (kind IN ('setup','monthly','hours'));
+  END IF;
+END $$;
+
+-- Work done and not yet paid for. The number that quietly funds a business
+-- or quietly drains one.
+CREATE OR REPLACE VIEW unbilled_time AS
+SELECT a.name AS client, count(*) AS entries,
+       sum(t.hours)                                        AS hours,
+       sum(t.hours * t.rate)                               AS value,
+       sum(t.hours) FILTER (WHERE NOT t.approved)          AS hours_awaiting_approval,
+       min(t.worked_on)                                    AS oldest_entry
+FROM time_entries t JOIN accounts a ON a.id = t.account_id
+WHERE t.invoice_id IS NULL
+GROUP BY a.name
+ORDER BY value DESC;
+
+-- What the whole offer earns, by component.
+CREATE OR REPLACE VIEW revenue_by_component AS
+SELECT 'monthly' AS component,
+       coalesce(sum(mrr) FILTER (WHERE status = 'active'), 0)                     AS recurring,
+       coalesce(sum(mrr - cost_to_serve) FILTER (WHERE status = 'active'), 0)     AS gross
+FROM retainers
+UNION ALL
+SELECT 'setup',
+       coalesce(sum(amount) FILTER (WHERE kind = 'setup' AND status = 'paid'), 0), 0
+FROM invoices
+UNION ALL
+SELECT 'hours',
+       coalesce(sum(t.hours * t.rate) FILTER (WHERE i.status = 'paid'), 0),
+       coalesce(sum(t.hours * t.rate) FILTER (WHERE i.status = 'paid'), 0)
+FROM time_entries t LEFT JOIN invoices i ON i.id = t.invoice_id;
+
+-- --------------------------- consulting sessions (0009)
+CREATE TABLE IF NOT EXISTS consulting_sessions (
+  id             bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  account_id     bigint NOT NULL REFERENCES accounts(id) ON DELETE RESTRICT,
+  deployment_id  bigint REFERENCES deployments(id) ON DELETE SET NULL,
+  scheduled_for  timestamptz NOT NULL,
+  duration_min   integer NOT NULL DEFAULT 60 CHECK (duration_min BETWEEN 15 AND 480),
+  status         text NOT NULL DEFAULT 'scheduled'
+                 CHECK (status IN ('scheduled','held','cancelled','no-show')),
+  held_by        text,                              -- consulting is human time
+  purpose        text NOT NULL,
+  notes          text,
+  -- Monday-start week the session falls in. Stored, not derived at read time,
+  -- so the entitlement check and its index agree on one definition of "week".
+  week_start     date GENERATED ALWAYS AS ((scheduled_for AT TIME ZONE 'UTC')::date
+                   - ((extract(isodow FROM (scheduled_for AT TIME ZONE 'UTC'))::int) - 1)) STORED,
+  created_at     timestamptz NOT NULL DEFAULT now(),
+  updated_at     timestamptz NOT NULL DEFAULT now()
+);
+COMMENT ON TABLE consulting_sessions IS
+  'Consulting slots on the internal calendar. Three a week per business; a fourth is refused by trigger, not by a policy someone remembers.';
+
+-- The entitlement check reads this index rather than scanning the table.
+CREATE INDEX IF NOT EXISTS consulting_sessions_entitlement_idx
+  ON consulting_sessions (account_id, week_start)
+  WHERE status IN ('scheduled','held');
+CREATE INDEX IF NOT EXISTS consulting_sessions_calendar_idx
+  ON consulting_sessions (scheduled_for) WHERE status = 'scheduled';
+CREATE INDEX IF NOT EXISTS consulting_sessions_deployment_idx ON consulting_sessions (deployment_id);
+
+-- Billable hours come from a session that was actually held.
+ALTER TABLE time_entries ADD COLUMN IF NOT EXISTS session_id bigint
+  REFERENCES consulting_sessions(id) ON DELETE SET NULL;
+CREATE INDEX IF NOT EXISTS time_entries_session_idx ON time_entries (session_id);
+
+CREATE OR REPLACE TRIGGER consulting_sessions_touch_updated_at
+  BEFORE UPDATE ON consulting_sessions
+  FOR EACH ROW EXECUTE FUNCTION godly.touch_updated_at();
+
+-- ------------------------------------------------------ the weekly cap
+CREATE OR REPLACE FUNCTION godly.enforce_weekly_session_cap()
+RETURNS trigger LANGUAGE plpgsql AS $$
+DECLARE
+  cap    constant int := 3;
+  booked int;
+BEGIN
+  -- A cancelled or no-show session gives the slot back.
+  IF NEW.status NOT IN ('scheduled','held') THEN RETURN NEW; END IF;
+
+  SELECT count(*) INTO booked
+  FROM godly.consulting_sessions s
+  WHERE s.account_id  = NEW.account_id
+    AND s.week_start  = ((NEW.scheduled_for AT TIME ZONE 'UTC')::date
+                          - ((extract(isodow FROM (NEW.scheduled_for AT TIME ZONE 'UTC'))::int) - 1))
+    AND s.status IN ('scheduled','held')
+    AND s.id IS DISTINCT FROM NEW.id;
+
+  IF booked >= cap THEN
+    RAISE EXCEPTION
+      'session cap: account % already has % sessions in the week beginning %; the limit is %',
+      NEW.account_id, booked,
+      ((NEW.scheduled_for AT TIME ZONE 'UTC')::date
+        - ((extract(isodow FROM (NEW.scheduled_for AT TIME ZONE 'UTC'))::int) - 1)),
+      cap
+      USING ERRCODE = 'check_violation',
+            HINT = 'Offer the next week, or agree a scope change. Do not book a fourth.';
+  END IF;
+  RETURN NEW;
+END $$;
+
+CREATE OR REPLACE TRIGGER consulting_sessions_weekly_cap
+  BEFORE INSERT OR UPDATE ON consulting_sessions
+  FOR EACH ROW EXECUTE FUNCTION godly.enforce_weekly_session_cap();
+
+-- ------------------------------------------------------------ read models
+
+-- What each business has used and has left, this week and next.
+CREATE OR REPLACE VIEW session_entitlement AS
+SELECT a.id AS account_id, a.name AS client, w.week_start,
+       count(s.id) FILTER (WHERE s.status IN ('scheduled','held')) AS booked,
+       3 - count(s.id) FILTER (WHERE s.status IN ('scheduled','held')) AS remaining,
+       count(s.id) FILTER (WHERE s.status = 'held')                 AS held,
+       count(s.id) FILTER (WHERE s.status = 'no-show')              AS no_shows
+FROM accounts a
+CROSS JOIN (
+  SELECT (current_date - (extract(isodow FROM current_date)::int - 1))::date AS week_start
+  UNION ALL
+  SELECT (current_date - (extract(isodow FROM current_date)::int - 1) + 7)::date
+) w
+LEFT JOIN consulting_sessions s
+       ON s.account_id = a.id AND s.week_start = w.week_start
+WHERE EXISTS (SELECT 1 FROM retainers r WHERE r.account_id = a.id AND r.status = 'active')
+GROUP BY a.id, a.name, w.week_start
+ORDER BY w.week_start, a.name;
+
+-- The internal calendar, whole-firm. Capacity is surfaced, never auto-refused:
+-- a full week is a conversation, not an error.
+CREATE OR REPLACE VIEW calendar_load AS
+SELECT week_start,
+       count(*) FILTER (WHERE status IN ('scheduled','held'))            AS sessions,
+       sum(duration_min) FILTER (WHERE status IN ('scheduled','held')) / 60.0 AS hours,
+       count(DISTINCT account_id) FILTER (WHERE status IN ('scheduled','held')) AS businesses
+FROM consulting_sessions
+GROUP BY week_start
+ORDER BY week_start;

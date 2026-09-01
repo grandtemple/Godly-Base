@@ -134,6 +134,24 @@ The pricing lines come from `godly.price_book` by code, quantities and prices
 from `godly.quote_lines`, and the reference from `godly.quotes.ref` — never
 typed by hand, so the proposal and the database agree on what was offered.
 
-Before it sends: `godly.margin_exceptions` must return no row for this quote, or
-`ceo_override` must be true on the quote with the reason recorded in a decision
-note. A line below floor without a signature is not a discount, it is a leak.
+Before it sends: every line must match `godly.price_book` exactly. There is no
+floor to clear and no discount to authorise — the `enforce_set_pricing` trigger
+refuses a quote line that does not equal the published price, so a mismatch is a
+defect in the draft rather than a concession to argue about.
+
+## The three components, and only these three
+
+| Line | Billing | Price |
+|---|---|---|
+| Configuration and go-live | one-time | `HERO-SETUP` |
+| Front office pod | monthly | `HERO-MONTHLY` — all nine capabilities, no tiers |
+| Consulting | hourly | `HERO-CONSULT`, up to **three sessions a week** |
+
+Never quote a subset of capabilities at a lower monthly price; the pod is the
+whole front office or it is nothing. If a prospect wants less, the answer is the
+same price with fewer capabilities switched on, or no deal.
+
+State the session cap in the terms every time. It is an entitlement, and a
+client who discovers it late feels sold to. `godly.consulting_sessions` refuses
+a fourth booking in the same week, so a promise made in a proposal that ignores
+it will simply fail at the calendar.

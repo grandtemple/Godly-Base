@@ -1929,92 +1929,34 @@
   },
   "price_book": [
     {
-      "code": "POD-CORE",
-      "name": "Front office pod — core",
-      "capability": null,
-      "billing": "monthly",
-      "list": 2400,
-      "unit": "month",
-      "cost": 540,
-      "floor": 1800,
-      "notes": "Inbound call, inbox, booking. The three that pay for themselves first."
-    },
-    {
-      "code": "POD-SETUP",
+      "code": "HERO-SETUP",
       "name": "Configuration and go-live",
       "capability": null,
       "billing": "one-time",
       "list": 4500,
       "unit": "each",
       "cost": 1600,
-      "floor": 3000,
-      "notes": "Vocabulary, price book, crew capacity, escalation rules. Two weeks."
+      "notes": "Two weeks: vocabulary, price book, crew capacity, escalation rules, go-live in parallel with their desk."
     },
     {
-      "code": "CAP-QUOTE",
-      "name": "Quote and estimate",
-      "capability": "FO-05",
+      "code": "HERO-MONTHLY",
+      "name": "Front office pod",
+      "capability": null,
       "billing": "monthly",
-      "list": 600,
+      "list": 3900,
       "unit": "month",
-      "cost": 140,
-      "floor": 450,
-      "notes": "Requires the client's price book in a readable form."
+      "cost": 1180,
+      "notes": "All nine capabilities. No tiers, no add-ons, no per-capability pricing — the whole front office or none of it."
     },
     {
-      "code": "CAP-PAY",
-      "name": "Payment and collections",
-      "capability": "FO-06",
-      "billing": "monthly",
-      "list": 700,
-      "unit": "month",
-      "cost": 180,
-      "floor": 525,
-      "notes": "Deposit, invoice, chase. Priced against receivables recovered."
-    },
-    {
-      "code": "CAP-REVIEW",
-      "name": "Review and referral engine",
-      "capability": "FO-07",
-      "billing": "monthly",
-      "list": 450,
-      "unit": "month",
-      "cost": 90,
-      "floor": 340,
-      "notes": "Google review at close plus referral follow-up."
-    },
-    {
-      "code": "CAP-OUTBOUND",
-      "name": "Outbound and win-back",
-      "capability": "FO-02",
-      "billing": "monthly",
-      "list": 800,
-      "unit": "month",
-      "cost": 260,
-      "floor": 600,
-      "notes": "Callbacks, reschedules, quiet-quote win-back."
-    },
-    {
-      "code": "CAP-CUSTOM",
-      "name": "Trade-specific work",
-      "capability": "FO-09",
-      "billing": "monthly",
-      "list": 900,
-      "unit": "month",
-      "cost": 300,
-      "floor": 650,
-      "notes": "Scoped per client. Anything with a trigger, a script, and a moment."
-    },
-    {
-      "code": "OVER-MIN",
-      "name": "Call minutes over plan",
-      "capability": "FO-01",
-      "billing": "usage",
-      "list": 0.35,
-      "unit": "minute",
-      "cost": 0.11,
-      "floor": 0.22,
-      "notes": "Plan includes 2,000 minutes. Storm months run over; this is why."
+      "code": "HERO-CONSULT",
+      "name": "Consulting session",
+      "capability": null,
+      "billing": "hourly",
+      "list": 185,
+      "unit": "hour",
+      "cost": 40,
+      "notes": "Human time beyond the pod. Up to three sessions a week per business, booked on the internal calendar; a fourth is refused."
     }
   ],
   "quotes": [
@@ -2028,30 +1970,19 @@
       "decided_on": null,
       "prepared_by": "AG-SALES-02",
       "priced_by": "AG-FIN-01",
-      "ceo_override": false,
       "lines": [
         {
-          "code": "POD-SETUP",
+          "code": "HERO-SETUP",
           "qty": 1,
           "price": 4500
         },
         {
-          "code": "POD-CORE",
+          "code": "HERO-MONTHLY",
           "qty": 1,
-          "price": 2400
-        },
-        {
-          "code": "CAP-QUOTE",
-          "qty": 1,
-          "price": 600
-        },
-        {
-          "code": "CAP-CUSTOM",
-          "qty": 1,
-          "price": 900
+          "price": 3900
         }
       ],
-      "notes": "Work-order triage first; payment waits on their ERP mapping."
+      "notes": "Work-order triage is the reason they are buying. ERP mapping quoted as consulting hours, not a line item."
     },
     {
       "ref": "QTE-1045",
@@ -2063,30 +1994,19 @@
       "decided_on": "2026-08-27",
       "prepared_by": "AG-SALES-02",
       "priced_by": "AG-FIN-01",
-      "ceo_override": false,
       "lines": [
         {
-          "code": "POD-SETUP",
+          "code": "HERO-SETUP",
           "qty": 1,
           "price": 4500
         },
         {
-          "code": "POD-CORE",
+          "code": "HERO-MONTHLY",
           "qty": 1,
-          "price": 2400
-        },
-        {
-          "code": "CAP-PAY",
-          "qty": 1,
-          "price": 700
-        },
-        {
-          "code": "CAP-REVIEW",
-          "qty": 1,
-          "price": 450
+          "price": 3900
         }
       ],
-      "notes": "No-show recovery carried the pitch, not new leads."
+      "notes": "No-show recovery carried the pitch. Accepted at list, no negotiation."
     },
     {
       "ref": "QTE-1046",
@@ -2098,20 +2018,19 @@
       "decided_on": null,
       "prepared_by": "AG-SALES-02",
       "priced_by": "AG-FIN-01",
-      "ceo_override": false,
       "lines": [
         {
-          "code": "POD-SETUP",
+          "code": "HERO-SETUP",
           "qty": 1,
           "price": 4500
         },
         {
-          "code": "POD-CORE",
+          "code": "HERO-MONTHLY",
           "qty": 1,
-          "price": 2400
+          "price": 3900
         }
       ],
-      "notes": "Six-month pilot shape. Held until the ops audit call."
+      "notes": "Six-month term. Held until the ops audit call."
     },
     {
       "ref": "QTE-1041",
@@ -2123,20 +2042,19 @@
       "decided_on": "2026-08-02",
       "prepared_by": "AG-SALES-02",
       "priced_by": "AG-FIN-01",
-      "ceo_override": true,
       "lines": [
         {
-          "code": "POD-SETUP",
+          "code": "HERO-SETUP",
           "qty": 1,
-          "price": 2800
+          "price": 4500
         },
         {
-          "code": "POD-CORE",
+          "code": "HERO-MONTHLY",
           "qty": 1,
-          "price": 1800
+          "price": 3900
         }
       ],
-      "notes": "Discounted below floor on setup with CEO sign-off. Still lost to a budget freeze — the discount bought nothing."
+      "notes": "Lost to a budget freeze at list price. Under the old model this was discounted below floor and lost anyway — the discount bought nothing, which is part of why pricing is now set."
     }
   ],
   "retainers": [
@@ -2199,7 +2117,8 @@
       "issued_on": "2026-07-01",
       "due_on": "2026-07-15",
       "paid_on": "2026-07-09",
-      "status": "paid"
+      "status": "paid",
+      "kind": "monthly"
     },
     {
       "ref": "INV-2026-0038",
@@ -2210,7 +2129,8 @@
       "issued_on": "2026-07-01",
       "due_on": "2026-07-15",
       "paid_on": "2026-07-14",
-      "status": "paid"
+      "status": "paid",
+      "kind": "monthly"
     },
     {
       "ref": "INV-2026-0042",
@@ -2222,7 +2142,8 @@
       "due_on": "2026-08-15",
       "paid_on": "2026-08-12",
       "status": "paid",
-      "note": "Includes 720 call minutes over plan at storm-season volume."
+      "note": "Includes 720 call minutes over plan at storm-season volume.",
+      "kind": "monthly"
     },
     {
       "ref": "INV-2026-0043",
@@ -2233,7 +2154,8 @@
       "issued_on": "2026-08-01",
       "due_on": "2026-08-15",
       "paid_on": null,
-      "status": "late"
+      "status": "late",
+      "kind": "monthly"
     },
     {
       "ref": "INV-2026-0044",
@@ -2244,7 +2166,20 @@
       "issued_on": "2026-09-01",
       "due_on": "2026-09-15",
       "paid_on": null,
-      "status": "issued"
+      "status": "issued",
+      "kind": "monthly"
+    },
+    {
+      "ref": "INV-2026-0029",
+      "account": "Vireo Med Spa Group",
+      "retainer": "Vireo Med Spa Group",
+      "period": "2026-08",
+      "amount": 4500,
+      "issued_on": "2026-08-28",
+      "due_on": "2026-09-11",
+      "paid_on": "2026-09-01",
+      "status": "paid",
+      "kind": "setup"
     }
   ],
   "payment_accounts": [
@@ -2761,6 +2696,118 @@
       "left_on": "2026-07-03",
       "rating": 5,
       "status": "left"
+    }
+  ],
+  "time_entries": [
+    {
+      "account": "Ridgeway Restoration",
+      "deployment": "Ridgeway Restoration",
+      "worked_on": "2026-07-11",
+      "hours": 6.5,
+      "rate": 185,
+      "description": "Mapped their price book into the quoting flow and rebuilt the storm-season escalation rules.",
+      "worked_by": "Joshua Grand",
+      "approved": true,
+      "invoice": "INV-2026-0042",
+      "session": null
+    },
+    {
+      "account": "Ridgeway Restoration",
+      "deployment": "Ridgeway Restoration",
+      "worked_on": "2026-08-18",
+      "hours": 3.0,
+      "rate": 185,
+      "description": "Adjuster hand-off process: who gets called, in what order, and what the pod says while it waits.",
+      "worked_by": "Joshua Grand",
+      "approved": true,
+      "invoice": null,
+      "session": "Adjuster hand-off process"
+    },
+    {
+      "account": "Bluecrest Aesthetics",
+      "deployment": "Bluecrest Aesthetics",
+      "worked_on": "2026-08-21",
+      "hours": 4.25,
+      "rate": 185,
+      "description": "Rebuilt the no-show recovery sequence and trained two front-desk staff on the escalation path.",
+      "worked_by": "Joshua Grand",
+      "approved": true,
+      "invoice": null,
+      "session": null
+    },
+    {
+      "account": "Keystone Mechanical Group",
+      "deployment": "Keystone Mechanical Group",
+      "worked_on": "2026-08-30",
+      "hours": 2.0,
+      "rate": 185,
+      "description": "Scoping call on the ERP mapping ahead of go-live.",
+      "worked_by": "Joshua Grand",
+      "approved": false,
+      "invoice": null,
+      "session": null
+    }
+  ],
+  "consulting_sessions": [
+    {
+      "account": "Ridgeway Restoration",
+      "deployment": "Ridgeway Restoration",
+      "scheduled_for": "2026-08-31T15:00:00+00:00",
+      "duration_min": 90,
+      "status": "held",
+      "held_by": "Joshua Grand",
+      "purpose": "Adjuster hand-off process",
+      "notes": "Who gets called, in what order, and what the pod says while it waits."
+    },
+    {
+      "account": "Ridgeway Restoration",
+      "deployment": "Ridgeway Restoration",
+      "scheduled_for": "2026-09-02T16:00:00+00:00",
+      "duration_min": 60,
+      "status": "scheduled",
+      "held_by": "Joshua Grand",
+      "purpose": "Storm-season capacity review",
+      "notes": null
+    },
+    {
+      "account": "Bluecrest Aesthetics",
+      "deployment": "Bluecrest Aesthetics",
+      "scheduled_for": "2026-09-01T18:00:00+00:00",
+      "duration_min": 60,
+      "status": "scheduled",
+      "held_by": "Joshua Grand",
+      "purpose": "No-show sequence tuning",
+      "notes": null
+    },
+    {
+      "account": "Bluecrest Aesthetics",
+      "deployment": "Bluecrest Aesthetics",
+      "scheduled_for": "2026-09-03T17:00:00+00:00",
+      "duration_min": 45,
+      "status": "scheduled",
+      "held_by": "Joshua Grand",
+      "purpose": "Front-desk escalation training, session two",
+      "notes": null
+    },
+    {
+      "account": "Bluecrest Aesthetics",
+      "deployment": "Bluecrest Aesthetics",
+      "scheduled_for": "2026-09-04T15:30:00+00:00",
+      "duration_min": 60,
+      "status": "scheduled",
+      "held_by": "Joshua Grand",
+      "purpose": "Review of the escalated laser complaint",
+      "notes": "Third and last session available to them this week."
+    },
+    {
+      "account": "Keystone Mechanical Group",
+      "deployment": "Keystone Mechanical Group",
+      "scheduled_for": "2026-09-08T14:00:00+00:00",
+      "duration_min": 120,
+      "status": "scheduled",
+      "held_by": "Joshua Grand",
+      "purpose": "ERP mapping workshop ahead of go-live",
+      "notes": null
     }
   ]
 }

@@ -23,7 +23,7 @@ SEED = ROOT / "db" / "seed.json"
 slug = lambda s: re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 # Tables truncated by --truncate, children first.
-WIPE = ["reviews", "customer_invoices", "customer_interactions", "jobs", "customers",
+WIPE = ["time_entries", "consulting_sessions", "reviews", "customer_invoices", "customer_interactions", "jobs", "customers",
         "dunning_attempts", "payments", "payment_events", "payment_accounts",
         "invoices", "retainers", "quote_lines", "quotes", "price_book",
         "deployment_capabilities", "deployments", "front_office_capabilities",
@@ -210,10 +210,10 @@ def load(cur, seed):
     # 14. the money: price book, quotes, retainers, invoices
     for pb in seed["price_book"]:
         cur.execute("""insert into godly.price_book (code, name, capability_id, billing, list_price,
-                         unit, cost_to_serve, floor_price, notes)
-                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s) on conflict (code) do nothing""",
+                         unit, cost_to_serve, notes)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s) on conflict (code) do nothing""",
                     (pb["code"], pb["name"], pb["capability"], pb["billing"], pb["list"],
-                     pb["unit"], pb["cost"], pb["floor"], pb["notes"]))
+                     pb["unit"], pb["cost"], pb["notes"]))
         one("price_book")
 
     deal_id = {}
@@ -222,10 +222,10 @@ def load(cur, seed):
     quote_id = {}
     for q in seed["quotes"]:
         cur.execute("""insert into godly.quotes (ref, deal_id, account_id, status, term_months,
-                         sent_on, decided_on, prepared_by, priced_by, ceo_override, notes)
-                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
+                         sent_on, decided_on, prepared_by, priced_by, notes)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
                     (q["ref"], deal_id.get(q["deal"]), acct_id[q["account"]], q["status"], q["term_months"],
-                     q["sent_on"], q["decided_on"], q["prepared_by"], q["priced_by"], q["ceo_override"], q["notes"]))
+                     q["sent_on"], q["decided_on"], q["prepared_by"], q["priced_by"], q["notes"]))
         quote_id[q["ref"]] = cur.fetchone()[0]; one("quotes")
         for ln in q["lines"]:
             cur.execute("""insert into godly.quote_lines (quote_id, code, quantity, unit_price)
@@ -248,14 +248,42 @@ def load(cur, seed):
     for inv in seed["invoices"]:
         y, m = inv["period"].split("-")
         cur.execute("""insert into godly.invoices (ref, retainer_id, account_id, period_start, period_end,
-                         amount, issued_on, due_on, paid_on, status)
+                         amount, issued_on, due_on, paid_on, status, kind)
                        values (%s,%s,%s, make_date(%s,%s,1),
                                (make_date(%s,%s,1) + interval '1 month - 1 day')::date,
-                               %s,%s,%s,%s,%s)""",
+                               %s,%s,%s,%s,%s,%s)""",
                     (inv["ref"], retainer_id.get(inv["retainer"]), acct_id[inv["account"]],
                      int(y), int(m), int(y), int(m),
-                     inv["amount"], inv["issued_on"], inv["due_on"], inv["paid_on"], inv["status"]))
+                     inv["amount"], inv["issued_on"], inv["due_on"], inv["paid_on"], inv["status"],
+                     inv.get("kind", "monthly")))
         one("invoices")
+
+    # 14b. consulting hours, at the published rate
+    cur.execute("select ref, id from godly.invoices where ref is not null")
+    inv_by_ref = dict(cur.fetchall())
+    for t in seed["time_entries"]:
+        cur.execute("""insert into godly.time_entries (account_id, deployment_id, worked_on, hours,
+                         rate, description, worked_by, approved, invoice_id)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                    (acct_id[t["account"]], dep_id.get(t["deployment"]), t["worked_on"], t["hours"],
+                     t["rate"], t["description"], t["worked_by"], t["approved"],
+                     inv_by_ref.get(t["invoice"])))
+        one("time_entries")
+
+    # 14c. consulting sessions on the internal calendar, then the hours they produced
+    sess_id = {}
+    for cs in seed["consulting_sessions"]:
+        cur.execute("""insert into godly.consulting_sessions (account_id, deployment_id, scheduled_for,
+                         duration_min, status, held_by, purpose, notes)
+                       values (%s,%s,%s,%s,%s,%s,%s,%s) returning id""",
+                    (acct_id[cs["account"]], dep_id.get(cs["deployment"]), cs["scheduled_for"],
+                     cs["duration_min"], cs["status"], cs["held_by"], cs["purpose"], cs["notes"]))
+        sess_id[cs["purpose"]] = cur.fetchone()[0]; one("consulting_sessions")
+    for t in seed["time_entries"]:
+        if t.get("session"):
+            cur.execute("""update godly.time_entries set session_id = %s
+                           where account_id = %s and worked_on = %s""",
+                        (sess_id[t["session"]], acct_id[t["account"]], t["worked_on"]))
 
     # 15. payments: accounts first, then what moved, then the ladder
     cur.execute("select ref, id from godly.invoices where ref is not null")
