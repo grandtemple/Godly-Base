@@ -4,12 +4,12 @@
 <style>
 :root{
   --paper:#EEF0EA; --leaf:#F7F8F4; --sunk:#E4E8DF;
-  --ink:#16211C; --ink-2:#55655C; --ink-3:#7E8C84;
+  --ink:#16211C; --ink-2:#4A5A52; --ink-3:#5A6760;
   --rule:#CBD2C8; --rule-soft:#DDE2D8;
   --binding:#123026; --binding-2:#0C221A;
-  --gilt:#9A7218; --gilt-bright:#C79A2A;
-  --ser-1:#3A62A8; --ser-2:#C79A2A; --ser-3:#0F9280;
-  --good:#2F7A55; --warn:#B4661A; --crit:#A33327; --idle:#7E8C84;
+  --gilt:#9A7218; --gilt-bright:#C79A2A; --gilt-ink:#71540F;
+  --ser-1:#3A62A8; --ser-2:#9C7010; --ser-3:#0F9280;
+  --good:#226444; --warn:#8E4D0E; --crit:#A33327; --idle:#5A6760;
   --gutter-shadow:rgba(18,48,38,.14);
   --sel:rgba(58,98,168,.12);
   --shadow:0 1px 0 rgba(18,48,38,.05), 0 12px 30px -22px rgba(18,48,38,.5);
@@ -17,12 +17,12 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --paper:#101512; --leaf:#161C18; --sunk:#0B100D;
-    --ink:#E3E8E0; --ink-2:#9AA79E; --ink-3:#74827A;
+    --ink:#E3E8E0; --ink-2:#9AA79E; --ink-3:#828F87;
     --rule:#28322C; --rule-soft:#1E2721;
     --binding:#0A1712; --binding-2:#060F0B;
-    --gilt:#D8AE55; --gilt-bright:#E8C777;
+    --gilt:#D8AE55; --gilt-bright:#E8C777; --gilt-ink:#D8AE55;
     --ser-1:#6690DE; --ser-2:#B08820; --ser-3:#189E8B;
-    --good:#4EA277; --warn:#C98A33; --crit:#D5675A; --idle:#74827A;
+    --good:#4EA277; --warn:#C98A33; --crit:#D5675A; --idle:#828F87;
     --gutter-shadow:rgba(0,0,0,.55);
     --sel:rgba(102,144,222,.16);
     --shadow:0 1px 0 rgba(0,0,0,.4), 0 14px 34px -24px #000;
@@ -30,12 +30,12 @@
 }
 :root[data-theme="dark"]{
   --paper:#101512; --leaf:#161C18; --sunk:#0B100D;
-  --ink:#E3E8E0; --ink-2:#9AA79E; --ink-3:#74827A;
+  --ink:#E3E8E0; --ink-2:#9AA79E; --ink-3:#828F87;
   --rule:#28322C; --rule-soft:#1E2721;
   --binding:#0A1712; --binding-2:#060F0B;
-  --gilt:#D8AE55; --gilt-bright:#E8C777;
+  --gilt:#D8AE55; --gilt-bright:#E8C777; --gilt-ink:#D8AE55;
   --ser-1:#6690DE; --ser-2:#B08820; --ser-3:#189E8B;
-  --good:#4EA277; --warn:#C98A33; --crit:#D5675A; --idle:#74827A;
+  --good:#4EA277; --warn:#C98A33; --crit:#D5675A; --idle:#828F87;
   --gutter-shadow:rgba(0,0,0,.55);
   --sel:rgba(102,144,222,.16);
   --shadow:0 1px 0 rgba(0,0,0,.4), 0 14px 34px -24px #000;
@@ -83,8 +83,8 @@ button{font:inherit;color:inherit}
 .tab .num{font-family:'JetBrains Mono',monospace;font-size:10px;color:#7E9A8B;letter-spacing:.06em}
 .tab .name{font-family:Fraunces,Georgia,serif;font-variation-settings:'opsz' 24;font-size:14.5px;line-height:1.25}
 .tab:hover{background:rgba(255,255,255,.05);color:#EAF2EC}
-.tab[aria-current="true"]{background:rgba(199,154,42,.14);color:#F2E7CC}
-.tab[aria-current="true"] .num{color:var(--gilt-bright)}
+.tab[aria-current="page"]{background:rgba(199,154,42,.14);color:#F2E7CC}
+.tab[aria-current="page"] .num{color:var(--gilt-bright)}
 .spine-foot{margin-top:auto;padding:0 20px;display:flex;flex-direction:column;gap:10px}
 .pulse{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#8FA79A;text-transform:uppercase}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px rgba(47,122,85,.22)}
@@ -147,7 +147,7 @@ h3.sec{
 }
 .eyebrow{
   font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--gilt);margin:0 0 10px;
+  color:var(--gilt-ink);margin:0 0 10px;
 }
 .lede{font-size:16.5px;line-height:1.66;color:var(--ink);max-width:62ch;margin:0 0 14px}
 .lede::first-letter{}
@@ -219,7 +219,7 @@ h3.sec{
 .unit .nm{font-size:13.5px}
 .unit .nm b{font-weight:600}
 .unit .nm em{font-style:normal;color:var(--ink-3);font-size:12.5px}
-.pair-note{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--gilt);text-transform:uppercase}
+.pair-note{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--gilt-ink);text-transform:uppercase}
 
 /* pipeline */
 .pipe{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(168px,1fr);gap:8px;overflow-x:auto;padding-bottom:6px}
@@ -266,10 +266,16 @@ table.grid{border-collapse:collapse;width:100%;font-size:13px}
 table.grid th{
   position:sticky;top:0;background:var(--paper);text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);
   font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
-  cursor:pointer;white-space:nowrap;
+  white-space:nowrap;
 }
-table.grid th:hover{color:var(--ink)}
-table.grid th .sortmark{color:var(--gilt)}
+table.grid th button.sortbtn{
+  all:unset;display:inline-flex;align-items:center;gap:5px;cursor:pointer;min-height:24px;
+  font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;
+}
+table.grid th button.sortbtn:hover{color:var(--ink)}
+table.grid th button.sortbtn:focus-visible{outline:2px solid var(--gilt);outline-offset:2px;border-radius:2px}
+table.grid th[aria-sort]{color:var(--ink)}
+table.grid th .sortmark{color:var(--gilt-ink)}
 table.grid td{padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
 table.grid tbody tr:hover{background:var(--sel)}
 table.grid tbody tr.on{background:var(--sel)}
@@ -293,7 +299,7 @@ pre.dump{
 .entry .top{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
 .entry a{font-family:Fraunces,Georgia,serif;font-variation-settings:'opsz' 24;font-weight:600;font-size:14.5px;
   color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gilt)}
-.entry a:hover{color:var(--gilt)}
+.entry a:hover{color:var(--gilt-ink)}
 .entry p{margin:0;font-size:13px;color:var(--ink-2);max-width:70ch}
 .entry .meta{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
 .entry .urlmeta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-3);text-transform:none;letter-spacing:0;word-break:break-all}
@@ -303,11 +309,18 @@ pre.dump{
 .keyrow .kn{display:flex;flex-direction:column;gap:1px;min-width:0}
 .keyrow .kn b{font-size:13.5px;font-weight:600}
 .keyrow .kn code{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3)}
+.meterwrap{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.meterval{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.meterval.hot{color:var(--warn)}
 .meter{width:96px;height:6px;border-radius:100px;background:var(--rule-soft);overflow:hidden}
 .meter i{display:block;height:100%;border-radius:100px;background:var(--ser-3)}
 .meter i.low{background:var(--warn)} .meter i.out{background:var(--crit)}
 /* growth / unwritten */
 .unwritten{border:1px dashed var(--rule);border-radius:4px;padding:16px;color:var(--ink-3);text-align:center;font-style:italic}
+.empty{display:flex;flex-direction:column;align-items:flex-start;gap:8px;border:1px dashed var(--rule);
+  border-radius:4px;padding:16px;background:var(--paper)}
+.empty b{font-size:14.5px}
+.empty span{font-size:13px;color:var(--ink-2);max-width:56ch}
 /* tooltip */
 #tip{
   position:fixed;z-index:60;pointer-events:none;opacity:0;transform:translate(-50%,-115%);
@@ -317,6 +330,10 @@ pre.dump{
 }
 #tip.on{opacity:1}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:8px;z-index:80;background:var(--paper);color:var(--ink);
+  border:1px solid var(--gilt);border-radius:3px;padding:8px 12px;font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+.skip:focus{left:8px}
 @media (max-width:1080px){
   .codex{grid-template-columns:1fr}
   .spine{position:static;height:auto;flex-direction:column}
@@ -327,6 +344,7 @@ pre.dump{
   .page.verso{border-right:0;border-bottom:1px solid var(--rule-soft)}
 }
 </style>
+<a class="skip" href="#verso">Skip to the page</a>
 <div class="codex">
   <aside class="spine">
     <div class="stamp">
@@ -1018,7 +1036,7 @@ function vaultCh(){
         <button class="tool" type="button" data-fmt="json" ${state.fmt==="json"?'style="border-color:var(--gilt);color:var(--ink)"':""}>JSON</button>
         <button class="tool" type="button" id="copyBtn">Copy</button>
       </div>
-      <pre class="dump" id="dump">${esc(dump)}</pre>
+      <pre class="dump" id="dump">${esc(dump) || "— no rows in the current selection —"}</pre>
     </div>`;
 
   const recto = `
@@ -1030,9 +1048,21 @@ function vaultCh(){
       <input class="ctl" id="qBox" type="search" placeholder="filter rows…" value="${esc(state.q)}" aria-label="Filter rows">
       <span class="label">${esc(t.note)}</span>
     </div>
-    <div class="tablewrap" style="max-height:60vh;overflow:auto">
+    ${rows.length ? "" : `<div class="empty">
+      <b>Nothing matches “${esc(state.q)}” in ${esc(state.table)}.</b>
+      <span>The filter reads every column, so try a shorter fragment — a niche, an agent id like <code class="mono">AG-SALES</code>, or a city. Other tables are not searched.</span>
+      <button class="tool" type="button" id="clearQ">Clear the filter</button>
+    </div>`}
+    <div class="tablewrap" style="max-height:60vh;overflow:auto;${rows.length?"":"display:none"}">
       <table class="grid dense"><caption class="sr">${esc(state.table)}</caption>
-        <thead><tr>${cols.map(c => `<th data-col="${esc(c)}">${esc(c)}${state.sort.col===c?`<span class="sortmark"> ${state.sort.dir>0?"▲":"▼"}</span>`:""}</th>`).join("")}</tr></thead>
+        <thead><tr>${cols.map(c => {
+          const on = state.sort.col === c, dir = state.sort.dir > 0 ? "ascending" : "descending";
+          return `<th scope="col"${on?` aria-sort="${dir}"`:""}>
+            <button class="sortbtn" type="button" data-col="${esc(c)}"
+              aria-label="Sort by ${esc(c)}${on ? ", currently " + dir : ""}">
+              ${esc(c)}${on?`<span class="sortmark" aria-hidden="true">${state.sort.dir>0?"▲":"▼"}</span>`:""}
+            </button></th>`;
+        }).join("")}</tr></thead>
         <tbody>${rows.map(r => `<tr>${cols.map(c => {
           const v = r[c]; const isNum = typeof v === "number";
           return `<td class="${isNum?"num":""}">${esc(isNum && c.includes("value") ? usd(v) : v)}</td>`;
@@ -1052,8 +1082,10 @@ function nerveCh(){
     if (!k.limit) return `<span class="label">local · unmetered</span>`;
     const f = Math.min(k.used / k.limit, 1);
     const cls = f >= .95 ? "out" : f >= .8 ? "low" : "";
-    return `<span data-tip="${esc(k.service)}|${k.used} of ${k.limit} ${esc(k.unit)}">
-      <span class="meter"><i class="${cls}" style="width:${(f*100).toFixed(0)}%"></i></span></span>`;
+    const read = `${k.used.toLocaleString()} / ${k.limit.toLocaleString()} ${k.unit}`;
+    return `<span class="meterwrap">
+      <span class="meter" role="img" aria-label="${esc(k.service)}: ${esc(read)} used"><i class="${cls}" style="width:${(f*100).toFixed(0)}%"></i></span>
+      <span class="meterval${f >= .8 ? " hot" : ""}">${esc(read)}</span></span>`;
   };
   const row = k => { const [cl,t] = statusPill(k.status); return `
     <div class="keyrow">
@@ -1195,7 +1227,7 @@ const LEAVES = [
 
 function drawTabs(){
   $("#tabs").innerHTML = LEAVES.map((l,i) => `
-    <button class="tab" type="button" data-leaf="${i}" aria-current="${i===state.leaf}">
+    <button class="tab" type="button" data-leaf="${i}"${i===state.leaf?' aria-current="page"':""}>
       <span class="num">${esc(l.num)}</span><span class="name">${esc(l.tab)}</span>
     </button>`).join("");
 }
@@ -1243,7 +1275,7 @@ $("#spread").addEventListener("click", e => {
   const chief = e.target.closest("[data-chief]");
   if (chief){ const i = +chief.dataset.chief; state.chief = state.chief === i ? null : i; render(false); return; }
 
-  const col = e.target.closest("th[data-col]");
+  const col = e.target.closest("button[data-col]");
   if (col){
     const c = col.dataset.col;
     state.sort = state.sort.col === c ? {col:c, dir:-state.sort.dir} : {col:c, dir:1};
@@ -1252,6 +1284,10 @@ $("#spread").addEventListener("click", e => {
 
   const fmt = e.target.closest("[data-fmt]");
   if (fmt){ state.fmt = fmt.dataset.fmt; render(false); return; }
+
+  if (e.target.closest("#clearQ")){
+    state.q = ""; render(false); $("#qBox")?.focus(); return;
+  }
 
   if (e.target.closest("#copyBtn")){
     const btn = e.target.closest("#copyBtn");
