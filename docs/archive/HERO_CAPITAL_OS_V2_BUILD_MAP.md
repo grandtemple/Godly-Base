@@ -1,5 +1,12 @@
 # Hero Capital OS v2 Build Map
 
+> **Archived — out of scope.** This document describes a 3-company umbrella
+> (agency + Trading & Investments + Real Estate). Only the agency —
+> what this repo actually builds as **Hero Capital OS** — is in scope; Trading
+> & Investments and Real Estate have no schema, agents, or code anywhere and
+> are not planned. Kept here for provenance only. See `docs/ROADMAP.md` for
+> the actual chronological build plan.
+
 ## Umbrella
 
 Hero Capital

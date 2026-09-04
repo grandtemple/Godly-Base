@@ -159,7 +159,7 @@ The same fact in all three registers:
 
 ## Visual identity
 
-The visual system has its own source of truth: `design-system/godly-base-codex/MASTER.md`, with page-level overrides in `design-system/godly-base-codex/pages/`. Tokens, contrast rules, and the validated chart palette live there and are not repeated here, so they cannot go stale in two places. Brand owns the three rules that sit above the tokens:
+The visual system has its own source of truth: `design-system/hero-capital-os/MASTER.md`. Tokens, contrast rules, and the validated chart palette live there and are not repeated here, so they cannot go stale in two places. Brand owns the three rules that sit above the tokens:
 
 - **One accent.** Gilt marks the spine, the current leaf, and an active control. It is not a highlighter, and it never becomes a second brand color.
 - **Status color is reserved.** The good, attention, critical, and idle tokens carry meaning. Never use them decoratively, never use them as chart series, and never add a fifth state without adding it to `statusPill` first.
