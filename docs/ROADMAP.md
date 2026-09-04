@@ -27,13 +27,14 @@ Nothing currently runs end-to-end: the dashboard reads a build-time-embedded JSO
 - Fixed the stale path in `docs/BRAND.md` (`design-system/godly-base-codex/MASTER.md` → actual `design-system/hero-capital-os/MASTER.md`).
 - **Exit criteria:** single branch builds; `db/README.md`'s apply steps and `node tools/build-data.js` still work identically.
 
-## Phase 1 — Live database
+## Phase 1 — Live database ✅ done (on a local dev instance; Supabase pending)
 **Goal:** a running Postgres 16 instance as the source of truth for dev/staging; nothing user-facing changes yet.
-- Provision Postgres; apply `db/migrations/0001`→`0009` per `db/README.md`; run `0002_roles_and_grants.sql` (`godly_app`, `godly_readonly`).
-- Load `db/seed.json` via `scripts/load_seed.py`.
-- Extend `scripts/extract.py`'s existing `TABLES` mapping and `DATABASE_URL`-vs-seed fallback — reuse this, don't reinvent it in the API layer.
-- Add `psycopg[binary]`/`asyncpg`, `pydantic-settings` to `requirements.txt`.
-- **Dependency:** Phase 0. **Exit criteria:** `scripts/extract.py --table deals --format json` returns live rows matching seed shape.
+- Provisioned: intended target is the project's Supabase Postgres (`lbyacqrcnhylzgrglcxl`), but it's currently paused and Supabase's own restore endpoint is returning a partial system outage (confirmed directly, not a fluke — check https://status.supabase.com). Standing up on a local Postgres 16 instance in the meantime so Phase 1 isn't blocked; same migrations, same schema, straight `DATABASE_URL` swap once Supabase is back — no re-work.
+- Applied via the fresh-install path exactly as `db/README.md` documents: **only** `0001_baseline.sql` (already includes the full current schema) + `0002_roles_and_grants.sql` (`godly_app`, `godly_readonly`). Do **not** replay `0003`–`0009` on top of a fresh baseline — they're already folded in, and `0008` drops a column `0004`'s view depends on, so replaying them fails exactly as the doc warns. (Learned this the concrete way: first attempt replayed all nine and hit that exact error before catching the mistake.)
+- Loaded `db/seed.json` via `scripts/load_seed.py` — 348 rows across 33 tables, one transaction, matches seed counts exactly (verified: 10/10 on `deals`).
+- `scripts/extract.py` needed no changes — its `TABLES` mapping and `DATABASE_URL`-vs-seed fallback already cover every seed key, already scopes RLS-tenant tables via `DEPLOYMENT_ID`, already requires `psycopg` (not `psycopg2`). The plan's "extend it" turned out to be a no-op; it was already complete.
+- Added `psycopg[binary]==3.3.5` and `pydantic-settings==2.7.1` to `requirements.txt`; full file installs clean.
+- **Exit criteria — verified:** `godly_readonly` (the actual production role, not superuser) reads live rows; `scripts/extract.py --table deals --format json` returns 10 rows matching the seed's shape and count exactly.
 
 ## Phase 2 — Auth (built before any write endpoint)
 **Goal:** a real credential boundary — required before Phase 3+ can safely expose anything.
