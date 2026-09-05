@@ -63,6 +63,31 @@ CREATE TABLE IF NOT EXISTS company_profile (
   updated_at      timestamptz NOT NULL DEFAULT now()
 );
 
+-- Hero's own internal users (the CEO seat today). Not client-facing --
+-- see docs/ARCHITECTURE.md and docs/ROADMAP.md Phase 2/13.
+CREATE TABLE IF NOT EXISTS operators (
+  id            bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  email         text NOT NULL UNIQUE,
+  password_hash text NOT NULL,        -- bcrypt; the API hashes, never stores plaintext
+  display_name  text NOT NULL,
+  is_active     boolean NOT NULL DEFAULT true,
+  created_at    timestamptz NOT NULL DEFAULT now(),
+  last_login_at timestamptz
+);
+COMMENT ON TABLE operators IS
+  'Hero''s own internal users (the CEO seat today). Not client-facing.';
+
+-- Carved out of godly_readonly's blanket grant (0002_roles_and_grants.sql) --
+-- a password hash must never sit behind the dashboard/export read role.
+-- NOTE: if 0002 runs AFTER this table exists, its blanket grant re-exposes
+-- it -- re-run this REVOKE.
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'godly_readonly') THEN
+    REVOKE SELECT ON operators FROM godly_readonly;
+  END IF;
+END $$;
+
 -- ---------------------------------------------------------------- reference
 CREATE TABLE IF NOT EXISTS niches (
   id            text PRIMARY KEY,            -- stable slug: 'roofing-restoration'

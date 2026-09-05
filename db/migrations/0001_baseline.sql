@@ -29,5 +29,6 @@ INSERT INTO godly.schema_migrations (version, note) VALUES
   ('0006_client_customers','The client''s customers, jobs, interactions, invoices and reviews — with RLS tenancy and a consent trigger.'),
   ('0007_model_audit',     'Pod lifetime so a churned client leaves a record; indexes on the delete-cascade and money join paths.'),
   ('0008_set_pricing',     'Set pricing: setup + monthly + hourly consulting. Discount machinery retired; billable time added.'),
-  ('0009_consulting_sessions','Consulting as scheduled sessions: three a week per business, enforced by trigger; internal calendar load surfaced.')
+  ('0009_consulting_sessions','Consulting as scheduled sessions: three a week per business, enforced by trigger; internal calendar load surfaced.'),
+  ('0010_auth',            'Operators table — the credential boundary before any write endpoint; excluded from godly_readonly.')
 ON CONFLICT (version) DO NOTHING;

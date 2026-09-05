@@ -36,12 +36,15 @@ Nothing currently runs end-to-end: the dashboard reads a build-time-embedded JSO
 - Added `psycopg[binary]==3.3.5` and `pydantic-settings==2.7.1` to `requirements.txt`; full file installs clean.
 - **Exit criteria — verified:** `godly_readonly` (the actual production role, not superuser) reads live rows; `scripts/extract.py --table deals --format json` returns 10 rows matching the seed's shape and count exactly.
 
-## Phase 2 — Auth (built before any write endpoint)
+## Phase 2 — Auth ✅ done
 **Goal:** a real credential boundary — required before Phase 3+ can safely expose anything.
-- New migration `0010_auth.sql`: minimal `operators` table (starts with one row, the CEO) with hashed credentials + sessions/JWT. This is a genuine schema gap, not just an API gap.
-- FastAPI auth guard wrapping every route from Phase 3 onward; a distinct scoped credential type for agent-originated calls vs. the CEO's own session.
-- Out of scope: client-facing logins, SSO, per-deployment RBAC (Milestone B concern).
-- **Dependency:** Phase 1. **Exit criteria:** unauthenticated mutating requests get 401; CEO can log in.
+- `db/migrations/0010_auth.sql`: `operators` table (one row today — the CEO), folded into `db/schema.sql` and registered in `0001_baseline.sql`'s version list per `db/README.md`'s convention. Explicitly carved out of `godly_readonly`'s blanket `SELECT` grant from `0002_roles_and_grants.sql` — a password hash must never sit behind the dashboard/export read role. (Noted in both files: if `0002` is re-applied after this table exists, its blanket grant re-exposes it — re-run the `REVOKE`.)
+- Stateless JWT, not a sessions table — proportionate to one operator; revocation isn't a real need yet. `api/auth.py`: bcrypt password hashing, `POST /auth/login` issuing a 24h JWT, `GET /auth/me`, and a shared `AGENT_SERVICE_TOKEN` bearer token for agent-originated calls (Phase 6) — one token for one narrow capability, not per-agent credentials; revisit at Phase 9's full roster.
+- `POST /send-email` (the one existing mutating endpoint, from Phase 0) is now the guarded route, accepting either an operator JWT or the agent token.
+- `scripts/create_operator.py` creates/updates an operator, hashing the password locally (`getpass`, never echoed, never committed).
+- Out of scope: client-facing logins, SSO, per-deployment RBAC (Milestone B / Phase 13 concern).
+- Picked up along the way: `pip install` into system Python collided with the sandbox's apt-managed `python3-cryptography` and broke it — moved to a project `.venv` (git-ignored) instead; should have done this from Phase 1.
+- **Exit criteria — verified against the local dev DB:** unauthenticated `POST /send-email` → 401; wrong password → 401; correct login → JWT issued; `GET /auth/me` with that JWT → 200; `POST /send-email` with either the operator JWT or the agent service token clears the auth guard (proceeds to the Resend call — the only failure past that point is this sandbox's outbound TLS proxy, unrelated to auth). `godly_readonly` confirmed unable to `SELECT` on `operators`; `godly_app` confirmed able to (the role the API itself uses).
 
 ## Phase 3 — Live read path (dashboard off seed data)
 **Goal:** first literal piece of Milestone A.
